@@ -8,6 +8,7 @@ interface KanbanColumnProps {
   pedidos: PedidoKanban[]
   color: string
   onMover: (pedidoId: string, novoStatus: string) => void
+  onVerDetalhes: (pedidoId: string) => void
   nextStatus?: string
   prevStatus?: string
 }
@@ -38,6 +39,7 @@ export function KanbanColumn({
   pedidos,
   color,
   onMover,
+  onVerDetalhes,
   nextStatus,
   prevStatus,
 }: KanbanColumnProps) {
@@ -68,6 +70,7 @@ export function KanbanColumn({
               key={pedido.id}
               pedido={pedido}
               onMover={onMover}
+              onVerDetalhes={onVerDetalhes}
               accentColor={color}
               nextStatus={nextStatus}
               prevStatus={prevStatus}

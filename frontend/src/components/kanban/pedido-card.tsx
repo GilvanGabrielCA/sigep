@@ -4,6 +4,7 @@ import styles from './pedido-card.module.css'
 interface PedidoCardProps {
   pedido: PedidoKanban
   onMover: (pedidoId: string, novoStatus: string) => void
+  onVerDetalhes: (pedidoId: string) => void
   nextStatus?: string
   prevStatus?: string
   accentColor: string
@@ -74,6 +75,7 @@ function IconX() {
 export function PedidoCard({
   pedido,
   onMover,
+  onVerDetalhes,
   nextStatus,
   prevStatus,
   accentColor,
@@ -107,7 +109,13 @@ export function PedidoCard({
         </div>
 
         {/* CLIENT */}
-        <span className={styles.clientName}>{clienteName}</span>
+        <span
+          className={styles.clientName}
+          onClick={() => onVerDetalhes(pedido.id)}
+          style={{ cursor: 'pointer' }}
+        >
+          {clienteName}
+        </span>
 
         {/* META */}
         <div className={styles.metaRow}>

@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { usePedidos } from '../../hooks/use-pedidos'
 import { KanbanColumn } from '../../components/kanban/kanban-column'
+import { PedidoModal } from '../../components/pedido/pedido-modal'
 import styles from './kanban-page.module.css'
 
 const COLUMNS = [
@@ -27,6 +29,7 @@ const COLUMNS = [
 
 export function KanbanPage() {
   const { pedidos, loading, error, moverPedido } = usePedidos()
+  const [selectedPedidoId, setSelectedPedidoId] = useState<string | null>(null)
 
   const total = pedidos.length
 
@@ -74,12 +77,18 @@ export function KanbanPage() {
               color={col.color}
               pedidos={pedidos.filter((p) => p.status === col.status)}
               onMover={moverPedido}
+              onVerDetalhes={setSelectedPedidoId}
               nextStatus={col.nextStatus}
               prevStatus={col.prevStatus}
             />
           ))}
         </div>
       )}
+
+      <PedidoModal
+        pedidoId={selectedPedidoId}
+        onClose={() => setSelectedPedidoId(null)}
+      />
     </div>
   )
 }
