@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import type { Integracao } from '../services/integracoes-api'
-import { fetchIntegracoes, toggleIntegracao, enviarMensagem } from '../services/integracoes-api'
+import { fetchIntegracoes, toggleIntegracao, enviarMensagem, fetchOutbox } from '../services/integracoes-api'
 
 interface UseIntegracoes {
   integracoes: Integracao[]
@@ -47,19 +47,39 @@ interface MensagemChat {
 interface UseChatSimulator {
   mensagens: MensagemChat[]
   enviando: boolean
-  enviar: (telefone: string, texto: string) => Promise<void>
+  enviar: (texto: string) => Promise<void>
   limpar: () => void
 }
 
-export function useChatSimulator(): UseChatSimulator {
+export function useChatSimulator(telefone: string): UseChatSimulator {
   const [mensagens, setMensagens] = useState<MensagemChat[]>([])
   const [enviando, setEnviando] = useState(false)
 
-  const enviar = useCallback(async (telefone: string, texto: string) => {
+  // Polling do outbox: mensagens enviadas pelo restaurante ao cliente
+  useEffect(() => {
+    if (!telefone.trim()) return
+    const interval = setInterval(async () => {
+      try {
+        const msgs = await fetchOutbox(telefone.trim())
+        if (msgs.length > 0) {
+          setMensagens((prev) => [
+            ...prev,
+            ...msgs.map((texto) => ({ de: 'bot' as const, texto, timestamp: new Date() })),
+          ])
+        }
+      } catch {
+        // silencioso — outbox é best-effort
+      }
+    }, 2500)
+    return () => clearInterval(interval)
+  }, [telefone])
+
+  const enviar = useCallback(async (texto: string) => {
+    if (!telefone.trim()) return
     setMensagens((prev) => [...prev, { de: 'cliente', texto, timestamp: new Date() }])
     setEnviando(true)
     try {
-      const { resposta } = await enviarMensagem(telefone, texto)
+      const { resposta } = await enviarMensagem(telefone.trim(), texto)
       setMensagens((prev) => [...prev, { de: 'bot', texto: resposta, timestamp: new Date() }])
     } catch {
       setMensagens((prev) => [
@@ -69,7 +89,7 @@ export function useChatSimulator(): UseChatSimulator {
     } finally {
       setEnviando(false)
     }
-  }, [])
+  }, [telefone])
 
   const limpar = useCallback(() => setMensagens([]), [])
 

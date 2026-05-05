@@ -27,3 +27,10 @@ export async function enviarMensagem(
   })
   return data
 }
+
+export async function fetchOutbox(telefone: string): Promise<string[]> {
+  const { data } = await api.get<string[]>('/api/chatbot/outbox', {
+    params: { telefone },
+  })
+  return data
+}

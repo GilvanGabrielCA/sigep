@@ -101,9 +101,8 @@ export function IntegracoesPage() {
   const { user } = useAuth()
   const isGerente = user?.perfil === 'gerente'
   const { integracoes, loading, toggling, toggle } = useIntegracoes()
-  const { mensagens, enviando, enviar, limpar } = useChatSimulator()
-
   const [telefone, setTelefone] = useState('+55 11 99999-9999')
+  const { mensagens, enviando, enviar, limpar } = useChatSimulator(telefone)
   const [texto, setTexto] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -119,7 +118,7 @@ export function IntegracoesPage() {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto'
     }
-    await enviar(telefone.trim() || '+5500000000000', msg)
+    await enviar(msg)
   }, [texto, enviando, enviar, telefone])
 
   const handleKeyDown = useCallback(

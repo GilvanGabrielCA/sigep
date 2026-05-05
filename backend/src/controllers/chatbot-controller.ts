@@ -1,5 +1,5 @@
 import { type Request, type Response, type NextFunction } from 'express'
-import { processarMensagem } from '../services/chatbot-service.js'
+import { processarMensagem, consumirOutbox } from '../services/chatbot-service.js'
 import { listIntegracoes, toggleIntegracao } from '../db/integracao-queries.js'
 
 export async function getIntegracoes(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -22,6 +22,12 @@ export async function patchIntegracao(req: Request, res: Response, next: NextFun
     }
     res.json(updated)
   } catch (err) { next(err) }
+}
+
+export function getOutbox(req: Request, res: Response): void {
+  const telefone = (req.query['telefone'] as string | undefined)?.trim() ?? ''
+  if (!telefone) { res.json([]); return }
+  res.json(consumirOutbox(req.user!.restauranteId, telefone))
 }
 
 export async function postMensagem(req: Request, res: Response, next: NextFunction): Promise<void> {
