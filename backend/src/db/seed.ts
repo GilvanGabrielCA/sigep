@@ -5,6 +5,9 @@ import { pool } from './connection.js'
 
 const senhaHash = await bcrypt.hash('admin123', 10)
 
+// Garante que cnpj aceita nulo caso a tabela remota tenha essa constraint
+await pool.query(`ALTER TABLE tb_restaurante ALTER COLUMN cnpj DROP NOT NULL`).catch(() => {})
+
 const { rows: [restaurante] } = await pool.query<{ id: string }>(
   `INSERT INTO tb_restaurante (nome, endereco, telefone)
    VALUES ('Restaurante Demo', 'Rua das Flores, 123 — Centro', '(11) 99999-9999')
