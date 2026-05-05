@@ -1,0 +1,287 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* ─── Overlay ─────────────────────────────────────────────────────────────── */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 25, 23, 0.45);
+  backdrop-filter: blur(3px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.18s ease-out forwards;
+}
+
+/* ─── Modal ──────────────────────────────────────────────────────────────── */
+
+.modal {
+  background: #fff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 20px 60px rgba(28, 25, 23, 0.18), 0 4px 16px rgba(28, 25, 23, 0.1);
+  overflow: hidden;
+  animation: slideUp 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────── */
+
+.modalHeader {
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid #F5F4F0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.modalTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1C1917;
+  margin: 0;
+}
+
+.modalSubtitle {
+  font-size: 0.82rem;
+  color: #78716C;
+  margin: 3px 0 0;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.closeBtn {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid #ECEAE5;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #78716C;
+  flex-shrink: 0;
+  transition: background 0.12s;
+}
+
+.closeBtn:hover {
+  background: #F5F4F0;
+}
+
+/* ─── Body ───────────────────────────────────────────────────────────────── */
+
+.modalBody {
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ─── Form fields ─────────────────────────────────────────────────────────── */
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #57534E;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.label .required {
+  color: #DC2626;
+  margin-left: 2px;
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid #ECEAE5;
+  border-radius: 9px;
+  font-size: 0.875rem;
+  font-family: 'DM Sans', sans-serif;
+  color: #1C1917;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
+}
+
+.input:focus,
+.select:focus {
+  border-color: #F59E0B;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.12);
+}
+
+.input::placeholder {
+  color: #B8B1AA;
+}
+
+/* ─── Divider ─────────────────────────────────────────────────────────────── */
+
+.divider {
+  border: none;
+  border-top: 1px solid #F5F4F0;
+  margin: 4px 0;
+}
+
+.sectionTitle {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #78716C;
+  margin: 0 0 -4px;
+}
+
+/* ─── Password reset row ─────────────────────────────────────────────────── */
+
+.passwordRow {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.passwordRow .fieldGroup {
+  flex: 1;
+}
+
+.btnResetSenha {
+  padding: 9px 16px;
+  background: #F5F4F0;
+  border: 1.5px solid #ECEAE5;
+  border-radius: 9px;
+  font-size: 0.8rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  color: #57534E;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.12s, border-color 0.12s;
+  flex-shrink: 0;
+}
+
+.btnResetSenha:hover {
+  background: #ECEAE5;
+  border-color: #D6D3D1;
+}
+
+.btnResetSenha:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Error ──────────────────────────────────────────────────────────────── */
+
+.formError {
+  background: #FEE2E2;
+  border: 1px solid #FCA5A5;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  color: #991B1B;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ─── Footer ─────────────────────────────────────────────────────────────── */
+
+.modalFooter {
+  padding: 16px 28px 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid #F5F4F0;
+}
+
+.btnCancel {
+  padding: 9px 20px;
+  background: transparent;
+  border: 1.5px solid #ECEAE5;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  color: #57534E;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.btnCancel:hover {
+  background: #F5F4F0;
+}
+
+.btnSave {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 22px;
+  background: #F59E0B;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s;
+  min-width: 100px;
+  justify-content: center;
+}
+
+.btnSave:hover {
+  background: #D97706;
+}
+
+.btnSave:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ─── Spinner ─────────────────────────────────────────────────────────────── */
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+/* ─── Animations ─────────────────────────────────────────────────────────── */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
