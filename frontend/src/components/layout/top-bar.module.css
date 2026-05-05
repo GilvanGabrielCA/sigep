@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
+
+.topBar {
+  height: 60px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #ECEAE5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.875rem;
+  flex-shrink: 0;
+  /* subtle warm underline */
+  box-shadow: 0 1px 0 #ECEAE5, 0 2px 8px rgba(0, 0, 0, 0.028);
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.breadcrumb {
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-size: 0.69rem;
+  color: #B8B4AE;
+  letter-spacing: 0.035em;
+  line-height: 1;
+}
+
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1875rem;
+  font-weight: 700;
+  color: #1C1917;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.badge {
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-size: 0.675rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  background: #FEF3C7;
+  color: #92400E;
+  border: 1px solid #FDE68A;
+}

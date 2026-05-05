@@ -17,6 +17,7 @@ export async function login(email: string, senha: string): Promise<string> {
   const payload: JwtPayload = {
     userId: usuario.id,
     restauranteId: usuario.restaurante_id,
+    nome: usuario.nome,
     perfil: usuario.perfil,
   }
 
