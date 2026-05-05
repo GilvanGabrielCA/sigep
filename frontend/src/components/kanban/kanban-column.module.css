@@ -1,0 +1,94 @@
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.column {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  animation: fadeInUp 0.4s ease both;
+}
+
+/* ─── COLUMN HEADER ─── */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  padding: 0 0.125rem;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+}
+
+.badgeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.badgeLabel {
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.count {
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #A8A29E;
+  background: #F5F4F0;
+  border-radius: 10px;
+  padding: 0.2rem 0.5rem;
+  min-width: 1.5rem;
+  text-align: center;
+}
+
+/* ─── BODY ─── */
+
+.body {
+  background: #ECEAE5;
+  border-radius: 10px;
+  padding: 0.625rem;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* ─── EMPTY ─── */
+
+.empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+  gap: 0.625rem;
+  color: #C2BCB6;
+}
+
+.emptyIcon {
+  opacity: 0.6;
+}
+
+.emptyText {
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: #B5AFA9;
+  text-align: center;
+}
