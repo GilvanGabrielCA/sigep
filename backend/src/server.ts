@@ -10,6 +10,7 @@ import pedidoRoutes from './routes/pedido-routes.js'
 import cardapioRoutes from './routes/cardapio-routes.js'
 import relatorioRoutes from './routes/relatorio-routes.js'
 import restauranteRoutes from './routes/restaurante-routes.js'
+import chatbotRoutes from './routes/chatbot-routes.js'
 import { setupPedidoEvents } from './socket/pedido-events.js'
 
 dotenv.config()
@@ -36,6 +37,7 @@ app.use('/api/pedidos', pedidoRoutes)
 app.use('/api/cardapio', cardapioRoutes)
 app.use('/api/relatorios', relatorioRoutes)
 app.use('/api/restaurante', restauranteRoutes)
+app.use('/api', chatbotRoutes)
 
 setupPedidoEvents(io)
 
