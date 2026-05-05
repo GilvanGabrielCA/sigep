@@ -1,0 +1,350 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
+
+/* ─── ANIMATIONS ─── */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+@keyframes barGrow {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+
+/* ─── PAGE SHELL ─── */
+
+.page {
+  padding: 2rem 2.25rem 3rem;
+  min-height: 100%;
+  font-family: 'DM Sans', 'Inter', sans-serif;
+}
+
+/* ─── GREETING ─── */
+
+.greeting {
+  margin-bottom: 1.875rem;
+  animation: fadeInUp 0.5s ease both;
+}
+
+.greetingEyebrow {
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #D97706;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.greetingTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.625rem, 2.5vw, 2.125rem);
+  font-weight: 400;
+  color: #1C1917;
+  line-height: 1.2;
+  margin: 0 0 0.25rem;
+  letter-spacing: -0.02em;
+}
+
+.greetingName {
+  font-style: italic;
+  color: #B45309;
+}
+
+.greetingDate {
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-size: 0.875rem;
+  color: #A8A29E;
+  margin: 0;
+}
+
+/* ─── KPI GRID ─── */
+
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.875rem;
+}
+
+@media (max-width: 1300px) {
+  .kpiGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ─── KPI CARD ─── */
+
+.kpiCard {
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #ECEAE5;
+  padding: 1.25rem 1.375rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  animation: fadeInUp 0.5s ease both;
+}
+
+.kpiCard:nth-child(1) { animation-delay: 0.05s; }
+.kpiCard:nth-child(2) { animation-delay: 0.1s; }
+.kpiCard:nth-child(3) { animation-delay: 0.15s; }
+.kpiCard:nth-child(4) { animation-delay: 0.2s; }
+
+.kpiCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* 3px accent top bar — set via inline style on .kpiAccent */
+.kpiAccent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.kpiRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.kpiInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.kpiLabel {
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-size: 0.67rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #A8A29E;
+  margin-bottom: 0.45rem;
+  line-height: 1;
+  display: block;
+}
+
+.kpiValue {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1C1917;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.3rem;
+  display: block;
+  /* prevent layout shift on long values */
+  word-break: break-all;
+}
+
+.kpiSub {
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-size: 0.78rem;
+  color: #A8A29E;
+  display: block;
+}
+
+.kpiIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ─── SECTION HEADER ─── */
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  margin-bottom: 0.875rem;
+}
+
+.sectionTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: #1C1917;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.sectionRule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, #ECEAE5, transparent);
+}
+
+/* ─── STATUS PIPELINE ─── */
+
+.pipeline {
+  display: flex;
+  gap: 0.875rem;
+  margin-bottom: 1.875rem;
+  flex-wrap: wrap;
+}
+
+.statusCard {
+  flex: 1;
+  min-width: 150px;
+  background: #fff;
+  border-radius: 9px;
+  border: 1px solid #ECEAE5;
+  padding: 1rem 1.125rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  animation: fadeInUp 0.5s ease both;
+}
+
+.statusCard:nth-child(1) { animation-delay: 0.25s; }
+.statusCard:nth-child(2) { animation-delay: 0.32s; }
+.statusCard:nth-child(3) { animation-delay: 0.39s; }
+
+.statusHead {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.statusLabel {
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #57534E;
+  line-height: 1;
+}
+
+.statusCount {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.875rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 0.625rem;
+  display: block;
+}
+
+.statusBar {
+  height: 3px;
+  background: #F5F4F0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.statusBarFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.6s ease 0.3s;
+}
+
+/* ─── CHART CARD ─── */
+
+.chartCard {
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #ECEAE5;
+  padding: 1.375rem 1.5rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  animation: fadeInUp 0.5s 0.4s ease both;
+}
+
+.chartCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.chartCardTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: #1C1917;
+  letter-spacing: -0.015em;
+}
+
+.chartLegend {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-size: 0.75rem;
+  color: #A8A29E;
+}
+
+.chartLegendPip {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #F59E0B;
+  flex-shrink: 0;
+}
+
+.emptyChart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-size: 0.875rem;
+  color: #A8A29E;
+}
+
+/* ─── SKELETON ─── */
+
+.skeletonCard {
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #ECEAE5;
+  padding: 1.25rem 1.375rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #F5F4F0 0px,
+    #EDEBE7 60px,
+    #F5F4F0 120px
+  );
+  background-size: 600px 100%;
+  animation: shimmer 1.3s ease-in-out infinite;
+  border-radius: 5px;
+}
+
+/* ─── ERROR ─── */
+
+.errorBox {
+  background: rgba(220, 38, 38, 0.05);
+  border: 1px solid rgba(220, 38, 38, 0.15);
+  border-left: 3px solid #DC2626;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-size: 0.875rem;
+  color: #B91C1C;
+  margin-bottom: 1.5rem;
+}

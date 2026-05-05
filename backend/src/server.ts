@@ -5,6 +5,7 @@ import { Server } from 'socket.io'
 import dotenv from 'dotenv'
 import { errorMiddleware } from './middlewares/error-middleware.js'
 import authRoutes from './routes/auth-routes.js'
+import dashboardRoutes from './routes/dashboard-routes.js'
 
 dotenv.config()
 
@@ -25,6 +26,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use('/api/auth', authRoutes)
+app.use('/api/dashboard', dashboardRoutes)
 
 app.use(errorMiddleware)
 
