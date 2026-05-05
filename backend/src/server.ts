@@ -7,6 +7,7 @@ import { errorMiddleware } from './middlewares/error-middleware.js'
 import authRoutes from './routes/auth-routes.js'
 import dashboardRoutes from './routes/dashboard-routes.js'
 import pedidoRoutes from './routes/pedido-routes.js'
+import cardapioRoutes from './routes/cardapio-routes.js'
 import { setupPedidoEvents } from './socket/pedido-events.js'
 
 dotenv.config()
@@ -30,6 +31,7 @@ app.use(express.json())
 app.use('/api/auth', authRoutes)
 app.use('/api/dashboard', dashboardRoutes)
 app.use('/api/pedidos', pedidoRoutes)
+app.use('/api/cardapio', cardapioRoutes)
 
 setupPedidoEvents(io)
 
