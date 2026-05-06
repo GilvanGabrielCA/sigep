@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/use-auth'
 import { loginApi } from '../../services/auth-api'
+import { SigepMark, SigepWatermark } from '../../components/sigep-logo'
 import styles from './login-page.module.css'
 
 function EyeIcon({ open }: { open: boolean }) {
@@ -71,11 +72,15 @@ export function LoginPage() {
         <div className={styles.brandGlow} />
         <div className={styles.brandGrid} />
         <div className={styles.brandRings} />
-        <div className={styles.brandWatermark}>S</div>
+        <div className={styles.brandWatermark}>
+          <SigepWatermark size={400} />
+        </div>
 
         <div className={styles.brandTop}>
           <div className={styles.brandLogo}>
-            <div className={styles.brandMark}>S</div>
+            <div className={styles.brandMark}>
+              <SigepMark size={22} variant="white" />
+            </div>
             <span className={styles.brandName}>SIGEP</span>
           </div>
         </div>

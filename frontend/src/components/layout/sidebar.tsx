@@ -1,6 +1,7 @@
 import { type ReactNode } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/use-auth'
+import { SigepMark } from '../sigep-logo'
 import styles from './sidebar.module.css'
 
 // ─── ICONS ────────────────────────────────────────────────────────────────────
@@ -146,8 +147,13 @@ export function Sidebar() {
       {/* Logo */}
       <div className={styles.logoArea}>
         <div className={styles.logoInner}>
-          <div className={styles.logoMark}>S</div>
-          <span className={styles.logoText}>SIGEP</span>
+          <div className={styles.logoMark}>
+            <SigepMark size={18} variant="white" />
+          </div>
+          <div className={styles.logoWordmark}>
+            <span className={styles.logoText}>SIGEP</span>
+            <span className={styles.logoSub}>Gestão de Pedidos</span>
+          </div>
         </div>
       </div>
 
