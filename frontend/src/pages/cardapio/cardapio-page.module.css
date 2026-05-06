@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
-
+﻿
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -15,7 +14,7 @@
 .page {
   padding: 2rem 2.25rem 3rem;
   min-height: 100%;
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   animation: fadeInUp 0.4s ease both;
 }
 
@@ -24,7 +23,7 @@
 }
 
 .pageTitle {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Nunito', sans-serif;
   font-size: clamp(1.625rem, 2.5vw, 2.125rem);
   font-weight: 700;
   color: #1C1917;
@@ -83,7 +82,7 @@
 }
 
 .panelTitle {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 1.0625rem;
   font-weight: 700;
   color: #1C1917;
@@ -106,7 +105,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.8rem;
   font-weight: 500;
   color: #fff;
@@ -125,7 +124,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.75rem;
   font-weight: 500;
   color: #78716C;
@@ -253,7 +252,7 @@
 
 .catFormInput {
   flex: 1;
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.8125rem;
   color: #1C1917;
   background: #fff;
@@ -280,7 +279,7 @@
 }
 
 .btnSave {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.78rem;
   font-weight: 600;
   color: #fff;
@@ -295,7 +294,7 @@
 .btnSave:hover { background: #D97706; }
 
 .btnCancel {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.78rem;
   color: #78716C;
   background: none;
@@ -314,7 +313,7 @@
   gap: 0.375rem;
   width: 100%;
   padding: 0.75rem 1.25rem;
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.8rem;
   color: #A8A29E;
   background: none;
@@ -357,7 +356,7 @@
 
 .searchInput {
   width: 100%;
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.8125rem;
   color: #1C1917;
   background: #F5F4F0;
@@ -389,7 +388,7 @@
 }
 
 .groupLabel {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.67rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -448,7 +447,7 @@
 }
 
 .prodNome {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.9rem;
   font-weight: 600;
   color: #1C1917;
@@ -468,7 +467,7 @@
 }
 
 .prodPreco {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 1.0625rem;
   font-weight: 700;
   color: #1C1917;

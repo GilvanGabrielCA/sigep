@@ -1,4 +1,4 @@
-@keyframes fadeIn {
+﻿@keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
@@ -84,7 +84,7 @@
 }
 
 .orderTitle {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 1.5rem;
   font-weight: 400;
   font-style: italic;
@@ -110,7 +110,7 @@
 }
 
 .statusLabel {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.07em;
@@ -155,7 +155,7 @@
 }
 
 .sectionLabel {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.67rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -180,7 +180,7 @@
 }
 
 .clientFieldLabel {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.67rem;
   color: #A8A29E;
   text-transform: uppercase;
@@ -188,7 +188,7 @@
 }
 
 .clientFieldValue {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.875rem;
   color: #1C1917;
   font-weight: 500;
@@ -229,7 +229,7 @@
 }
 
 .itemQty {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.78rem;
   font-weight: 600;
   color: #F59E0B;
@@ -241,7 +241,7 @@
 }
 
 .itemName {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.875rem;
   color: #1C1917;
   white-space: nowrap;
@@ -250,7 +250,7 @@
 }
 
 .itemObs {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.72rem;
   color: #A8A29E;
   font-style: italic;
@@ -258,7 +258,7 @@
 }
 
 .itemSubtotal {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.875rem;
   color: #57534E;
   font-weight: 500;
@@ -276,7 +276,7 @@
 }
 
 .totalLabel {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -285,7 +285,7 @@
 }
 
 .totalValue {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 1.375rem;
   font-weight: 700;
   color: #1C1917;
@@ -343,7 +343,7 @@
 }
 
 .timelineStatus {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
   color: #1C1917;
@@ -359,13 +359,13 @@
 }
 
 .timelineDate {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.72rem;
   color: #A8A29E;
 }
 
 .timelineUser {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.72rem;
   color: #78716C;
 }
@@ -407,7 +407,7 @@
   border: 1px solid rgba(220, 38, 38, 0.15);
   border-left: 3px solid #DC2626;
   border-radius: 8px;
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.875rem;
   color: #B91C1C;
 }

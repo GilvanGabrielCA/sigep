@@ -22,7 +22,7 @@ export async function findUsuarioByEmail(email: string): Promise<UsuarioRow | nu
 
 export async function findUsuarioById(id: string): Promise<UsuarioRow | null> {
   const result: QueryResult<UsuarioRow> = await pool.query(
-    'SELECT * FROM tb_usuario WHERE id = $1 AND ativo = true',
+    'SELECT * FROM tb_usuario WHERE id = $1',
     [id],
   )
   return result.rows[0] ?? null

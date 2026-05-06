@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
-
+﻿
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -24,7 +23,7 @@
 .page {
   padding: 2rem 2.25rem 3rem;
   min-height: 100%;
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   animation: fadeInUp 0.4s ease both;
 }
 
@@ -35,7 +34,7 @@
 }
 
 .title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Nunito', sans-serif;
   font-size: clamp(1.625rem, 2.5vw, 2.125rem);
   font-weight: 700;
   color: #1C1917;
@@ -92,7 +91,7 @@
 }
 
 .cardHeadTitle {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 1.0625rem;
   font-weight: 700;
   color: #1C1917;
@@ -134,7 +133,7 @@
 
 .input,
 .textarea {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.875rem;
   color: #1C1917;
   background: #FAFAF9;
@@ -246,7 +245,7 @@
 }
 
 .btnSave {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.875rem;
   font-weight: 600;
   color: #fff;

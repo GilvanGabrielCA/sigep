@@ -31,7 +31,7 @@ export async function getDashboardKpis(restauranteId: string): Promise<Dashboard
        FROM tb_pedido
        WHERE restaurante_id = $1
          AND DATE(criado_em AT TIME ZONE 'America/Sao_Paulo') = CURRENT_DATE
-         AND status = 'Entregue'`,
+         AND status != 'Cancelado'`,
       [restauranteId],
     ),
     pool.query<{ media: string }>(
@@ -39,7 +39,7 @@ export async function getDashboardKpis(restauranteId: string): Promise<Dashboard
        FROM tb_pedido
        WHERE restaurante_id = $1
          AND DATE(criado_em AT TIME ZONE 'America/Sao_Paulo') = CURRENT_DATE
-         AND status = 'Entregue'`,
+         AND status != 'Cancelado'`,
       [restauranteId],
     ),
     pool.query<{ total: string }>(

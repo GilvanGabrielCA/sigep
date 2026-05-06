@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
-
+﻿
 /* ─── ANIMATIONS ─── */
 
 @keyframes fadeInUp {
@@ -105,7 +104,7 @@
   position: absolute;
   bottom: -80px;
   right: -50px;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Nunito', sans-serif;
   font-size: clamp(280px, 35vmin, 420px);
   font-weight: 900;
   color: rgba(245, 158, 11, 0.035);
@@ -137,7 +136,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Nunito', sans-serif;
   font-weight: 700;
   font-size: 1.3rem;
   color: #fff;
@@ -146,7 +145,7 @@
 }
 
 .brandName {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 1.125rem;
   font-weight: 500;
   letter-spacing: 0.18em;
@@ -161,7 +160,7 @@
 }
 
 .brandHeading {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Nunito', sans-serif;
   font-size: clamp(2rem, 3.2vw, 3.25rem);
   font-weight: 400;
   line-height: 1.22;
@@ -176,7 +175,7 @@
 }
 
 .brandTagline {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.925rem;
   color: rgba(255, 255, 255, 0.38);
   line-height: 1.7;
@@ -211,7 +210,7 @@
 }
 
 .brandFeatureLabel {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.855rem;
   color: rgba(255, 255, 255, 0.42);
   letter-spacing: 0.005em;
@@ -231,7 +230,7 @@
 }
 
 .brandVersion {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.72rem;
   color: rgba(255, 255, 255, 0.18);
   letter-spacing: 0.07em;
@@ -272,7 +271,7 @@
 
 .formEyebrow {
   display: block;
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.14em;
@@ -283,7 +282,7 @@
 }
 
 .formTitle {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 2.125rem;
   font-weight: 700;
   color: #1C1917;
@@ -294,7 +293,7 @@
 }
 
 .formSubtitle {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.9rem;
   color: #78716C;
   line-height: 1.6;
@@ -330,7 +329,7 @@
 .field:nth-child(2) { animation-delay: 0.43s; }
 
 .fieldLabel {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.09em;
@@ -348,7 +347,7 @@
   width: 100%;
   padding: 0.875rem 1rem;
   padding-right: 2.75rem;
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.9375rem;
   color: #1C1917;
   background: #fff;
@@ -413,7 +412,7 @@
 }
 
 .errorText {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.825rem;
   color: #B91C1C;
   line-height: 1.45;
@@ -424,7 +423,7 @@
 .submitBtn {
   width: 100%;
   padding: 0.9375rem 1.5rem;
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.9375rem;
   font-weight: 600;
   letter-spacing: 0.04em;
@@ -486,7 +485,7 @@
 }
 
 .formFooterText {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.72rem;
   color: #C4BFB9;
   letter-spacing: 0.02em;

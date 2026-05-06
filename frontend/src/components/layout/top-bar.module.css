@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
-
+﻿
 .topBar {
   height: 60px;
   background: #FFFFFF;
@@ -20,7 +19,7 @@
 }
 
 .breadcrumb {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.69rem;
   color: #B8B4AE;
   letter-spacing: 0.035em;
@@ -28,7 +27,7 @@
 }
 
 .title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 1.1875rem;
   font-weight: 700;
   color: #1C1917;
@@ -44,7 +43,7 @@
 }
 
 .badge {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.675rem;
   font-weight: 500;
   letter-spacing: 0.08em;

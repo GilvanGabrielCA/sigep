@@ -189,7 +189,7 @@ export function DashboardPage() {
             <KpiCard
               label="Faturamento hoje"
               value={formatBRL(data?.faturamentoHoje ?? 0)}
-              sub="pedidos entregues"
+              sub="todos os pedidos"
               accentColor="#16A34A"
               iconBg="#DCFCE7"
               icon={<IconMoney />}

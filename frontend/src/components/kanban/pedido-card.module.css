@@ -1,4 +1,4 @@
-@keyframes fadeInUp {
+﻿@keyframes fadeInUp {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
@@ -82,7 +82,7 @@
 /* ─── CLIENT ─── */
 
 .clientName {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.9rem;
   font-weight: 600;
   color: #1C1917;
@@ -107,7 +107,7 @@
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.72rem;
   color: #78716C;
   text-transform: capitalize;
@@ -122,7 +122,7 @@
 }
 
 .time {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.72rem;
   color: #A8A29E;
 }
@@ -130,7 +130,7 @@
 /* ─── OBSERVATIONS ─── */
 
 .obs {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.75rem;
   color: #78716C;
   font-style: italic;
@@ -151,7 +151,7 @@
 }
 
 .total {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 1.0625rem;
   font-weight: 700;
   color: #1C1917;
@@ -173,7 +173,7 @@
   justify-content: center;
   border-radius: 6px;
   padding: 0.3rem 0.5rem;
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.72rem;
   font-weight: 500;
   gap: 0.25rem;

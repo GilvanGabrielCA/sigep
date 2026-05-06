@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap');
-
+﻿
 /* ─── SHELL ─── */
 
 .sidebar {
@@ -53,7 +52,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Nunito', sans-serif;
   font-weight: 700;
   font-size: 1.0625rem;
   color: #fff;
@@ -63,7 +62,7 @@
 }
 
 .logoText {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.78rem;
   font-weight: 500;
   letter-spacing: 0.19em;
@@ -95,7 +94,7 @@
   padding: 0.575rem 0.75rem;
   border-radius: 7px;
   text-decoration: none;
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.855rem;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.48);
@@ -164,7 +163,7 @@
 }
 
 .dividerLabel {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.62rem;
   font-weight: 500;
   letter-spacing: 0.1em;
@@ -199,7 +198,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
   color: #FBBF24;
@@ -214,7 +213,7 @@
 }
 
 .userName {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.8rem;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.75);
@@ -225,7 +224,7 @@
 }
 
 .userRole {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.66rem;
   color: rgba(245, 158, 11, 0.52);
   letter-spacing: 0.04em;
@@ -240,7 +239,7 @@
   gap: 0.5rem;
   padding: 0.475rem 0.75rem;
   border-radius: 7px;
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.8rem;
   font-weight: 400;
   color: rgba(248, 113, 94, 0.62);

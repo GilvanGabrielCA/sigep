@@ -1,4 +1,4 @@
-@keyframes fadeIn {
+﻿@keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
@@ -62,7 +62,7 @@
 }
 
 .headerEyebrow {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.67rem;
   font-weight: 500;
   letter-spacing: 0.12em;
@@ -71,7 +71,7 @@
 }
 
 .headerTitle {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 1.375rem;
   font-weight: 400;
   font-style: italic;
@@ -120,7 +120,7 @@
 }
 
 .label {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -136,7 +136,7 @@
 .input,
 .select,
 .textarea {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.875rem;
   color: #1C1917;
   background: #FAFAF9;
@@ -189,7 +189,7 @@
 }
 
 .switchTitle {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   color: #1C1917;
@@ -228,7 +228,7 @@
   border: 1px solid rgba(220,38,38,0.15);
   border-left: 3px solid #DC2626;
   border-radius: 7px;
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.8125rem;
   color: #B91C1C;
 }
@@ -244,7 +244,7 @@
 }
 
 .btnCancel {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.875rem;
   color: #78716C;
   background: none;
@@ -258,7 +258,7 @@
 .btnCancel:hover { background: #F5F4F0; }
 
 .btnSave {
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.875rem;
   font-weight: 600;
   color: #fff;
