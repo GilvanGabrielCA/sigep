@@ -4,7 +4,7 @@ import { findRestaurante } from '../db/restaurante-queries.js'
 import { getIo } from '../socket/socket-instance.js'
 import type { ProdutoRow } from '../db/produto-queries.js'
 
-// ─── Outbox (notificações de retorno ao cliente) ──────────────────────────────
+// ─── Outbox ───────────────────────────────────────────────────────────────────
 
 const outbox = new Map<string, string[]>()
 
@@ -25,7 +25,7 @@ export function consumirOutbox(restauranteId: string, telefone: string): string[
   return msgs
 }
 
-// ─── State Machine ────────────────────────────────────────────────────────────
+// ─── Types ────────────────────────────────────────────────────────────────────
 
 interface ItemBot {
   produtoId: string
@@ -34,21 +34,31 @@ interface ItemBot {
   preco: number
 }
 
+type Estado =
+  | 'ESCOLHENDO_CATEGORIA'
+  | 'COLETANDO_ITENS'
+  | 'ESCOLHENDO_TIPO'
+  | 'AGUARDANDO_ENDERECO'
+
 interface ConversaState {
-  estado: 'COLETANDO_ITENS' | 'ESCOLHENDO_TIPO' | 'AGUARDANDO_ENDERECO'
+  estado: Estado
   restauranteId: string
   restauranteNome: string
   telefone: string
   itens: ItemBot[]
   produtos: ProdutoRow[]
+  categorias: string[]
+  itensCategoriaAtual: ProdutoRow[]
   tipoEntrega: 'entrega' | 'retirada' | null
 }
 
 const conversas = new Map<string, ConversaState>()
 
-function conversaKey(restauranteId: string, telefone: string): string {
-  return `${restauranteId}:${telefone}`
+function conversaKey(r: string, t: string) {
+  return `${r}:${t}`
 }
+
+// ─── Helpers de mensagem ──────────────────────────────────────────────────────
 
 function saudacao(): string {
   const hora = new Date(Date.now() - 3 * 60 * 60 * 1000).getUTCHours()
@@ -57,46 +67,52 @@ function saudacao(): string {
   return 'Boa noite'
 }
 
-function buildMenu(produtos: ProdutoRow[], nomeRestaurante: string): string {
-  const disponiveis = produtos.filter((p) => p.disponivel)
-  if (disponiveis.length === 0) return '📭 Nenhum produto disponível no momento.'
-
-  const grupos = new Map<string, ProdutoRow[]>()
-  for (const p of disponiveis) {
-    const cat = p.categoria_nome ?? 'Outros'
-    if (!grupos.has(cat)) grupos.set(cat, [])
-    grupos.get(cat)!.push(p)
-  }
-
-  const linhas: string[] = [`🍽️ *Cardápio — ${nomeRestaurante}*\n`]
-  let contador = 1
-  for (const [categoria, itens] of grupos) {
-    linhas.push(`📌 *${categoria}*`)
-    for (const p of itens) {
-      const preco = parseFloat(p.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-      const desc = p.descricao ? `\n   _${p.descricao}_` : ''
-      linhas.push(`${contador}. ${p.nome} — ${preco}${desc}`)
-      contador++
-    }
-    linhas.push('')
-  }
-
-  linhas.push('Digite o *número* do item para adicionar ao pedido.')
-  linhas.push('*confirmar* para finalizar  |  *cancelar* para desistir.')
-  return linhas.join('\n').trim()
+function msgCategorias(categorias: string[], restauranteNome: string, comCarrinho: boolean): string {
+  const emojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣']
+  const lista = categorias.map((c, i) => `${emojis[i] ?? `${i + 1}.`} ${c}`).join('\n')
+  const dica = comCarrinho
+    ? '\n\nDigite o *número* da categoria, *carrinho* para ver seu pedido ou *confirmar* para finalizar.'
+    : '\n\nDigite o *número* da categoria para ver os itens.'
+  return `🍔 *${restauranteNome}*\n\nEscolha uma categoria:\n\n${lista}${dica}`
 }
 
-function buildCarrinho(itens: ItemBot[]): string {
-  if (itens.length === 0) return '🛒 Carrinho vazio.'
+function msgItensCategoria(itens: ProdutoRow[], nomeCategoria: string): string {
+  const linhas = itens.map((p, i) => {
+    const preco = parseFloat(p.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+    return `${i + 1}. *${p.nome}* — ${preco}`
+  })
+  return (
+    `📌 *${nomeCategoria}*\n\n${linhas.join('\n')}\n\n` +
+    `Digite o *número* para adicionar ao carrinho.\n` +
+    `*categorias* — ver outras categorias | *cancelar* — desistir`
+  )
+}
+
+function msgCarrinho(itens: ItemBot[]): string {
+  if (itens.length === 0) return '🛒 Seu carrinho está vazio.'
   const linhas = itens.map((it) => {
     const sub = (it.quantidade * it.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-    return `• ${it.quantidade}× ${it.nome} = ${sub}`
+    return `• ${it.quantidade}× ${it.nome} — ${sub}`
   })
   const total = itens.reduce((s, it) => s + it.quantidade * it.preco, 0)
-  return `🛒 *Seu pedido:*\n${linhas.join('\n')}\n\n💰 Total: *${total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}*`
+  return (
+    `🛒 *Seu carrinho:*\n\n${linhas.join('\n')}\n\n` +
+    `💰 Total: *${total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}*`
+  )
 }
 
-// ─── Create order in DB ───────────────────────────────────────────────────────
+function msgAposAdicionar(itens: ItemBot[], nomeProduto: string): string {
+  const carrinho = msgCarrinho(itens)
+  return (
+    `✅ *${nomeProduto}* adicionado!\n\n${carrinho}\n\n` +
+    `*categorias* — ver outras categorias\n` +
+    `*carrinho* — ver pedido completo\n` +
+    `*confirmar* — finalizar pedido\n` +
+    `*cancelar* — desistir`
+  )
+}
+
+// ─── Criação do pedido no banco ───────────────────────────────────────────────
 
 async function criarPedidoDB(
   restauranteId: string,
@@ -112,8 +128,7 @@ async function criarPedidoDB(
     const { rows: clienteRows } = await client.query<{ id: string }>(
       `INSERT INTO tb_cliente (restaurante_id, nome, telefone, endereco, canal)
        VALUES ($1, $2, $3, $4, 'whatsapp')
-       ON CONFLICT DO NOTHING
-       RETURNING id`,
+       ON CONFLICT DO NOTHING RETURNING id`,
       [restauranteId, `WhatsApp ${telefone}`, telefone, endereco],
     )
 
@@ -168,7 +183,21 @@ async function criarPedidoDB(
   }
 }
 
-// ─── Main handler ─────────────────────────────────────────────────────────────
+async function emitirPedido(restauranteId: string, pedidoId: string): Promise<void> {
+  const { rows } = await pool.query(
+    `SELECT p.id, p.status, p.canal, p.total, p.observacoes, p.criado_em::text,
+            c.nome AS cliente_nome, c.telefone AS cliente_telefone
+     FROM tb_pedido p LEFT JOIN tb_cliente c ON c.id = p.cliente_id
+     WHERE p.id = $1`,
+    [pedidoId],
+  )
+  if (rows[0]) {
+    getIo().to(restauranteId).emit('pedido:novo', rows[0])
+    getIo().to(restauranteId).emit('dashboard:atualizado')
+  }
+}
+
+// ─── Handler principal ────────────────────────────────────────────────────────
 
 export async function processarMensagem(
   restauranteId: string,
@@ -179,141 +208,166 @@ export async function processarMensagem(
   const msg = mensagem.trim().toLowerCase()
   let state = conversas.get(key)
 
-  // ── Nova conversa ─────────────────────────────────────────────────────────
+  // ── Primeira mensagem: boas-vindas + categorias ───────────────────────────
   if (!state) {
     const [produtos, restaurante] = await Promise.all([
       listProdutos(restauranteId),
       findRestaurante(restauranteId),
     ])
     const nomeRestaurante = restaurante?.nome ?? 'nosso restaurante'
+    const disponiveis = produtos.filter((p) => p.disponivel)
+    const categorias = [...new Set(disponiveis.map((p) => p.categoria_nome ?? 'Outros'))]
+
     state = {
-      estado: 'COLETANDO_ITENS',
+      estado: 'ESCOLHENDO_CATEGORIA',
       restauranteId,
       restauranteNome: nomeRestaurante,
       telefone,
       itens: [],
-      produtos,
+      produtos: disponiveis,
+      categorias,
+      itensCategoriaAtual: [],
       tipoEntrega: null,
     }
     conversas.set(key, state)
-    const menu = buildMenu(produtos, nomeRestaurante)
-    return `${saudacao()}! 👋 Seja bem-vindo ao *${nomeRestaurante}*! 🍽️\n\nEstamos felizes em atendê-lo. Confira nosso cardápio abaixo:\n\n${menu}`
+
+    return (
+      `${saudacao()}! 👋 Bem-vindo ao *${nomeRestaurante}*! 🍔\n\n` +
+      `Ficamos felizes em te atender. Por onde quer começar?\n\n` +
+      msgCategorias(categorias, nomeRestaurante, false)
+    )
+  }
+
+  // ── Comandos globais ──────────────────────────────────────────────────────
+  if (msg === 'cancelar') {
+    conversas.delete(key)
+    return `Tudo bem! Pedido cancelado. 😊\nEspero te ver em breve no *${state.restauranteNome}*! 👋`
+  }
+
+  // ── ESCOLHENDO_CATEGORIA ──────────────────────────────────────────────────
+  if (state.estado === 'ESCOLHENDO_CATEGORIA') {
+    if ((msg === 'carrinho' || msg === 'pedido') && state.itens.length > 0) {
+      return `${msgCarrinho(state.itens)}\n\n${msgCategorias(state.categorias, state.restauranteNome, true)}`
+    }
+
+    if (msg === 'confirmar' && state.itens.length > 0) {
+      state.estado = 'ESCOLHENDO_TIPO'
+      return (
+        `${msgCarrinho(state.itens)}\n\n` +
+        `🚀 Ótima escolha! Como prefere receber seu pedido?\n\n` +
+        `1️⃣ *Entrega* — receber no seu endereço\n` +
+        `2️⃣ *Retirada* — buscar no restaurante`
+      )
+    }
+
+    const num = parseInt(msg, 10)
+    if (!isNaN(num) && num >= 1 && num <= state.categorias.length) {
+      const nomeCat = state.categorias[num - 1]!
+      const itensCat = state.produtos.filter((p) => (p.categoria_nome ?? 'Outros') === nomeCat)
+      state.itensCategoriaAtual = itensCat
+      state.estado = 'COLETANDO_ITENS'
+      return msgItensCategoria(itensCat, nomeCat)
+    }
+
+    return (
+      `Não entendi. 😅 Escolha uma categoria pelo número:\n\n` +
+      msgCategorias(state.categorias, state.restauranteNome, state.itens.length > 0)
+    )
   }
 
   // ── COLETANDO_ITENS ───────────────────────────────────────────────────────
   if (state.estado === 'COLETANDO_ITENS') {
-    if (msg === 'cancelar') {
-      conversas.delete(key)
-      return `Tudo bem! Pedido cancelado. 😊\nAté a próxima no *${state.restauranteNome}*! 👋`
+    if (msg === 'categorias' || msg === 'categoria' || msg === 'voltar' || msg === 'menu') {
+      state.estado = 'ESCOLHENDO_CATEGORIA'
+      return msgCategorias(state.categorias, state.restauranteNome, state.itens.length > 0)
+    }
+
+    if (msg === 'carrinho' || msg === 'pedido') {
+      if (state.itens.length === 0) return '🛒 Seu carrinho está vazio. Adicione itens primeiro.'
+      return (
+        `${msgCarrinho(state.itens)}\n\n` +
+        `*categorias* — continuar comprando | *confirmar* — finalizar | *cancelar* — desistir`
+      )
     }
 
     if (msg === 'confirmar') {
       if (state.itens.length === 0) {
-        return 'Seu carrinho está vazio. 🛒\nAdicione pelo menos um item antes de confirmar, ou digite *cancelar*.'
+        return 'Seu carrinho está vazio. 🛒 Adicione pelo menos um item antes de confirmar.'
       }
       state.estado = 'ESCOLHENDO_TIPO'
-      return `${buildCarrinho(state.itens)}\n\n🚀 Ótima escolha! Como você prefere receber seu pedido?\n\n1️⃣  *Entrega* — receber no seu endereço\n2️⃣  *Retirada* — buscar no restaurante\n\nDigite *1* ou *entrega* / *2* ou *retirada*:`
-    }
-
-    if (msg === 'cardápio' || msg === 'cardapio' || msg === 'menu') {
-      return buildMenu(state.produtos, state.restauranteNome)
-    }
-
-    if (msg === 'carrinho' || msg === 'pedido') {
-      return buildCarrinho(state.itens)
+      return (
+        `${msgCarrinho(state.itens)}\n\n` +
+        `🚀 Ótima escolha! Como prefere receber seu pedido?\n\n` +
+        `1️⃣ *Entrega* — receber no seu endereço\n` +
+        `2️⃣ *Retirada* — buscar no restaurante`
+      )
     }
 
     const num = parseInt(msg, 10)
-    const disponiveis = state.produtos.filter((p) => p.disponivel)
-    if (!isNaN(num) && num >= 1 && num <= disponiveis.length) {
-      const prod = disponiveis[num - 1]!
+    const itensAtuais = state.itensCategoriaAtual
+    if (!isNaN(num) && num >= 1 && num <= itensAtuais.length) {
+      const prod = itensAtuais[num - 1]!
       const existing = state.itens.find((i) => i.produtoId === prod.id)
       if (existing) {
         existing.quantidade += 1
       } else {
         state.itens.push({ produtoId: prod.id, nome: prod.nome, quantidade: 1, preco: parseFloat(prod.preco) })
       }
-      return `✅ *${prod.nome}* adicionado!\n\n${buildCarrinho(state.itens)}\n\nDigite outro número para adicionar, *confirmar* para finalizar ou *cancelar*.`
+      return msgAposAdicionar(state.itens, prod.nome)
     }
 
-    return `Não reconheci esse comando. 😅\n\nDigite o *número* de um item, ou:\n• *carrinho* — ver seu pedido\n• *confirmar* — finalizar\n• *cancelar* — desistir\n\n${buildMenu(state.produtos, state.restauranteNome)}`
+    const nomeCat = state.itensCategoriaAtual[0]?.categoria_nome ?? 'Itens'
+    return (
+      `Não entendi. 😅\n\n` +
+      `Digite o *número* de um item:\n\n` +
+      msgItensCategoria(state.itensCategoriaAtual, nomeCat)
+    )
   }
 
   // ── ESCOLHENDO_TIPO ───────────────────────────────────────────────────────
   if (state.estado === 'ESCOLHENDO_TIPO') {
-    if (msg === 'cancelar') {
-      conversas.delete(key)
-      return `Pedido cancelado. 😔 Até a próxima! 👋`
-    }
-
     const isEntrega = msg === '1' || msg === 'entrega' || msg === 'delivery'
     const isRetirada = msg === '2' || msg === 'retirada' || msg === 'retirar' || msg === 'buscar'
 
     if (isEntrega) {
       state.tipoEntrega = 'entrega'
       state.estado = 'AGUARDANDO_ENDERECO'
-      return `🛵 *Entrega selecionada!*\n\n📍 Informe seu endereço completo para entrega (rua, número e bairro):`
+      return `🛵 *Entrega selecionada!*\n\n📍 Por favor, informe seu endereço completo para entrega:\n_(rua, número e bairro)_`
     }
 
     if (isRetirada) {
       state.tipoEntrega = 'retirada'
-      const pedido = await criarPedidoDB(
-        restauranteId, telefone,
-        'Retirada no restaurante',
-        state.itens,
-        'retirada',
-      )
-      conversas.delete(key)
+      const pedido = await criarPedidoDB(restauranteId, telefone, 'Retirada no restaurante', state.itens, 'retirada')
       const shortId = pedido.id.slice(-8).toUpperCase()
-
-      const { rows } = await pool.query(
-        `SELECT p.id, p.status, p.canal, p.total, p.observacoes, p.criado_em::text,
-                c.nome AS cliente_nome, c.telefone AS cliente_telefone
-         FROM tb_pedido p LEFT JOIN tb_cliente c ON c.id = p.cliente_id
-         WHERE p.id = $1`,
-        [pedido.id],
+      conversas.delete(key)
+      await emitirPedido(restauranteId, pedido.id)
+      return (
+        `✅ *Pedido #${shortId} confirmado!*\n\n` +
+        `🏪 Prepare-se para retirar no restaurante assim que seu pedido estiver pronto.\n\n` +
+        `Obrigado por escolher o *${state.restauranteNome}*! 🙏`
       )
-      if (rows[0]) {
-        getIo().to(restauranteId).emit('pedido:novo', rows[0])
-        getIo().to(restauranteId).emit('dashboard:atualizado')
-      }
-
-      return `✅ *Pedido #${shortId} confirmado para retirada!*\n\n🏪 Seu pedido está sendo preparado. Você será avisado quando estiver pronto para buscar.\n\nObrigado por escolher o *${state.restauranteNome}*! 🙏`
     }
 
-    return `Por favor, escolha uma opção:\n\n1️⃣  *entrega* — receber no seu endereço\n2️⃣  *retirada* — buscar no restaurante`
+    return `Por favor, escolha:\n\n1️⃣ *Entrega* — receber no seu endereço\n2️⃣ *Retirada* — buscar no restaurante`
   }
 
   // ── AGUARDANDO_ENDERECO ───────────────────────────────────────────────────
   if (state.estado === 'AGUARDANDO_ENDERECO') {
-    if (msg === 'cancelar') {
-      conversas.delete(key)
-      return `Pedido cancelado. 😔 Até a próxima! 👋`
-    }
-
     const endereco = mensagem.trim()
     if (endereco.length < 5) {
       return '📍 Por favor, informe um endereço mais completo (rua, número e bairro).'
     }
-
     const pedido = await criarPedidoDB(restauranteId, telefone, endereco, state.itens, 'entrega')
-    conversas.delete(key)
     const shortId = pedido.id.slice(-8).toUpperCase()
-
-    const { rows } = await pool.query(
-      `SELECT p.id, p.status, p.canal, p.total, p.observacoes, p.criado_em::text,
-              c.nome AS cliente_nome, c.telefone AS cliente_telefone
-       FROM tb_pedido p LEFT JOIN tb_cliente c ON c.id = p.cliente_id
-       WHERE p.id = $1`,
-      [pedido.id],
+    conversas.delete(key)
+    await emitirPedido(restauranteId, pedido.id)
+    return (
+      `✅ *Pedido #${shortId} confirmado!*\n\n` +
+      `📦 Em breve seu pedido estará em preparo.\n` +
+      `🏠 Entrega para: _${endereco}_\n\n` +
+      `Obrigado por escolher o *${state.restauranteNome}*! 🙏`
     )
-    if (rows[0]) {
-      getIo().to(restauranteId).emit('pedido:novo', rows[0])
-      getIo().to(restauranteId).emit('dashboard:atualizado')
-    }
-
-    return `✅ *Pedido #${shortId} confirmado!*\n\n📦 Seu pedido foi recebido e em breve estará em preparo.\n🏠 Entrega para: _${endereco}_\n\nObrigado por escolher o *${state.restauranteNome}*! 🙏`
   }
 
-  return `${saudacao()}! 👋 Digite *cardápio* para ver nossas opções.`
+  return `${saudacao()}! 👋 Envie qualquer mensagem para começar.`
 }
