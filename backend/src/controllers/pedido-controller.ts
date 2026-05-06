@@ -1,7 +1,7 @@
 import { type Request, type Response, type NextFunction } from 'express'
 import { getPedidosKanban, getPedidoDetalhe, atualizarStatusPedido } from '../services/pedido-service.js'
 import { enviarNotificacaoCliente } from '../services/chatbot-service.js'
-import { io } from '../server.js'
+import { getIo } from '../socket/socket-instance.js'
 
 const MSGS_STATUS: Record<string, (shortId: string, isRetirada: boolean) => string> = {
   'Em Preparacao': (id) => `👨‍🍳 Seu pedido *#${id}* está sendo preparado com carinho! Em breve ficará pronto.`,
@@ -44,8 +44,8 @@ export async function patchStatus(req: Request, res: Response, next: NextFunctio
       status,
       req.user!.userId,
     )
-    io.to(req.user!.restauranteId).emit('pedido:atualizado', pedidoAtualizado)
-    io.to(req.user!.restauranteId).emit('dashboard:atualizado')
+    getIo().to(req.user!.restauranteId).emit('pedido:atualizado', pedidoAtualizado)
+    getIo().to(req.user!.restauranteId).emit('dashboard:atualizado')
 
     // Notificação WhatsApp simulada
     if (pedidoAtualizado.canal === 'whatsapp' && pedidoAtualizado.cliente_telefone) {

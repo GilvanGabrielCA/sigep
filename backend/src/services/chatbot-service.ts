@@ -1,7 +1,7 @@
 import { pool } from '../db/connection.js'
 import { listProdutos } from '../db/produto-queries.js'
 import { findRestaurante } from '../db/restaurante-queries.js'
-import { io } from '../server.js'
+import { getIo } from '../socket/socket-instance.js'
 import type { ProdutoRow } from '../db/produto-queries.js'
 
 // ─── Outbox (notificações de retorno ao cliente) ──────────────────────────────
@@ -274,8 +274,8 @@ export async function processarMensagem(
         [pedido.id],
       )
       if (rows[0]) {
-        io.to(restauranteId).emit('pedido:novo', rows[0])
-        io.to(restauranteId).emit('dashboard:atualizado')
+        getIo().to(restauranteId).emit('pedido:novo', rows[0])
+        getIo().to(restauranteId).emit('dashboard:atualizado')
       }
 
       return `✅ *Pedido #${shortId} confirmado para retirada!*\n\n🏪 Seu pedido está sendo preparado. Você será avisado quando estiver pronto para buscar.\n\nObrigado por escolher o *${state.restauranteNome}*! 🙏`
@@ -308,8 +308,8 @@ export async function processarMensagem(
       [pedido.id],
     )
     if (rows[0]) {
-      io.to(restauranteId).emit('pedido:novo', rows[0])
-      io.to(restauranteId).emit('dashboard:atualizado')
+      getIo().to(restauranteId).emit('pedido:novo', rows[0])
+      getIo().to(restauranteId).emit('dashboard:atualizado')
     }
 
     return `✅ *Pedido #${shortId} confirmado!*\n\n📦 Seu pedido foi recebido e em breve estará em preparo.\n🏠 Entrega para: _${endereco}_\n\nObrigado por escolher o *${state.restauranteNome}*! 🙏`
