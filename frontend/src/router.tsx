@@ -3,6 +3,8 @@ import { ProtectedRoute } from './components/protected-route'
 import { GerenteRoute } from './components/gerente-route'
 import { AppLayout } from './components/layout/app-layout'
 import { LoginPage } from './pages/login/login-page'
+import { ForgotPasswordPage } from './pages/forgot-password/forgot-password-page'
+import { ResetPasswordPage } from './pages/reset-password/reset-password-page'
 import { DashboardPage } from './pages/dashboard/dashboard-page'
 import { KanbanPage } from './pages/kanban/kanban-page'
 import { CardapioPage } from './pages/cardapio/cardapio-page'
@@ -15,8 +17,12 @@ import { PerfilPage } from './pages/perfil/perfil-page'
 export function AppRouter() {
   return (
     <Routes>
+      {/* Rotas públicas */}
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/esqueci-senha" element={<ForgotPasswordPage />} />
+      <Route path="/redefinir-senha" element={<ResetPasswordPage />} />
 
+      {/* Rotas protegidas */}
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />

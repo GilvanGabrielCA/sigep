@@ -409,6 +409,27 @@
   line-height: 1.45;
 }
 
+/* ─── FORGOT PASSWORD ─── */
+
+.forgotRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.forgotLink {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.8rem;
+  color: #A8A29E;
+  text-decoration: none;
+  transition: color 0.15s;
+  letter-spacing: 0.01em;
+}
+
+.forgotLink:hover {
+  color: #D97706;
+}
+
 /* ─── SUBMIT ─── */
 
 .submitBtn {

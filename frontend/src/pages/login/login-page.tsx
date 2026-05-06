@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/use-auth'
 import { loginApi } from '../../services/auth-api'
 import { SigepMark, SigepWatermark } from '../../components/sigep-logo'
@@ -180,6 +180,12 @@ export function LoginPage() {
                 <span className={styles.errorText}>{error}</span>
               </div>
             )}
+
+            <div className={styles.forgotRow}>
+              <Link to="/esqueci-senha" className={styles.forgotLink}>
+                Esqueceu sua senha?
+              </Link>
+            </div>
 
             <button type="submit" className={styles.submitBtn} disabled={loading}>
               {loading ? (
