@@ -165,6 +165,17 @@ function ModalInner({ onClose, produto, categorias, onSave }: Omit<ProdutoModalP
               onChange={(e) => setField('imagemUrl', e.target.value)}
               placeholder="https://..."
             />
+            {form.imagemUrl && (
+              <div className={styles.imgPreviewWrap}>
+                <img
+                  src={form.imagemUrl}
+                  alt="Prévia"
+                  className={styles.imgPreview}
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
+                  onLoad={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'block' }}
+                />
+              </div>
+            )}
           </div>
 
           {/* Disponível switch */}

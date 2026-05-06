@@ -489,6 +489,42 @@
   gap: 0.25rem;
 }
 
+/* ─── PRODUCT THUMBNAIL ─── */
+
+.prodThumb {
+  width: 84px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-left: 1px solid #ECEAE5;
+}
+
+.prodThumbImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.prodCard:hover .prodThumbImg {
+  transform: scale(1.06);
+}
+
+.prodThumbFallback {
+  width: 84px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: -0.02em;
+  border-left: 1px solid rgba(255,255,255,0.15);
+  opacity: 0.85;
+}
+
 /* ─── DISPONIVEL TOGGLE ─── */
 
 .toggleWrap {

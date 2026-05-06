@@ -390,6 +390,20 @@ export function CardapioPage() {
                                 )}
                               </div>
                             </div>
+                            {prod.imagem_url ? (
+                              <div className={styles.prodThumb}>
+                                <img
+                                  src={prod.imagem_url}
+                                  alt={prod.nome}
+                                  className={styles.prodThumbImg}
+                                  loading="lazy"
+                                />
+                              </div>
+                            ) : (
+                              <div className={styles.prodThumbFallback} style={{ background: color }}>
+                                {prod.nome[0]}
+                              </div>
+                            )}
                           </div>
                         )
                       })}

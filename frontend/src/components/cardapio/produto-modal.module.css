@@ -220,6 +220,24 @@
   transition: left 0.2s ease;
 }
 
+/* ─── IMAGE PREVIEW ─── */
+
+.imgPreviewWrap {
+  margin-top: 0.5rem;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #ECEAE5;
+  height: 140px;
+  background: #F5F4F0;
+}
+
+.imgPreview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
 /* ─── ERROR ─── */
 
 .errorBox {
