@@ -38,3 +38,12 @@ export async function updateRestaurante(
   )
   return rows[0] ?? null
 }
+
+export async function updateLogoRestaurante(id: string, logoUrl: string): Promise<RestauranteRow | null> {
+  const { rows } = await pool.query<RestauranteRow>(
+    `UPDATE tb_restaurante SET logo_url = $1 WHERE id = $2
+     RETURNING id, nome, endereco, telefone, logo_url, criado_em::text`,
+    [logoUrl, id],
+  )
+  return rows[0] ?? null
+}

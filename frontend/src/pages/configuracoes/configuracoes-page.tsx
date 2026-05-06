@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRestaurante } from '../../hooks/use-restaurante'
 import { useAuth } from '../../hooks/use-auth'
 import type { RestauranteFormData } from '../../types/restaurante'
@@ -41,6 +41,27 @@ function IconImage() {
   )
 }
 
+function IconUpload() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="16 16 12 12 8 16" />
+      <line x1="12" y1="12" x2="12" y2="21" />
+      <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
+    </svg>
+  )
+}
+
+function IconTrash() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="3 6 5 6 21 6" />
+      <path d="M19 6l-1 14H6L5 6" />
+      <path d="M10 11v6M14 11v6" />
+      <path d="M9 6V4h6v2" />
+    </svg>
+  )
+}
+
 function SkeletonForm() {
   return (
     <div className={styles.skeletonForm}>
@@ -68,6 +89,10 @@ export function ConfiguracoesPage() {
   const [form, setForm] = useState<RestauranteFormData>({
     nome: '', endereco: '', telefone: '', logoUrl: '',
   })
+  const [logoFile, setLogoFile] = useState<File | null>(null)
+  const [logoPreview, setLogoPreview] = useState<string | null>(null)
+  const [dragOver, setDragOver] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (data) {
@@ -84,10 +109,41 @@ export function ConfiguracoesPage() {
     setForm((prev) => ({ ...prev, [key]: value }))
   }
 
+  function handleFileSelect(file: File | null) {
+    if (!file) return
+    if (!file.type.startsWith('image/')) return
+    setLogoFile(file)
+    const reader = new FileReader()
+    reader.onload = (e) => setLogoPreview(e.target?.result as string)
+    reader.readAsDataURL(file)
+  }
+
+  function handleFileInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    handleFileSelect(e.target.files?.[0] ?? null)
+  }
+
+  function handleDrop(e: React.DragEvent) {
+    e.preventDefault()
+    setDragOver(false)
+    if (!isGerente) return
+    handleFileSelect(e.dataTransfer.files?.[0] ?? null)
+  }
+
+  function handleRemoveLogo() {
+    setLogoFile(null)
+    setLogoPreview(null)
+    setField('logoUrl', '')
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!form.nome.trim()) return
-    await salvar(form)
+    await salvar(form, logoFile ?? undefined)
+    if (logoFile) {
+      setLogoFile(null)
+      setLogoPreview(null)
+    }
   }
 
   return (
@@ -166,31 +222,70 @@ export function ConfiguracoesPage() {
                 />
               </div>
 
-              {/* Logo URL */}
+              {/* Logo Upload */}
               <div className={styles.fieldGroup}>
-                <label className={styles.label}>URL do Logo</label>
-                <div className={styles.logoRow}>
-                  <input
-                    className={styles.input}
-                    value={form.logoUrl}
-                    onChange={(e) => setField('logoUrl', e.target.value)}
-                    placeholder="https://..."
-                    disabled={!isGerente}
-                    type="url"
-                  />
-                  {form.logoUrl ? (
+                <label className={styles.label}>Logo do Restaurante</label>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml"
+                  style={{ display: 'none' }}
+                  onChange={handleFileInputChange}
+                  disabled={!isGerente}
+                />
+                {(logoPreview ?? form.logoUrl) ? (
+                  <div className={styles.logoCurrentWrap}>
                     <img
-                      src={form.logoUrl}
-                      alt="Logo preview"
-                      className={styles.logoPreview}
-                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+                      src={logoPreview ?? form.logoUrl}
+                      alt="Logo do restaurante"
+                      className={styles.logoCurrentImg}
                     />
-                  ) : (
-                    <div className={styles.logoPlaceholder}>
-                      <IconImage />
+                    <div className={styles.logoCurrentActions}>
+                      {isGerente && (
+                        <>
+                          <button
+                            type="button"
+                            className={styles.logoBtnChange}
+                            onClick={() => fileInputRef.current?.click()}
+                          >
+                            Trocar logo
+                          </button>
+                          <button
+                            type="button"
+                            className={styles.logoBtnRemove}
+                            onClick={handleRemoveLogo}
+                          >
+                            <IconTrash />
+                            Remover
+                          </button>
+                        </>
+                      )}
+                      {logoFile && (
+                        <span className={styles.logoPendingBadge}>
+                          Novo arquivo selecionado — salve para aplicar
+                        </span>
+                      )}
                     </div>
-                  )}
-                </div>
+                  </div>
+                ) : (
+                  <div
+                    className={`${styles.logoDropZone} ${dragOver ? styles.dragOver : ''} ${!isGerente ? styles.disabled : ''}`}
+                    onClick={() => isGerente && fileInputRef.current?.click()}
+                    onDragOver={(e) => { e.preventDefault(); if (isGerente) setDragOver(true) }}
+                    onDragLeave={() => setDragOver(false)}
+                    onDrop={handleDrop}
+                  >
+                    <div className={styles.logoDropIcon}>
+                      <IconUpload />
+                    </div>
+                    <p className={styles.logoDropTitle}>
+                      {isGerente ? 'Clique ou arraste a imagem aqui' : 'Nenhuma logo configurada'}
+                    </p>
+                    {isGerente && (
+                      <p className={styles.logoDropHint}>JPEG, PNG, WebP, GIF ou SVG · máx. 2 MB</p>
+                    )}
+                  </div>
+                )}
               </div>
 
             </form>

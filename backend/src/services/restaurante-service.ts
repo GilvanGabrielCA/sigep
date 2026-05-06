@@ -1,6 +1,7 @@
 import {
   findRestaurante,
   updateRestaurante,
+  updateLogoRestaurante,
   type RestauranteRow,
   type RestauranteUpdateInput,
 } from '../db/restaurante-queries.js'
@@ -24,6 +25,12 @@ export async function editRestaurante(
     telefone: input.telefone ?? null,
     logoUrl: input.logoUrl ?? null,
   })
+  if (!r) throw Object.assign(new Error('Restaurante não encontrado'), { statusCode: 404 })
+  return r
+}
+
+export async function editLogoRestaurante(id: string, logoUrl: string): Promise<RestauranteRow> {
+  const r = await updateLogoRestaurante(id, logoUrl)
   if (!r) throw Object.assign(new Error('Restaurante não encontrado'), { statusCode: 404 })
   return r
 }

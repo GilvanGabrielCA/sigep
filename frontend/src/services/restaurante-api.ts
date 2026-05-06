@@ -15,3 +15,12 @@ export async function updateRestaurante(form: RestauranteFormData): Promise<Rest
   })
   return data
 }
+
+export async function uploadLogo(file: File): Promise<Restaurante> {
+  const formData = new FormData()
+  formData.append('logo', file)
+  const { data } = await api.post<Restaurante>('/api/restaurante/logo', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
+  return data
+}
