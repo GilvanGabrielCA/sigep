@@ -1,6 +1,7 @@
 import { type ReactNode } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/use-auth'
+import { useRestauranteContext } from '../../contexts/restaurante-context'
 import { SigepMark } from '../sigep-logo'
 import styles from './sidebar.module.css'
 
@@ -127,6 +128,7 @@ function navClassName({ isActive }: { isActive: boolean }): string {
 
 export function Sidebar() {
   const { user, signOut } = useAuth()
+  const { restaurante } = useRestauranteContext()
   const navigate = useNavigate()
 
   function handleLogout() {
@@ -147,11 +149,23 @@ export function Sidebar() {
       {/* Logo */}
       <div className={styles.logoArea}>
         <div className={styles.logoInner}>
-          <div className={styles.logoMark}>
-            <SigepMark size={18} variant="white" />
-          </div>
+          {restaurante?.logo_url ? (
+            <div className={styles.logoImgWrap}>
+              <img
+                src={restaurante.logo_url}
+                alt={restaurante.nome}
+                className={styles.logoImg}
+              />
+            </div>
+          ) : (
+            <div className={styles.logoMark}>
+              <SigepMark size={18} variant="white" />
+            </div>
+          )}
           <div className={styles.logoWordmark}>
-            <span className={styles.logoText}>SIGEP</span>
+            <span className={styles.logoText}>
+              {restaurante?.nome ?? 'SIGEP'}
+            </span>
             <span className={styles.logoSub}>Gestão de Pedidos</span>
           </div>
         </div>
