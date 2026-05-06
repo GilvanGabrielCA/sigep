@@ -9,6 +9,7 @@ export async function getDashboardController(
   try {
     const { restauranteId } = req.user!
     const data = await getDashboard(restauranteId)
+    console.log('[Dashboard]', { restauranteId, pedidosHoje: data.pedidosHoje, faturamento: data.faturamentoHoje })
     res.json(data)
   } catch (err) {
     next(err)

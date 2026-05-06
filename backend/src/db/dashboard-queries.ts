@@ -22,7 +22,7 @@ export async function getDashboardKpis(restauranteId: string): Promise<Dashboard
       `SELECT COUNT(*) AS total
        FROM tb_pedido
        WHERE restaurante_id = $1
-         AND DATE(criado_em AT TIME ZONE 'America/Sao_Paulo') = CURRENT_DATE
+         AND (criado_em AT TIME ZONE 'America/Sao_Paulo')::date = (NOW() AT TIME ZONE 'America/Sao_Paulo')::date
          AND status != 'Cancelado'`,
       [restauranteId],
     ),
@@ -30,7 +30,7 @@ export async function getDashboardKpis(restauranteId: string): Promise<Dashboard
       `SELECT COALESCE(SUM(total), 0) AS total
        FROM tb_pedido
        WHERE restaurante_id = $1
-         AND DATE(criado_em AT TIME ZONE 'America/Sao_Paulo') = CURRENT_DATE
+         AND (criado_em AT TIME ZONE 'America/Sao_Paulo')::date = (NOW() AT TIME ZONE 'America/Sao_Paulo')::date
          AND status != 'Cancelado'`,
       [restauranteId],
     ),
@@ -38,7 +38,7 @@ export async function getDashboardKpis(restauranteId: string): Promise<Dashboard
       `SELECT COALESCE(AVG(total), 0) AS media
        FROM tb_pedido
        WHERE restaurante_id = $1
-         AND DATE(criado_em AT TIME ZONE 'America/Sao_Paulo') = CURRENT_DATE
+         AND (criado_em AT TIME ZONE 'America/Sao_Paulo')::date = (NOW() AT TIME ZONE 'America/Sao_Paulo')::date
          AND status != 'Cancelado'`,
       [restauranteId],
     ),
