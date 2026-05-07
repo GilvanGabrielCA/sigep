@@ -47,6 +47,18 @@ function IconClose() {
   )
 }
 
+function IconPdf() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+      <line x1="16" y1="13" x2="8" y2="13" />
+      <line x1="16" y1="17" x2="8" y2="17" />
+      <line x1="10" y1="9" x2="8" y2="9" />
+    </svg>
+  )
+}
+
 function IconWhatsapp() {
   return (
     <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
@@ -150,6 +162,61 @@ function ModalContent({ pedidoId, onClose }: PedidoModalProps & { pedidoId: stri
     return () => document.removeEventListener('keydown', handleKey)
   }, [onClose])
 
+  function gerarPDF() {
+    if (!data) return
+    const win = window.open('', '_blank', 'width=640,height=900')
+    if (!win) return
+    const linhasItens = data.itens.map((item) => {
+      const sub = item.quantidade * parseFloat(item.preco_unitario)
+      return `<tr>
+        <td style="color:#F59E0B;font-weight:700;width:2.5rem">${item.quantidade}×</td>
+        <td>${item.produto_nome}</td>
+        <td style="text-align:right;font-weight:600;width:6rem">${formatBRL(sub)}</td>
+      </tr>`
+    }).join('')
+    win.document.write(`<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8">
+<title>Pedido #${data.id.slice(-8).toUpperCase()}</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;font-size:14px;padding:2rem;color:#1C1917;line-height:1.5}
+  h1{font-size:1.5rem;font-weight:700;margin-bottom:.25rem}
+  .sub{color:#78716C;font-size:.875rem;margin-bottom:1.5rem}
+  h2{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#A8A29E;margin-bottom:.5rem;padding-bottom:.375rem;border-bottom:1px solid #ECEAE5}
+  .section{margin-bottom:1.25rem}
+  .field{margin-bottom:.3rem;font-size:.9375rem}
+  .label{color:#78716C;font-size:.8125rem}
+  table{width:100%;border-collapse:collapse;margin-bottom:.75rem}
+  td{padding:.4rem 0;border-bottom:1px solid #F0EDE8;font-size:.9375rem}
+  .total-row{display:flex;justify-content:space-between;padding:.625rem 0 0;font-weight:700;font-size:1.1rem;border-top:2px solid #1C1917}
+  @media print{body{padding:1rem}}
+</style></head>
+<body>
+  <h1>Pedido #${data.id.slice(-8).toUpperCase()}</h1>
+  <div class="sub">${formatDate(data.criado_em)}</div>
+  <div class="section">
+    <h2>Cliente</h2>
+    <div class="field"><span class="label">Nome: </span>${data.cliente_nome ?? '—'}</div>
+    <div class="field"><span class="label">Telefone: </span>${data.cliente_telefone ?? '—'}</div>
+    <div class="field"><span class="label">Endereço: </span>${data.cliente_endereco ?? '—'}</div>
+    <div class="field"><span class="label">Canal: </span>${data.canal}</div>
+  </div>
+  <div class="section">
+    <h2>Itens do Pedido</h2>
+    <table>${linhasItens}</table>
+    <div class="total-row"><span>Total</span><span>${formatBRL(data.total)}</span></div>
+  </div>
+  <div class="section">
+    <h2>Status</h2>
+    <div class="field">${STATUS_LABELS[data.status] ?? data.status}</div>
+    ${data.observacoes ? `<div class="field"><span class="label">Obs: </span>${data.observacoes}</div>` : ''}
+  </div>
+</body></html>`)
+    win.document.close()
+    win.focus()
+    setTimeout(() => { win.print() }, 300)
+  }
+
   const statusColor = data ? (STATUS_COLORS[data.status] ?? '#A8A29E') : '#A8A29E'
   const statusLabel = data ? (STATUS_LABELS[data.status] ?? data.status) : ''
 
@@ -184,9 +251,22 @@ function ModalContent({ pedidoId, onClose }: PedidoModalProps & { pedidoId: stri
               </div>
             )}
           </div>
-          <button className={styles.closeBtn} onClick={onClose} aria-label="Fechar">
-            <IconClose />
-          </button>
+          <div className={styles.headerRight}>
+            {data && (
+              <button
+                type="button"
+                className={styles.pdfBtn}
+                onClick={gerarPDF}
+                title="Gerar PDF do pedido"
+              >
+                <IconPdf />
+                PDF
+              </button>
+            )}
+            <button className={styles.closeBtn} onClick={onClose} aria-label="Fechar">
+              <IconClose />
+            </button>
+          </div>
         </div>
 
         {/* BODY */}

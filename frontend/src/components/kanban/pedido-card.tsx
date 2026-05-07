@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import type { PedidoKanban } from '../../types/pedido'
 import styles from './pedido-card.module.css'
 
@@ -81,17 +82,28 @@ export function PedidoCard({
   accentColor,
   index,
 }: PedidoCardProps) {
+  const [, setTick] = useState(0)
+  useEffect(() => {
+    const id = setInterval(() => setTick((t) => t + 1), 60_000)
+    return () => clearInterval(id)
+  }, [])
+
   const shortId = pedido.id.slice(-8).toUpperCase()
   const clienteName = pedido.cliente_nome ?? 'Cliente desconhecido'
   const total = formatBRL(pedido.total)
   const tempo = timeAgo(pedido.criado_em)
   const isWhatsapp = pedido.canal === 'whatsapp'
+  const elapsedMinutes = Math.floor((Date.now() - new Date(pedido.criado_em).getTime()) / 60_000)
+  const isUrgent = elapsedMinutes >= 20
 
   const nextBg = `${accentColor}18`
   const delay = `${index * 0.05}s`
 
   return (
-    <div className={styles.card} style={{ animationDelay: delay }}>
+    <div
+      className={`${styles.card}${isUrgent ? ` ${styles.urgentCard}` : ''}`}
+      style={{ animationDelay: delay }}
+    >
       <div className={styles.accent} style={{ background: accentColor }} />
 
       <div className={styles.content}>
@@ -124,7 +136,11 @@ export function PedidoCard({
             {pedido.canal}
           </span>
           <span className={styles.metaSep} />
-          <span className={styles.time}>{tempo}</span>
+          {isUrgent ? (
+            <span className={styles.timerBadge}>⚠ {tempo}</span>
+          ) : (
+            <span className={styles.time}>{tempo}</span>
+          )}
         </div>
 
         {/* OBSERVATIONS */}

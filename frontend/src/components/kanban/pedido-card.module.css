@@ -198,3 +198,32 @@
 .nextBtn:active {
   transform: scale(0.96);
 }
+
+/* ─── URGENT ─── */
+
+.urgentCard {
+  border-color: rgba(220, 38, 38, 0.35);
+  box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.15);
+}
+
+.urgentCard:hover {
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.14);
+}
+
+.urgentTime {
+  color: #DC2626;
+  font-weight: 600;
+}
+
+.timerBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.67rem;
+  font-weight: 600;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  background: rgba(220, 38, 38, 0.08);
+  color: #DC2626;
+  flex-shrink: 0;
+}

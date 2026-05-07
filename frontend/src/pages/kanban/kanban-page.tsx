@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { usePedidos } from '../../hooks/use-pedidos'
+import { useSocket } from '../../hooks/use-socket'
 import { KanbanColumn } from '../../components/kanban/kanban-column'
 import { PedidoModal } from '../../components/pedido/pedido-modal'
 import styles from './kanban-page.module.css'
@@ -30,6 +31,28 @@ const COLUMNS = [
 export function KanbanPage() {
   const { pedidos, loading, error, moverPedido } = usePedidos()
   const [selectedPedidoId, setSelectedPedidoId] = useState<string | null>(null)
+  const socket = useSocket()
+
+  useEffect(() => {
+    if (!socket) return
+    function playBeep() {
+      try {
+        const ctx = new AudioContext()
+        const osc = ctx.createOscillator()
+        const gain = ctx.createGain()
+        osc.connect(gain)
+        gain.connect(ctx.destination)
+        osc.type = 'sine'
+        osc.frequency.value = 830
+        gain.gain.setValueAtTime(0.4, ctx.currentTime)
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6)
+        osc.start(ctx.currentTime)
+        osc.stop(ctx.currentTime + 0.6)
+      } catch { /* AudioContext indisponível */ }
+    }
+    socket.on('pedido:novo', playBeep)
+    return () => { socket.off('pedido:novo', playBeep) }
+  }, [socket])
 
   const total = pedidos.length
 

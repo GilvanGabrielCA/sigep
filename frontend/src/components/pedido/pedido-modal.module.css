@@ -117,6 +117,35 @@
   text-transform: uppercase;
 }
 
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.pdfBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #A8A29E;
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  border-radius: 7px;
+  padding: 0.375rem 0.625rem;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.pdfBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #F5F4F0;
+}
+
 .closeBtn {
   border: none;
   background: rgba(255, 255, 255, 0.08);
