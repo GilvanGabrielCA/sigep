@@ -6,6 +6,8 @@ export interface RestauranteRow {
   endereco: string | null
   telefone: string | null
   logo_url: string | null
+  dpo_nome: string | null
+  dpo_email: string | null
   criado_em: string
 }
 
@@ -14,11 +16,13 @@ export interface RestauranteUpdateInput {
   endereco: string | null
   telefone: string | null
   logoUrl: string | null
+  dpoNome?: string | null
+  dpoEmail?: string | null
 }
 
 export async function findRestaurante(id: string): Promise<RestauranteRow | null> {
   const { rows } = await pool.query<RestauranteRow>(
-    `SELECT id, nome, endereco, telefone, logo_url, criado_em::text
+    `SELECT id, nome, endereco, telefone, logo_url, dpo_nome, dpo_email, criado_em::text
      FROM tb_restaurante WHERE id = $1`,
     [id],
   )
@@ -31,10 +35,12 @@ export async function updateRestaurante(
 ): Promise<RestauranteRow | null> {
   const { rows } = await pool.query<RestauranteRow>(
     `UPDATE tb_restaurante
-     SET nome = $1, endereco = $2, telefone = $3, logo_url = $4
-     WHERE id = $5
-     RETURNING id, nome, endereco, telefone, logo_url, criado_em::text`,
-    [input.nome, input.endereco, input.telefone, input.logoUrl, id],
+     SET nome = $1, endereco = $2, telefone = $3, logo_url = $4,
+         dpo_nome = $5, dpo_email = $6
+     WHERE id = $7
+     RETURNING id, nome, endereco, telefone, logo_url, dpo_nome, dpo_email, criado_em::text`,
+    [input.nome, input.endereco, input.telefone, input.logoUrl,
+     input.dpoNome ?? null, input.dpoEmail ?? null, id],
   )
   return rows[0] ?? null
 }

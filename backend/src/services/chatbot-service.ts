@@ -2,9 +2,10 @@ import { pool } from '../db/connection.js'
 import { listProdutos } from '../db/produto-queries.js'
 import { findRestaurante } from '../db/restaurante-queries.js'
 import { getIo } from '../socket/socket-instance.js'
+import { verificarConsentimento, registrarConsentimento } from './lgpd-service.js'
 import type { ProdutoRow } from '../db/produto-queries.js'
 
-// ─── Outbox ───────────────────────────────────────────────────────────────────
+// ─── Outbox de notificações ───────────────────────────────────────────────────
 
 const outbox = new Map<string, string[]>()
 
@@ -12,7 +13,11 @@ function outboxKey(restauranteId: string, telefone: string) {
   return `${restauranteId}:${telefone}`
 }
 
-export function enviarNotificacaoCliente(restauranteId: string, telefone: string, mensagem: string): void {
+export function enviarNotificacaoCliente(
+  restauranteId: string,
+  telefone: string,
+  mensagem: string,
+): void {
   const key = outboxKey(restauranteId, telefone)
   if (!outbox.has(key)) outbox.set(key, [])
   outbox.get(key)!.push(mensagem)
@@ -35,6 +40,7 @@ interface ItemBot {
 }
 
 type Estado =
+  | 'AGUARDANDO_CONSENTIMENTO'
   | 'ESCOLHENDO_CATEGORIA'
   | 'COLETANDO_ITENS'
   | 'ESCOLHENDO_TIPO'
@@ -70,7 +76,24 @@ function saudacao(): string {
   return 'Boa noite'
 }
 
-function msgCategorias(categorias: string[], restauranteNome: string, comCarrinho: boolean): string {
+function msgConsentimento(nomeRestaurante: string): string {
+  return (
+    `${saudacao()}! 👋 Bem-vindo ao *${nomeRestaurante}*! 🍔\n\n` +
+    `Antes de começar seu pedido, precisamos da sua autorização para tratar seus dados pessoais (nome, telefone e endereço) conforme a *Lei Geral de Proteção de Dados (LGPD — Lei 13.709/2018)*.\n\n` +
+    `📋 *Seus dados serão usados exclusivamente para:*\n` +
+    `• Processar e entregar seu pedido\n` +
+    `• Histórico de pedidos\n\n` +
+    `🔒 Seus dados são protegidos e não serão compartilhados com terceiros.\n\n` +
+    `Para ver nossa política completa, acesse o painel do restaurante > LGPD.\n\n` +
+    `Digite *CONCORDO* para prosseguir ou *NÃO* para cancelar.`
+  )
+}
+
+function msgCategorias(
+  categorias: string[],
+  restauranteNome: string,
+  comCarrinho: boolean,
+): string {
   const emojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣']
   const lista = categorias.map((c, i) => `${emojis[i] ?? `${i + 1}.`} ${c}`).join('\n')
   const dicas = comCarrinho
@@ -81,7 +104,10 @@ function msgCategorias(categorias: string[], restauranteNome: string, comCarrinh
 
 function msgItensCategoria(itens: ProdutoRow[], nomeCategoria: string): string {
   const linhas = itens.map((p, i) => {
-    const preco = parseFloat(p.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+    const preco = parseFloat(p.preco).toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    })
     return `${i + 1}. *${p.nome}* — ${preco}`
   })
   return (
@@ -94,7 +120,10 @@ function msgItensCategoria(itens: ProdutoRow[], nomeCategoria: string): string {
 function msgCarrinho(itens: ItemBot[]): string {
   if (itens.length === 0) return '🛒 Seu carrinho está vazio.'
   const linhas = itens.map((it) => {
-    const sub = (it.quantidade * it.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+    const sub = (it.quantidade * it.preco).toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    })
     return `• ${it.quantidade}× ${it.nome} — ${sub}`
   })
   const total = itens.reduce((s, it) => s + it.quantidade * it.preco, 0)
@@ -105,9 +134,8 @@ function msgCarrinho(itens: ItemBot[]): string {
 }
 
 function msgAposAdicionar(itens: ItemBot[], nomeProduto: string): string {
-  const carrinho = msgCarrinho(itens)
   return (
-    `✅ *${nomeProduto}* adicionado!\n\n${carrinho}\n\n` +
+    `✅ *${nomeProduto}* adicionado!\n\n${msgCarrinho(itens)}\n\n` +
     `*categorias* — ver outras categorias\n` +
     `*carrinho* — ver pedido completo\n` +
     `*confirmar* — finalizar pedido\n` +
@@ -221,22 +249,26 @@ export async function processarMensagem(
   const msg = mensagem.trim().toLowerCase()
   let state = conversas.get(key)
 
-  // ── Primeira mensagem: boas-vindas + categorias ───────────────────────────
+  // ── Primeira mensagem ─────────────────────────────────────────────────────
   if (!state) {
     const [produtos, restaurante] = await Promise.all([
       listProdutos(restauranteId),
       findRestaurante(restauranteId),
     ])
     const nomeRestaurante = restaurante?.nome ?? 'nosso restaurante'
-    const telefoneRestaurante = (restaurante as { telefone?: string | null } | null)?.telefone ?? null
     const disponiveis = produtos.filter((p) => p.disponivel)
-    const categorias = [...new Set(disponiveis.map((p) => p.categoria_nome ?? 'Outros'))]
+    const categorias = [
+      ...new Set(disponiveis.map((p) => p.categoria_nome ?? 'Outros')),
+    ]
+
+    // Verificar consentimento LGPD existente
+    const temConsentimento = await verificarConsentimento(restauranteId, telefone)
 
     state = {
-      estado: 'ESCOLHENDO_CATEGORIA',
+      estado: temConsentimento ? 'ESCOLHENDO_CATEGORIA' : 'AGUARDANDO_CONSENTIMENTO',
       restauranteId,
       restauranteNome: nomeRestaurante,
-      restauranteTelefone: telefoneRestaurante,
+      restauranteTelefone: restaurante?.telefone ?? null,
       telefone,
       itens: [],
       produtos: disponiveis,
@@ -247,17 +279,19 @@ export async function processarMensagem(
     }
     conversas.set(key, state)
 
-    return (
-      `${saudacao()}! 👋 Bem-vindo ao *${nomeRestaurante}*! 🍔\n\n` +
-      `Ficamos felizes em te atender. Por onde quer começar?\n\n` +
-      msgCategorias(categorias, nomeRestaurante, false)
-    )
+    if (temConsentimento) {
+      return (
+        `${saudacao()}! 👋 Bem-vindo de volta ao *${nomeRestaurante}*! 🍔\n\n` +
+        msgCategorias(categorias, nomeRestaurante, false)
+      )
+    }
+    return msgConsentimento(nomeRestaurante)
   }
 
   // ── Comandos globais ──────────────────────────────────────────────────────
   if (msg === 'cancelar') {
     conversas.delete(key)
-    return `Tudo bem! Pedido cancelado. 😊\nEspero te ver em breve no *${state.restauranteNome}*! 👋`
+    return `Tudo bem! 😊 Espero te ver em breve no *${state.restauranteNome}*! 👋`
   }
 
   if (msg === 'atendente') {
@@ -266,13 +300,13 @@ export async function processarMensagem(
       : `📞 Entre em contato diretamente com o restaurante.`
     return (
       `👨‍💼 *Atendente humano*\n\n${contato}\n\n` +
-      `Quando quiser continuar seu pedido, é só me chamar aqui novamente!`
+      `Quando quiser continuar seu pedido, é só me chamar aqui!`
     )
   }
 
   if (msg === 'status') {
-    const { rows } = await pool.query<{ id: string; status: string; criado_em: string }>(
-      `SELECT p.id, p.status, p.criado_em::text
+    const { rows } = await pool.query<{ id: string; status: string }>(
+      `SELECT p.id, p.status
        FROM tb_pedido p
        JOIN tb_cliente c ON c.id = p.cliente_id
        WHERE p.restaurante_id = $1 AND c.telefone = $2
@@ -280,19 +314,59 @@ export async function processarMensagem(
       [restauranteId, telefone],
     )
     if (!rows[0]) {
-      return `🔍 Não encontrei nenhum pedido para este número.\nFaça seu primeiro pedido agora mesmo! 😊`
+      return `🔍 Nenhum pedido encontrado para este número. Faça seu primeiro pedido agora! 😊`
     }
-    const { id, status } = rows[0]
-    const shortId = id.slice(-8).toUpperCase()
+    const shortId = rows[0].id.slice(-8).toUpperCase()
     const statusEmoji: Record<string, string> = {
-      'Recebido':            '📥',
-      'Em Preparacao':       '🍳',
+      'Recebido': '📥',
+      'Em Preparacao': '🍳',
       'Pronto para Entrega': '✅',
-      'Entregue':            '🎉',
-      'Cancelado':           '❌',
+      'Entregue': '🎉',
+      'Cancelado': '❌',
     }
-    const emoji = statusEmoji[status] ?? '📋'
-    return `${emoji} *Pedido #${shortId}*\nStatus: *${status}*`
+    return `${statusEmoji[rows[0].status] ?? '📋'} *Pedido #${shortId}*\nStatus: *${rows[0].status}*`
+  }
+
+  // ── AGUARDANDO_CONSENTIMENTO ──────────────────────────────────────────────
+  if (state.estado === 'AGUARDANDO_CONSENTIMENTO') {
+    const aceitou =
+      msg === 'concordo' ||
+      msg === 'sim' ||
+      msg === 'aceito' ||
+      msg === 'ok' ||
+      msg === 'aceitar' ||
+      msg === 'concordar'
+
+    const recusou =
+      msg === 'nao' ||
+      msg === 'não' ||
+      msg === 'recuso' ||
+      msg === 'recusar' ||
+      msg === 'não concordo' ||
+      msg === 'nao concordo'
+
+    if (aceitou) {
+      await registrarConsentimento(restauranteId, telefone, true)
+      state.estado = 'ESCOLHENDO_CATEGORIA'
+      return (
+        `✅ *Consentimento registrado!* Seus dados estão protegidos conforme a LGPD.\n\n` +
+        msgCategorias(state.categorias, state.restauranteNome, false)
+      )
+    }
+
+    if (recusou) {
+      conversas.delete(key)
+      return (
+        `Entendemos. 😊 Sem o consentimento não é possível processar seu pedido.\n\n` +
+        `Se mudar de ideia ou quiser mais informações, é só entrar em contato!`
+      )
+    }
+
+    return (
+      `Para prosseguir com o pedido precisamos da sua autorização.\n\n` +
+      `Digite *CONCORDO* para aceitar ou *NÃO* para cancelar.\n\n` +
+      msgConsentimento(state.restauranteNome)
+    )
   }
 
   // ── ESCOLHENDO_CATEGORIA ──────────────────────────────────────────────────
@@ -314,7 +388,9 @@ export async function processarMensagem(
     const num = parseInt(msg, 10)
     if (!isNaN(num) && num >= 1 && num <= state.categorias.length) {
       const nomeCat = state.categorias[num - 1]!
-      const itensCat = state.produtos.filter((p) => (p.categoria_nome ?? 'Outros') === nomeCat)
+      const itensCat = state.produtos.filter(
+        (p) => (p.categoria_nome ?? 'Outros') === nomeCat,
+      )
       state.itensCategoriaAtual = itensCat
       state.estado = 'COLETANDO_ITENS'
       return msgItensCategoria(itensCat, nomeCat)
@@ -328,16 +404,22 @@ export async function processarMensagem(
 
   // ── COLETANDO_ITENS ───────────────────────────────────────────────────────
   if (state.estado === 'COLETANDO_ITENS') {
-    if (msg === 'categorias' || msg === 'categoria' || msg === 'voltar' || msg === 'menu') {
+    if (
+      msg === 'categorias' ||
+      msg === 'categoria' ||
+      msg === 'voltar' ||
+      msg === 'menu'
+    ) {
       state.estado = 'ESCOLHENDO_CATEGORIA'
       return msgCategorias(state.categorias, state.restauranteNome, state.itens.length > 0)
     }
 
     if (msg === 'carrinho' || msg === 'pedido') {
-      if (state.itens.length === 0) return '🛒 Seu carrinho está vazio. Adicione itens primeiro.'
+      if (state.itens.length === 0)
+        return '🛒 Seu carrinho está vazio. Adicione itens primeiro.'
       return (
         `${msgCarrinho(state.itens)}\n\n` +
-        `*categorias* — continuar comprando | *confirmar* — finalizar | *cancelar* — desistir`
+        `*categorias* — continuar | *confirmar* — finalizar | *cancelar* — desistir`
       )
     }
 
@@ -362,15 +444,19 @@ export async function processarMensagem(
       if (existing) {
         existing.quantidade += 1
       } else {
-        state.itens.push({ produtoId: prod.id, nome: prod.nome, quantidade: 1, preco: parseFloat(prod.preco) })
+        state.itens.push({
+          produtoId: prod.id,
+          nome: prod.nome,
+          quantidade: 1,
+          preco: parseFloat(prod.preco),
+        })
       }
       return msgAposAdicionar(state.itens, prod.nome)
     }
 
     const nomeCat = state.itensCategoriaAtual[0]?.categoria_nome ?? 'Itens'
     return (
-      `Não entendi. 😅\n\n` +
-      `Digite o *número* de um item:\n\n` +
+      `Não entendi. 😅\n\nDigite o *número* de um item:\n\n` +
       msgItensCategoria(state.itensCategoriaAtual, nomeCat)
     )
   }
@@ -378,7 +464,8 @@ export async function processarMensagem(
   // ── ESCOLHENDO_TIPO ───────────────────────────────────────────────────────
   if (state.estado === 'ESCOLHENDO_TIPO') {
     const isEntrega = msg === '1' || msg === 'entrega' || msg === 'delivery'
-    const isRetirada = msg === '2' || msg === 'retirada' || msg === 'retirar' || msg === 'buscar'
+    const isRetirada =
+      msg === '2' || msg === 'retirada' || msg === 'retirar' || msg === 'buscar'
 
     if (isEntrega) {
       state.tipoEntrega = 'entrega'
@@ -417,9 +504,7 @@ export async function processarMensagem(
     }
     const formaPagamento = formas[msg]
 
-    if (!formaPagamento) {
-      return `Não entendi. 😅\n\n${msgPagamento()}`
-    }
+    if (!formaPagamento) return `Não entendi. 😅\n\n${msgPagamento()}`
 
     const tipoStr = state.tipoEntrega === 'retirada' ? 'Retirada' : 'Entrega'
     const obs = `${tipoStr} | Pagamento: ${formaPagamento}`
@@ -430,9 +515,10 @@ export async function processarMensagem(
     conversas.delete(key)
     await emitirPedido(restauranteId, pedido.id)
 
-    const msgEntrega = state.tipoEntrega === 'retirada'
-      ? `🏪 Venha buscar assim que seu pedido estiver pronto.`
-      : `🏠 Entrega para: _${endereco}_`
+    const msgEntrega =
+      state.tipoEntrega === 'retirada'
+        ? `🏪 Venha buscar assim que seu pedido estiver pronto.`
+        : `🏠 Entrega para: _${endereco}_`
 
     return (
       `✅ *Pedido #${shortId} confirmado!*\n\n` +

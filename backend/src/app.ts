@@ -10,6 +10,7 @@ import restauranteRoutes from './routes/restaurante-routes.js'
 import chatbotRoutes from './routes/chatbot-routes.js'
 import usuarioRoutes from './routes/usuario-routes.js'
 import perfilRoutes from './routes/perfil-routes.js'
+import lgpdRoutes from './routes/lgpd-routes.js'
 
 export function createApp() {
   const app = express()
@@ -26,6 +27,7 @@ export function createApp() {
   app.use('/api', chatbotRoutes)
   app.use('/api/usuarios', usuarioRoutes)
   app.use('/api/me', perfilRoutes)
+  app.use('/api/lgpd', lgpdRoutes)
 
   app.use(errorMiddleware)
 

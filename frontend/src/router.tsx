@@ -13,6 +13,8 @@ import { ConfiguracoesPage } from './pages/configuracoes/configuracoes-page'
 import { IntegracoesPage } from './pages/integracoes/integracoes-page'
 import { UsuariosPage } from './pages/usuarios/usuarios-page'
 import { PerfilPage } from './pages/perfil/perfil-page'
+import { PrivacidadePage } from './pages/privacidade/privacidade-page'
+import { LgpdPage } from './pages/lgpd/lgpd-page'
 
 export function AppRouter() {
   return (
@@ -21,6 +23,7 @@ export function AppRouter() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/esqueci-senha" element={<ForgotPasswordPage />} />
       <Route path="/redefinir-senha" element={<ResetPasswordPage />} />
+      <Route path="/privacidade" element={<PrivacidadePage />} />
 
       {/* Rotas protegidas */}
       <Route element={<ProtectedRoute />}>
@@ -36,6 +39,7 @@ export function AppRouter() {
             <Route path="/configuracoes" element={<ConfiguracoesPage />} />
             <Route path="/integracoes" element={<IntegracoesPage />} />
             <Route path="/usuarios" element={<UsuariosPage />} />
+            <Route path="/lgpd" element={<LgpdPage />} />
           </Route>
         </Route>
       </Route>
