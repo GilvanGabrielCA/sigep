@@ -1,12 +1,6 @@
-﻿
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes shimmer {
-  0%   { background-position: -600px 0; }
-  100% { background-position: 600px 0; }
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 @keyframes expandBar {
@@ -20,7 +14,6 @@
   padding: 2rem 2.25rem 3rem;
   min-height: 100%;
   font-family: 'Nunito', sans-serif;
-  animation: fadeInUp 0.4s ease both;
 }
 
 /* ─── HEADER ─── */
@@ -42,16 +35,16 @@
 
 .title {
   font-family: 'Nunito', sans-serif;
-  font-size: clamp(1.625rem, 2.5vw, 2.125rem);
+  font-size: 1.375rem;
   font-weight: 700;
-  color: #1C1917;
+  color: #18181B;
   letter-spacing: -0.02em;
   margin: 0;
 }
 
 .subtitle {
   font-size: 0.8125rem;
-  color: #A8A29E;
+  color: #71717A;
   margin: 0;
 }
 
@@ -64,52 +57,51 @@
 
 .periodLabel {
   font-size: 0.75rem;
-  color: #78716C;
+  color: #52525B;
   font-weight: 500;
 }
 
 .dateInput {
   font-family: 'Nunito', sans-serif;
   font-size: 0.8125rem;
-  color: #1C1917;
-  background: #fff;
-  border: 1px solid #ECEAE5;
+  color: #18181B;
+  background: #FFFFFF;
+  border: 1px solid #E4E4E7;
   border-radius: 7px;
-  padding: 0.45rem 0.625rem;
+  padding: 7px 10px;
   outline: none;
-  transition: border-color 0.15s ease;
+  transition: border-color 0.15s;
 }
 
 .dateInput:focus {
-  border-color: #F59E0B;
+  border-color: #D97706;
 }
 
 .btnUpdate {
   font-family: 'Nunito', sans-serif;
   font-size: 0.8rem;
-  font-weight: 500;
-  color: #fff;
-  background: #1C1917;
+  font-weight: 600;
+  color: #FFFFFF;
+  background: #18181B;
   border: none;
   border-radius: 7px;
-  padding: 0.5rem 1rem;
+  padding: 8px 14px;
   cursor: pointer;
-  transition: background 0.15s ease;
+  transition: background 0.12s;
   white-space: nowrap;
 }
 
-.btnUpdate:hover { background: #292524; }
+.btnUpdate:hover { background: #27272A; }
 
 /* ─── ERROR ─── */
 
 .errorBox {
-  background: rgba(220,38,38,0.05);
-  border: 1px solid rgba(220,38,38,0.15);
-  border-left: 3px solid #DC2626;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  font-size: 0.875rem;
-  color: #B91C1C;
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  border-radius: 6px;
+  padding: 9px 12px;
+  font-size: 0.8125rem;
+  color: #991B1B;
   margin-bottom: 1.25rem;
 }
 
@@ -131,42 +123,31 @@
 /* ─── KPI CARD ─── */
 
 .kpiCard {
-  background: #fff;
-  border-radius: 10px;
-  border: 1px solid #ECEAE5;
-  padding: 1.25rem 1.375rem;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  animation: fadeInUp 0.5s ease both;
+  background: #FFFFFF;
+  border-radius: 8px;
+  border: 1px solid #E4E4E7;
+  padding: 1.125rem 1.25rem;
 }
 
-.kpiCard:nth-child(1) { animation-delay: 0.05s; }
-.kpiCard:nth-child(2) { animation-delay: 0.1s; }
-.kpiCard:nth-child(3) { animation-delay: 0.15s; }
-.kpiCard:nth-child(4) { animation-delay: 0.2s; }
-
 .kpiAccent {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
+  display: none;
 }
 
 .kpiLabel {
   font-size: 0.67rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #A8A29E;
+  color: #A1A1AA;
   display: block;
   margin-bottom: 0.45rem;
 }
 
 .kpiValue {
   font-family: 'Nunito', sans-serif;
-  font-size: 1.625rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  color: #1C1917;
+  color: #18181B;
   letter-spacing: -0.03em;
   display: block;
   margin-bottom: 0.2rem;
@@ -175,29 +156,23 @@
 
 .kpiSub {
   font-size: 0.75rem;
-  color: #A8A29E;
+  color: #71717A;
   display: block;
 }
 
 /* ─── SECTION CARD ─── */
 
 .sectionCard {
-  background: #fff;
-  border: 1px solid #ECEAE5;
-  border-radius: 10px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  background: #FFFFFF;
+  border: 1px solid #E4E4E7;
+  border-radius: 8px;
   margin-bottom: 1.25rem;
-  animation: fadeInUp 0.5s ease both;
   overflow: hidden;
 }
 
-.sectionCard:nth-of-type(2) { animation-delay: 0.1s; }
-.sectionCard:nth-of-type(3) { animation-delay: 0.15s; }
-.sectionCard:nth-of-type(4) { animation-delay: 0.2s; }
-
 .sectionHead {
-  padding: 1.125rem 1.5rem 0.875rem;
-  border-bottom: 1px solid #F0EDE8;
+  padding: 1rem 1.25rem 0.875rem;
+  border-bottom: 1px solid #F4F4F5;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -205,20 +180,19 @@
 
 .sectionTitle {
   font-family: 'Nunito', sans-serif;
-  font-size: 1.0625rem;
+  font-size: 0.9375rem;
   font-weight: 700;
-  color: #1C1917;
-  letter-spacing: -0.015em;
+  color: #18181B;
   margin: 0;
 }
 
 .sectionMeta {
   font-size: 0.75rem;
-  color: #A8A29E;
+  color: #71717A;
 }
 
 .sectionBody {
-  padding: 1.25rem 1.5rem;
+  padding: 1.125rem 1.25rem;
 }
 
 /* ─── BOTTOM GRID ─── */
@@ -253,9 +227,9 @@
 .prodRank {
   font-size: 0.67rem;
   font-weight: 600;
-  color: #C2BCB6;
+  color: #A1A1AA;
   text-align: center;
-  font-family: 'DM Mono', 'Courier New', monospace;
+  font-family: 'Courier New', monospace;
 }
 
 .prodBarWrap {
@@ -267,24 +241,24 @@
 .prodName {
   font-size: 0.8125rem;
   font-weight: 500;
-  color: #1C1917;
+  color: #18181B;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .prodBarTrack {
-  height: 5px;
-  background: #F5F4F0;
-  border-radius: 3px;
+  height: 4px;
+  background: #F4F4F5;
+  border-radius: 2px;
   overflow: hidden;
 }
 
 .prodBarFill {
   height: 100%;
-  border-radius: 3px;
-  background: #F59E0B;
-  animation: expandBar 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  border-radius: 2px;
+  background: #D97706;
+  animation: expandBar 0.7s ease both;
   animation-delay: var(--delay, 0s);
 }
 
@@ -298,12 +272,12 @@
 .prodCount {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #1C1917;
+  color: #18181B;
 }
 
 .prodFat {
   font-size: 0.67rem;
-  color: #A8A29E;
+  color: #71717A;
 }
 
 /* ─── CANAL CARDS ─── */
@@ -332,14 +306,14 @@
   gap: 0.5rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #1C1917;
+  color: #18181B;
   text-transform: capitalize;
 }
 
 .canalIconWrap {
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -353,27 +327,27 @@
 
 .canalTotal {
   font-family: 'Nunito', sans-serif;
-  font-size: 1.0625rem;
+  font-size: 1rem;
   font-weight: 700;
-  color: #1C1917;
+  color: #18181B;
 }
 
 .canalPct {
   font-size: 0.72rem;
-  color: #A8A29E;
+  color: #71717A;
 }
 
 .canalTrack {
-  height: 5px;
-  background: #F5F4F0;
-  border-radius: 3px;
+  height: 4px;
+  background: #F4F4F5;
+  border-radius: 2px;
   overflow: hidden;
 }
 
 .canalFill {
   height: 100%;
-  border-radius: 3px;
-  animation: expandBar 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  border-radius: 2px;
+  animation: expandBar 0.7s ease both;
 }
 
 /* ─── EMPTY ─── */
@@ -384,40 +358,32 @@
   justify-content: center;
   height: 140px;
   font-size: 0.875rem;
-  color: #C2BCB6;
+  color: #A1A1AA;
 }
 
 /* ─── SKELETON ─── */
 
 .skeleton {
-  background: linear-gradient(
-    90deg,
-    #F5F4F0 0px,
-    #EDEBE7 60px,
-    #F5F4F0 120px
-  );
-  background-size: 600px 100%;
-  animation: shimmer 1.3s ease-in-out infinite;
+  background: #E4E4E7;
   border-radius: 5px;
+  animation: pulse 1.4s ease infinite;
 }
 
 .skeletonCard {
-  background: #fff;
-  border: 1px solid #ECEAE5;
-  border-radius: 10px;
-  padding: 1.25rem 1.375rem;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  background: #FFFFFF;
+  border: 1px solid #E4E4E7;
+  border-radius: 8px;
+  padding: 1.125rem 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
 .skeletonChart {
-  background: #fff;
-  border: 1px solid #ECEAE5;
-  border-radius: 10px;
-  padding: 1.5rem;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  background: #FFFFFF;
+  border: 1px solid #E4E4E7;
+  border-radius: 8px;
+  padding: 1.25rem;
   margin-bottom: 1.25rem;
 }
 
@@ -434,7 +400,7 @@
   align-items: center;
   gap: 0.375rem;
   font-size: 0.75rem;
-  color: #78716C;
+  color: #52525B;
 }
 
 .legendPip {

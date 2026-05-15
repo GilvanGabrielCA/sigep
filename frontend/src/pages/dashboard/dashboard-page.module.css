@@ -1,67 +1,50 @@
-﻿
-/* ─── ANIMATIONS ─── */
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes shimmer {
-  0%   { background-position: -600px 0; }
-  100% { background-position: 600px 0; }
-}
-
-@keyframes barGrow {
-  from { transform: scaleY(0); }
-  to   { transform: scaleY(1); }
-}
-
-/* ─── PAGE SHELL ─── */
-
 .page {
-  padding: 2rem 2.25rem 3rem;
-  min-height: 100%;
-  font-family: 'Nunito', sans-serif;
+  padding: 2rem 2rem 4rem;
+  max-width: 1200px;
 }
 
 /* ─── GREETING ─── */
 
 .greeting {
-  margin-bottom: 1.875rem;
-  animation: fadeInUp 0.5s ease both;
+  margin-bottom: 1.75rem;
 }
 
 .greetingEyebrow {
-  font-family: 'Nunito', sans-serif;
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #D97706;
-  margin-bottom: 0.3rem;
   display: block;
+  font-size: 0.75rem;
+  color: #A1A1AA;
+  margin-bottom: 0.25rem;
 }
 
 .greetingTitle {
   font-family: 'Nunito', sans-serif;
-  font-size: clamp(1.625rem, 2.5vw, 2.125rem);
-  font-weight: 400;
-  color: #1C1917;
-  line-height: 1.2;
-  margin: 0 0 0.25rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #18181B;
+  margin: 0 0 0.2rem;
   letter-spacing: -0.02em;
 }
 
 .greetingName {
-  font-style: italic;
-  color: #B45309;
+  color: #D97706;
 }
 
 .greetingDate {
-  font-family: 'Nunito', sans-serif;
-  font-size: 0.875rem;
-  color: #A8A29E;
+  font-size: 0.8125rem;
+  color: #71717A;
   margin: 0;
+}
+
+/* ─── ERROR ─── */
+
+.errorBox {
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  color: #991B1B;
+  font-size: 0.8125rem;
+  margin-bottom: 1.5rem;
 }
 
 /* ─── KPI GRID ─── */
@@ -70,46 +53,18 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
-  margin-bottom: 1.875rem;
+  margin-bottom: 2rem;
 }
-
-@media (max-width: 1300px) {
-  .kpiGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* ─── KPI CARD ─── */
 
 .kpiCard {
-  background: #fff;
-  border-radius: 10px;
-  border: 1px solid #ECEAE5;
+  background: #FFFFFF;
+  border: 1px solid #E4E4E7;
+  border-radius: 8px;
   padding: 1.25rem 1.375rem;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.14s ease, box-shadow 0.14s ease;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
-  animation: fadeInUp 0.5s ease both;
 }
 
-.kpiCard:nth-child(1) { animation-delay: 0.05s; }
-.kpiCard:nth-child(2) { animation-delay: 0.1s; }
-.kpiCard:nth-child(3) { animation-delay: 0.15s; }
-.kpiCard:nth-child(4) { animation-delay: 0.2s; }
-
-.kpiCard:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
-}
-
-/* 3px accent top bar — set via inline style on .kpiAccent */
 .kpiAccent {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
+  display: none;
 }
 
 .kpiRow {
@@ -120,50 +75,63 @@
 }
 
 .kpiInfo {
-  flex: 1;
-  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
 }
 
 .kpiLabel {
-  font-family: 'Nunito', sans-serif;
-  font-size: 0.67rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #71717A;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #A8A29E;
-  margin-bottom: 0.45rem;
-  line-height: 1;
-  display: block;
 }
 
 .kpiValue {
   font-family: 'Nunito', sans-serif;
-  font-size: 1.875rem;
+  font-size: 1.625rem;
   font-weight: 700;
-  color: #1C1917;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  margin-bottom: 0.3rem;
-  display: block;
-  /* prevent layout shift on long values */
-  word-break: break-all;
+  color: #18181B;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
 }
 
 .kpiSub {
-  font-family: 'Nunito', sans-serif;
-  font-size: 0.78rem;
-  color: #A8A29E;
-  display: block;
+  font-size: 0.73rem;
+  color: #A1A1AA;
 }
 
 .kpiIcon {
-  width: 40px;
-  height: 40px;
-  border-radius: 9px;
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: #F4F4F5 !important;
+  color: #A1A1AA !important;
+  border-radius: 7px;
   flex-shrink: 0;
+}
+
+/* ─── SKELETON ─── */
+
+.skeletonCard {
+  background: #FFFFFF;
+  border: 1px solid #E4E4E7;
+  border-radius: 8px;
+  padding: 1.25rem 1.375rem;
+}
+
+.skeleton {
+  background: #E4E4E7;
+  border-radius: 4px;
+  animation: pulse 1.4s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 /* ─── SECTION HEADER ─── */
@@ -171,16 +139,17 @@
 .sectionHeader {
   display: flex;
   align-items: center;
-  gap: 0.875rem;
-  margin-bottom: 0.875rem;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .sectionTitle {
   font-family: 'Nunito', sans-serif;
-  font-size: 1.0625rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  color: #1C1917;
-  letter-spacing: -0.015em;
+  color: #A1A1AA;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
   white-space: nowrap;
   margin: 0;
 }
@@ -188,38 +157,30 @@
 .sectionRule {
   flex: 1;
   height: 1px;
-  background: linear-gradient(to right, #ECEAE5, transparent);
+  background: #E4E4E7;
 }
 
-/* ─── STATUS PIPELINE ─── */
+/* ─── PIPELINE ─── */
 
 .pipeline {
-  display: flex;
-  gap: 0.875rem;
-  margin-bottom: 1.875rem;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 .statusCard {
-  flex: 1;
-  min-width: 150px;
-  background: #fff;
-  border-radius: 9px;
-  border: 1px solid #ECEAE5;
-  padding: 1rem 1.125rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
-  animation: fadeInUp 0.5s ease both;
+  background: #FFFFFF;
+  border: 1px solid #E4E4E7;
+  border-radius: 8px;
+  padding: 1.125rem 1.25rem;
 }
-
-.statusCard:nth-child(1) { animation-delay: 0.25s; }
-.statusCard:nth-child(2) { animation-delay: 0.32s; }
-.statusCard:nth-child(3) { animation-delay: 0.39s; }
 
 .statusHead {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.625rem;
 }
 
 .statusDot {
@@ -227,28 +188,28 @@
   height: 7px;
   border-radius: 50%;
   flex-shrink: 0;
+  box-shadow: none !important;
 }
 
 .statusLabel {
-  font-family: 'Nunito', sans-serif;
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: #57534E;
-  line-height: 1;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #52525B;
 }
 
 .statusCount {
-  font-family: 'Nunito', sans-serif;
-  font-size: 1.875rem;
-  font-weight: 700;
-  line-height: 1;
-  margin-bottom: 0.625rem;
   display: block;
+  font-family: 'Nunito', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 0.75rem;
 }
 
 .statusBar {
-  height: 3px;
-  background: #F5F4F0;
+  height: 2px;
+  background: #F4F4F5;
   border-radius: 2px;
   overflow: hidden;
 }
@@ -256,18 +217,16 @@
 .statusBarFill {
   height: 100%;
   border-radius: 2px;
-  transition: width 0.6s ease 0.3s;
+  transition: width 0.5s ease;
 }
 
-/* ─── CHART CARD ─── */
+/* ─── CHART ─── */
 
 .chartCard {
-  background: #fff;
-  border-radius: 10px;
-  border: 1px solid #ECEAE5;
-  padding: 1.375rem 1.5rem;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
-  animation: fadeInUp 0.5s 0.4s ease both;
+  background: #FFFFFF;
+  border: 1px solid #E4E4E7;
+  border-radius: 8px;
+  padding: 1.25rem 1.375rem;
 }
 
 .chartCardHeader {
@@ -279,71 +238,42 @@
 
 .chartCardTitle {
   font-family: 'Nunito', sans-serif;
-  font-size: 1.0625rem;
+  font-size: 0.875rem;
   font-weight: 700;
-  color: #1C1917;
-  letter-spacing: -0.015em;
+  color: #18181B;
 }
 
 .chartLegend {
   display: flex;
   align-items: center;
   gap: 0.375rem;
-  font-family: 'Nunito', sans-serif;
   font-size: 0.75rem;
-  color: #A8A29E;
+  color: #A1A1AA;
 }
 
 .chartLegendPip {
   width: 8px;
   height: 8px;
-  border-radius: 50%;
-  background: #F59E0B;
-  flex-shrink: 0;
+  background: #D97706;
+  border-radius: 2px;
 }
 
 .emptyChart {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 200px;
-  font-family: 'Nunito', sans-serif;
-  font-size: 0.875rem;
-  color: #A8A29E;
+  text-align: center;
+  color: #A1A1AA;
+  font-size: 0.8125rem;
+  padding: 3rem 0;
 }
 
-/* ─── SKELETON ─── */
+/* ─── RESPONSIVE ─── */
 
-.skeletonCard {
-  background: #fff;
-  border-radius: 10px;
-  border: 1px solid #ECEAE5;
-  padding: 1.25rem 1.375rem;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+@media (max-width: 960px) {
+  .kpiGrid { grid-template-columns: repeat(2, 1fr); }
+  .pipeline { grid-template-columns: repeat(2, 1fr); }
 }
 
-.skeleton {
-  background: linear-gradient(
-    90deg,
-    #F5F4F0 0px,
-    #EDEBE7 60px,
-    #F5F4F0 120px
-  );
-  background-size: 600px 100%;
-  animation: shimmer 1.3s ease-in-out infinite;
-  border-radius: 5px;
-}
-
-/* ─── ERROR ─── */
-
-.errorBox {
-  background: rgba(220, 38, 38, 0.05);
-  border: 1px solid rgba(220, 38, 38, 0.15);
-  border-left: 3px solid #DC2626;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  font-family: 'Nunito', sans-serif;
-  font-size: 0.875rem;
-  color: #B91C1C;
-  margin-bottom: 1.5rem;
+@media (max-width: 600px) {
+  .page { padding: 1.25rem 1rem 3rem; }
+  .kpiGrid { grid-template-columns: repeat(2, 1fr); }
+  .pipeline { grid-template-columns: 1fr; }
 }

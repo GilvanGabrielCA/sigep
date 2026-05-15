@@ -32,15 +32,6 @@ function SendIcon() {
   )
 }
 
-function InfoIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="12" r="10" stroke="#D97706" strokeWidth="2" />
-      <path d="M12 8v4" stroke="#D97706" strokeWidth="2" strokeLinecap="round" />
-      <path d="M12 16v.01" stroke="#D97706" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  )
-}
 
 function IntegracaoCard({
   integracao,
@@ -175,14 +166,6 @@ export function IntegracoesPage() {
             ))
           )}
 
-          <div className={styles.infoPanel}>
-            <span className={styles.infoPanelIcon}>
-              <InfoIcon />
-            </span>
-            <p className={styles.infoPanelText}>
-              <strong>Chatbot mockado:</strong> nenhuma mensagem real é enviada. Use o simulador ao lado para testar o fluxo de pedidos e verificar que os pedidos aparecem no Kanban.
-            </p>
-          </div>
         </div>
 
         {/* ── Right column — Chat simulator ───────────────────────────── */}

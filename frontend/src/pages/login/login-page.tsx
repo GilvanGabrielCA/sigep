@@ -69,13 +69,6 @@ export function LoginPage() {
     <div className={styles.container}>
       {/* ─── LEFT BRAND PANEL ─── */}
       <div className={styles.brand}>
-        <div className={styles.brandGlow} />
-        <div className={styles.brandGrid} />
-        <div className={styles.brandRings} />
-        <div className={styles.brandWatermark}>
-          <SigepWatermark size={400} />
-        </div>
-
         <div className={styles.brandTop}>
           <div className={styles.brandLogo}>
             <div className={styles.brandMark}>

@@ -1,330 +1,280 @@
-﻿
 .page {
-  min-height: 100%;
-  background: #F5F4F0;
-  padding: 40px 36px;
+  padding: 2rem 2rem 4rem;
   font-family: 'Nunito', sans-serif;
 }
 
-/* ─── Page header ─────────────────────────────────────────────────────────── */
+/* ─── PAGE HEADER ─── */
 
 .pageHeader {
-  margin-bottom: 32px;
+  margin-bottom: 1.75rem;
 }
 
 .pageTitle {
   font-family: 'Nunito', sans-serif;
-  font-size: 2rem;
-  font-weight: 600;
-  color: #1C1917;
-  margin: 0 0 4px;
-  line-height: 1.2;
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: #18181B;
+  margin: 0 0 0.2rem;
+  letter-spacing: -0.02em;
 }
 
 .pageSubtitle {
-  font-size: 0.9rem;
-  color: #78716C;
+  font-size: 0.8125rem;
+  color: #71717A;
   margin: 0;
 }
 
-/* ─── Grid ────────────────────────────────────────────────────────────────── */
+/* ─── GRID ─── */
 
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  max-width: 900px;
+  gap: 1.25rem;
+  max-width: 860px;
   align-items: start;
 }
 
-/* ─── Card ────────────────────────────────────────────────────────────────── */
+/* ─── CARD ─── */
 
 .card {
-  background: #fff;
-  border: 1px solid #ECEAE5;
-  border-radius: 14px;
+  background: #FFFFFF;
+  border: 1px solid #E4E4E7;
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(28, 25, 23, 0.06);
 }
 
-/* ─── Card hero (avatar + name) ──────────────────────────────────────────── */
+/* ─── CARD HERO ─── */
 
 .cardHero {
-  background: linear-gradient(135deg, #1C1917 0%, #292524 100%);
-  padding: 32px 28px 24px;
+  background: #18181B;
+  padding: 28px 24px 22px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.cardHero::before {
-  content: '';
-  position: absolute;
-  top: -40px;
-  right: -40px;
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  background: rgba(245, 158, 11, 0.07);
-  pointer-events: none;
-}
-
-.cardHero::after {
-  content: '';
-  position: absolute;
-  bottom: -60px;
-  left: -30px;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: rgba(245, 158, 11, 0.04);
-  pointer-events: none;
 }
 
 .avatar {
-  width: 80px;
-  height: 80px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Nunito', sans-serif;
-  font-size: 2rem;
-  font-weight: 600;
-  color: #fff;
-  border: 3px solid rgba(255, 255, 255, 0.15);
-  margin-bottom: 14px;
-  position: relative;
-  z-index: 1;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  background: #3F3F46;
+  margin-bottom: 12px;
   flex-shrink: 0;
 }
 
 .heroName {
   font-family: 'Nunito', sans-serif;
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: 600;
-  color: #fff;
-  margin: 0 0 6px;
-  position: relative;
-  z-index: 1;
+  color: #FFFFFF;
+  margin: 0 0 4px;
 }
 
 .heroEmail {
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.5);
-  margin: 0 0 12px;
-  position: relative;
-  z-index: 1;
+  font-size: 0.775rem;
+  color: #71717A;
+  margin: 0 0 10px;
 }
 
 .perfilBadge {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 4px 12px;
-  border-radius: 20px;
-  position: relative;
-  z-index: 1;
+  padding: 3px 10px;
+  border-radius: 4px;
 }
 
 .perfilBadge.gerente {
-  background: rgba(245, 158, 11, 0.18);
-  color: #F59E0B;
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  background: rgba(217, 119, 6, 0.15);
+  color: #D97706;
 }
 
 .perfilBadge.atendente {
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  color: #A1A1AA;
 }
 
-/* ─── Card body ──────────────────────────────────────────────────────────── */
+/* ─── CARD BODY ─── */
 
 .cardBody {
-  padding: 24px 28px 28px;
+  padding: 20px 22px 24px;
 }
 
 .cardTitle {
   font-family: 'Nunito', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #1C1917;
-  margin: 0 0 4px;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #18181B;
+  margin: 0 0 3px;
 }
 
 .cardSubtitle {
-  font-size: 0.82rem;
-  color: #78716C;
-  margin: 0 0 22px;
+  font-size: 0.8rem;
+  color: #71717A;
+  margin: 0 0 1.25rem;
 }
 
-/* ─── Form fields ─────────────────────────────────────────────────────────── */
+/* ─── FORM ─── */
 
 .fieldGroup {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  margin-bottom: 14px;
+  gap: 4px;
+  margin-bottom: 12px;
 }
 
 .label {
-  font-size: 0.79rem;
+  font-size: 0.775rem;
   font-weight: 600;
-  color: #57534E;
-  letter-spacing: 0.01em;
+  color: #3F3F46;
 }
 
 .input {
   width: 100%;
-  padding: 9px 13px;
-  border: 1.5px solid #ECEAE5;
-  border-radius: 9px;
+  padding: 9px 12px;
+  border: 1px solid #D4D4D8;
+  border-radius: 7px;
   font-size: 0.875rem;
   font-family: 'Nunito', sans-serif;
-  color: #1C1917;
-  background: #fff;
+  color: #18181B;
+  background: #FFFFFF;
   outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color 0.15s;
   box-sizing: border-box;
 }
 
 .input:focus {
-  border-color: #F59E0B;
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+  border-color: #D97706;
 }
 
 .input::placeholder {
-  color: #C4BFBA;
+  color: #A1A1AA;
 }
-
-/* ─── Divider ─────────────────────────────────────────────────────────────── */
 
 .divider {
   border: none;
-  border-top: 1px solid #F0EFEC;
-  margin: 20px 0;
+  border-top: 1px solid #F4F4F5;
+  margin: 16px 0;
 }
 
-/* ─── Buttons ─────────────────────────────────────────────────────────────── */
+/* ─── BUTTONS ─── */
 
 .btnPrimary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   width: 100%;
-  padding: 10px 20px;
-  background: #F59E0B;
+  padding: 9px 16px;
+  background: #18181B;
   border: none;
-  border-radius: 10px;
+  border-radius: 7px;
   font-size: 0.875rem;
   font-family: 'Nunito', sans-serif;
   font-weight: 600;
-  color: #fff;
+  color: #FFFFFF;
   cursor: pointer;
-  transition: background 0.15s, transform 0.1s;
-  margin-top: 6px;
+  transition: background 0.12s;
+  margin-top: 4px;
 }
 
 .btnPrimary:hover {
-  background: #D97706;
-}
-
-.btnPrimary:active {
-  transform: scale(0.98);
+  background: #27272A;
 }
 
 .btnPrimary:disabled {
-  opacity: 0.6;
+  opacity: 0.55;
   cursor: not-allowed;
-  transform: none;
 }
 
-/* ─── Banners ─────────────────────────────────────────────────────────────── */
+/* ─── BANNERS ─── */
 
 .banner {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
-  border-radius: 9px;
-  font-size: 0.83rem;
-  font-weight: 500;
-  margin-bottom: 14px;
-  animation: fadeIn 0.25s ease-out forwards;
+  gap: 7px;
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  margin-bottom: 12px;
 }
 
 .bannerSuccess {
-  background: #F0FDF4;
-  border: 1px solid #86EFAC;
+  background: rgba(22, 163, 74, 0.06);
+  border: 1px solid rgba(22, 163, 74, 0.15);
   color: #15803D;
 }
 
 .bannerError {
   background: #FEF2F2;
-  border: 1px solid #FCA5A5;
+  border: 1px solid #FECACA;
   color: #991B1B;
 }
 
-/* ─── Security card ──────────────────────────────────────────────────────── */
+/* ─── SECURITY CARD ─── */
 
 .securityHeader {
-  padding: 22px 28px 0;
+  padding: 20px 22px 0;
 }
 
 .securityTitle {
   font-family: 'Nunito', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #1C1917;
-  margin: 0 0 2px;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #18181B;
+  margin: 0 0 3px;
 }
 
 .securitySubtitle {
-  font-size: 0.82rem;
-  color: #78716C;
-  margin: 0 0 18px;
+  font-size: 0.8rem;
+  color: #71717A;
+  margin: 0 0 16px;
 }
 
 .securityDivider {
   border: none;
-  border-top: 1px solid #F0EFEC;
-  margin: 0 0 22px;
+  border-top: 1px solid #F4F4F5;
+  margin: 0 0 20px;
 }
 
 .securityBody {
-  padding: 0 28px 28px;
+  padding: 0 22px 24px;
 }
 
-/* ─── Spinner ─────────────────────────────────────────────────────────────── */
+/* ─── SPINNER ─── */
 
 .spinner {
   width: 14px;
   height: 14px;
   border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #fff;
+  border-top-color: #FFFFFF;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   flex-shrink: 0;
 }
 
-/* ─── Footer info ────────────────────────────────────────────────────────── */
+/* ─── FOOTER INFO ─── */
 
 .footer {
-  max-width: 900px;
-  margin-top: 20px;
+  max-width: 860px;
+  margin-top: 1.25rem;
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 14px 20px;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid #ECEAE5;
-  border-radius: 10px;
+  gap: 1.25rem;
+  padding: 12px 16px;
+  background: #FFFFFF;
+  border: 1px solid #E4E4E7;
+  border-radius: 8px;
+  flex-wrap: wrap;
 }
 
 .footerItem {
@@ -334,109 +284,87 @@
 }
 
 .footerLabel {
-  font-size: 0.68rem;
-  font-weight: 600;
+  font-size: 0.67rem;
+  font-weight: 700;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  color: #A8A29E;
+  color: #A1A1AA;
 }
 
 .footerValue {
   font-size: 0.8rem;
-  color: #57534E;
+  color: #52525B;
   font-weight: 500;
-  font-variant-numeric: tabular-nums;
 }
 
 .footerSep {
   width: 1px;
-  height: 28px;
-  background: #ECEAE5;
+  height: 26px;
+  background: #E4E4E7;
   flex-shrink: 0;
 }
 
 .footerBadge {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  padding: 3px 10px;
-  border-radius: 20px;
+  padding: 2px 8px;
+  border-radius: 4px;
 }
 
 .footerBadge.gerente {
-  background: #FEF3C7;
+  background: rgba(217, 119, 6, 0.1);
   color: #92400E;
 }
 
 .footerBadge.atendente {
-  background: #F5F5F4;
-  color: #57534E;
+  background: #F4F4F5;
+  color: #52525B;
 }
 
-/* ─── Skeleton ───────────────────────────────────────────────────────────── */
+/* ─── SKELETON ─── */
 
 .skeletonCard {
-  background: #fff;
-  border: 1px solid #ECEAE5;
-  border-radius: 14px;
+  background: #FFFFFF;
+  border: 1px solid #E4E4E7;
+  border-radius: 8px;
   overflow: hidden;
 }
 
 .skHero {
-  background: linear-gradient(90deg, #2C2825 25%, #3A3330 50%, #2C2825 75%);
-  background-size: 200% 100%;
-  height: 180px;
-  animation: shimmer 1.4s infinite;
+  background: #E4E4E7;
+  height: 160px;
+  animation: pulse 1.4s ease infinite;
 }
 
 .skBody {
-  padding: 24px 28px;
+  padding: 20px 22px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .skLine {
-  background: linear-gradient(90deg, #ECEAE5 25%, #F5F4F0 50%, #ECEAE5 75%);
-  background-size: 200% 100%;
-  border-radius: 6px;
-  animation: shimmer 1.4s infinite;
+  background: #E4E4E7;
+  border-radius: 4px;
+  animation: pulse 1.4s ease infinite;
 }
 
-/* ─── Animations ─────────────────────────────────────────────────────────── */
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-4px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+/* ─── ANIMATIONS ─── */
 
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
-@keyframes shimmer {
-  from { background-position: 200% 0; }
-  to   { background-position: -200% 0; }
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
-/* ─── Responsive ─────────────────────────────────────────────────────────── */
-
 @media (max-width: 768px) {
-  .page {
-    padding: 24px 16px;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
-  .footer {
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .footerSep {
-    display: none;
-  }
+  .page { padding: 1.25rem 1rem 3rem; }
+  .grid { grid-template-columns: 1fr; }
+  .footer { gap: 0.75rem; }
+  .footerSep { display: none; }
 }

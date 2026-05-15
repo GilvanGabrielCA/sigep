@@ -153,7 +153,6 @@ export function Sidebar() {
 
   return (
     <aside className={styles.sidebar}>
-      <div className={styles.glow} />
 
       {/* Logo */}
       <div className={styles.logoArea}>

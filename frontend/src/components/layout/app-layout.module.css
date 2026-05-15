@@ -1,11 +1,11 @@
-﻿.shell {
+.shell {
   display: flex;
   height: 100vh;
   overflow: hidden;
 }
 
 .main {
-  margin-left: 240px;
+  margin-left: 220px;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -17,6 +17,6 @@
 .content {
   flex: 1;
   overflow-y: auto;
-  background: #F5F4F0;
+  background: #F4F4F5;
   scrollbar-gutter: stable;
 }

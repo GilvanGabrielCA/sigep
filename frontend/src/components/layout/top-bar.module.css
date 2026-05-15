@@ -1,15 +1,12 @@
-﻿
 .topBar {
-  height: 60px;
+  height: 52px;
   background: #FFFFFF;
-  border-bottom: 1px solid #ECEAE5;
+  border-bottom: 1px solid #E4E4E7;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 1.875rem;
+  padding: 0 1.75rem;
   flex-shrink: 0;
-  /* subtle warm underline */
-  box-shadow: 0 1px 0 #ECEAE5, 0 2px 8px rgba(0, 0, 0, 0.028);
 }
 
 .left {
@@ -20,19 +17,19 @@
 
 .breadcrumb {
   font-family: 'Nunito', sans-serif;
-  font-size: 0.69rem;
-  color: #B8B4AE;
-  letter-spacing: 0.035em;
+  font-size: 0.675rem;
+  color: #A1A1AA;
+  letter-spacing: 0.02em;
   line-height: 1;
 }
 
 .title {
   font-family: 'Nunito', sans-serif;
-  font-size: 1.1875rem;
+  font-size: 1.0625rem;
   font-weight: 700;
-  color: #1C1917;
+  color: #18181B;
   line-height: 1;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
   margin: 0;
 }
 
@@ -45,12 +42,12 @@
 .badge {
   font-family: 'Nunito', sans-serif;
   font-size: 0.675rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  padding: 0.3rem 0.8rem;
-  border-radius: 20px;
-  background: #FEF3C7;
-  color: #92400E;
-  border: 1px solid #FDE68A;
+  padding: 0.275rem 0.7rem;
+  border-radius: 4px;
+  background: #F4F4F5;
+  color: #71717A;
+  border: 1px solid #E4E4E7;
 }
