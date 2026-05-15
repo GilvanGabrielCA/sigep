@@ -86,6 +86,98 @@ function BurgerIllustration() {
   )
 }
 
+function TableBgIllustration() {
+  return (
+    <svg
+      viewBox="0 0 560 840"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden="true"
+      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' } as React.CSSProperties}
+    >
+      {/* Large table surface */}
+      <circle cx="280" cy="420" r="265" fill="rgba(217,119,6,0.028)" />
+      <circle cx="280" cy="420" r="248" stroke="#D97706" strokeOpacity="0.055" strokeWidth="1" fill="none" />
+
+      {/* ── PLACE SETTING 1 (top) ── */}
+      <circle cx="280" cy="178" r="66" stroke="#D97706" strokeOpacity="0.1" strokeWidth="1.5" fill="none" />
+      <circle cx="280" cy="178" r="50" stroke="#D97706" strokeOpacity="0.055" strokeWidth="0.75" fill="none" />
+      <circle cx="280" cy="178" r="34" fill="rgba(217,119,6,0.045)" />
+      {/* food on plate 1 */}
+      <circle cx="272" cy="170" r="11" fill="rgba(217,119,6,0.1)" />
+      <circle cx="290" cy="184" r="9"  fill="rgba(217,119,6,0.08)" />
+      <circle cx="266" cy="186" r="7"  fill="rgba(22,163,74,0.08)" />
+      {/* fork 1 */}
+      <line x1="188" y1="146" x2="188" y2="210" stroke="#D97706" strokeOpacity="0.18" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="180" y1="146" x2="180" y2="167" stroke="#D97706" strokeOpacity="0.18" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="184" y1="146" x2="184" y2="170" stroke="#D97706" strokeOpacity="0.18" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="192" y1="146" x2="192" y2="170" stroke="#D97706" strokeOpacity="0.18" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="196" y1="146" x2="196" y2="167" stroke="#D97706" strokeOpacity="0.18" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M180,167 Q188,177 196,167" fill="none" stroke="#D97706" strokeOpacity="0.18" strokeWidth="1.5" />
+      {/* knife 1 */}
+      <line x1="372" y1="146" x2="372" y2="210" stroke="#D97706" strokeOpacity="0.18" strokeWidth="2" strokeLinecap="round" />
+      <path d="M372,146 C384,153 386,168 372,178" fill="rgba(217,119,6,0.04)" stroke="#D97706" strokeOpacity="0.18" strokeWidth="1.5" />
+      {/* spoon top-right */}
+      <ellipse cx="462" cy="148" rx="20" ry="9" fill="rgba(217,119,6,0.055)" stroke="#D97706" strokeOpacity="0.11" strokeWidth="1" />
+      <line x1="462" y1="157" x2="462" y2="216" stroke="#D97706" strokeOpacity="0.11" strokeWidth="1.5" strokeLinecap="round" />
+
+      {/* ── WINE GLASS (left side) ── */}
+      <ellipse cx="98" cy="308" rx="26" ry="11" fill="rgba(217,119,6,0.045)" stroke="#D97706" strokeOpacity="0.1" strokeWidth="1" />
+      <path d="M72,308 Q66,352 62,372 M124,308 Q130,352 134,372" stroke="#D97706" strokeOpacity="0.1" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="62" y1="372" x2="134" y2="372" stroke="#D97706" strokeOpacity="0.11" strokeWidth="1" strokeLinecap="round" />
+      <line x1="98" y1="302" x2="98" y2="372" stroke="#D97706" strokeOpacity="0.07" strokeWidth="1" />
+
+      {/* ── CENTERPIECE (flower / candle) ── */}
+      <circle cx="280" cy="420" r="22" fill="rgba(217,119,6,0.05)" />
+      <circle cx="280" cy="420" r="11" fill="rgba(217,119,6,0.09)" />
+      <ellipse cx="280" cy="396" rx="5.5" ry="10" fill="rgba(217,119,6,0.08)" />
+      <ellipse cx="304" cy="420" rx="10" ry="5.5" fill="rgba(217,119,6,0.08)" />
+      <ellipse cx="280" cy="444" rx="5.5" ry="10" fill="rgba(217,119,6,0.08)" />
+      <ellipse cx="256" cy="420" rx="10" ry="5.5" fill="rgba(217,119,6,0.08)" />
+
+      {/* ── PLACE SETTING 2 (bottom) ── */}
+      <circle cx="280" cy="662" r="66" stroke="#D97706" strokeOpacity="0.1" strokeWidth="1.5" fill="none" />
+      <circle cx="280" cy="662" r="50" stroke="#D97706" strokeOpacity="0.055" strokeWidth="0.75" fill="none" />
+      <circle cx="280" cy="662" r="34" fill="rgba(217,119,6,0.045)" />
+      {/* food on plate 2 */}
+      <circle cx="272" cy="654" r="11" fill="rgba(217,119,6,0.1)" />
+      <circle cx="290" cy="668" r="9"  fill="rgba(217,119,6,0.08)" />
+      <circle cx="266" cy="670" r="7"  fill="rgba(22,163,74,0.08)" />
+      {/* fork 2 */}
+      <line x1="188" y1="630" x2="188" y2="694" stroke="#D97706" strokeOpacity="0.18" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="180" y1="630" x2="180" y2="651" stroke="#D97706" strokeOpacity="0.18" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="184" y1="630" x2="184" y2="654" stroke="#D97706" strokeOpacity="0.18" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="192" y1="630" x2="192" y2="654" stroke="#D97706" strokeOpacity="0.18" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="196" y1="630" x2="196" y2="651" stroke="#D97706" strokeOpacity="0.18" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M180,651 Q188,661 196,651" fill="none" stroke="#D97706" strokeOpacity="0.18" strokeWidth="1.5" />
+      {/* knife 2 */}
+      <line x1="372" y1="630" x2="372" y2="694" stroke="#D97706" strokeOpacity="0.18" strokeWidth="2" strokeLinecap="round" />
+      <path d="M372,630 C384,637 386,652 372,662" fill="rgba(217,119,6,0.04)" stroke="#D97706" strokeOpacity="0.18" strokeWidth="1.5" />
+
+      {/* ── SMALL SIDE BOWL (right) ── */}
+      <circle cx="464" cy="548" r="40" stroke="#D97706" strokeOpacity="0.08" strokeWidth="1" fill="none" />
+      <circle cx="464" cy="548" r="28" fill="rgba(217,119,6,0.03)" />
+      <circle cx="459" cy="542" r="8" fill="rgba(217,119,6,0.07)" />
+      <circle cx="472" cy="554" r="6" fill="rgba(217,119,6,0.055)" />
+
+      {/* ── SCATTERED TEXTURE DOTS ── */}
+      <circle cx="122" cy="468" r="3"   fill="#D97706" fillOpacity="0.07" />
+      <circle cx="452" cy="376" r="2.5" fill="#D97706" fillOpacity="0.06" />
+      <circle cx="78"  cy="608" r="3.5" fill="#D97706" fillOpacity="0.06" />
+      <circle cx="508" cy="198" r="2"   fill="#D97706" fillOpacity="0.07" />
+      <circle cx="148" cy="712" r="3"   fill="#D97706" fillOpacity="0.06" />
+      <circle cx="428" cy="758" r="2.5" fill="#D97706" fillOpacity="0.06" />
+      <circle cx="96"  cy="202" r="2"   fill="#D97706" fillOpacity="0.05" />
+      <circle cx="494" cy="698" r="3"   fill="#D97706" fillOpacity="0.06" />
+      <circle cx="356" cy="790" r="2"   fill="#D97706" fillOpacity="0.05" />
+      <circle cx="58"  cy="388" r="4"   fill="#D97706" fillOpacity="0.05" />
+      <circle cx="520" cy="490" r="2.5" fill="#D97706" fillOpacity="0.06" />
+      <circle cx="340" cy="60"  r="3"   fill="#D97706" fillOpacity="0.05" />
+    </svg>
+  )
+}
+
 function AlertIcon() {
   return (
     <svg className={styles.errorIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -178,6 +270,7 @@ export function LoginPage() {
 
       {/* ─── RIGHT FORM PANEL ─── */}
       <div className={styles.formPanel}>
+        <TableBgIllustration />
         <div className={styles.formCard}>
           <span className={styles.formEyebrow}>Sistema de gestão</span>
           <h2 className={styles.formTitle}>Bem-vindo de volta</h2>

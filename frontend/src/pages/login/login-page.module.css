@@ -126,16 +126,25 @@
 
 .formPanel {
   flex: 1;
-  background: #FFFFFF;
+  background: #FFFDF8;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 40px 24px;
+  position: relative;
+  overflow: hidden;
 }
 
 .formCard {
   width: 100%;
   max-width: 360px;
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  border: 1px solid #E4E4E7;
+  border-radius: 12px;
+  padding: 36px 32px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07), 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
 .formEyebrow {
@@ -344,10 +353,13 @@
     padding: 32px 20px;
   }
 
+  .formPanel > svg {
+    display: none;
+  }
+
   .formCard {
-    background: #FFFFFF;
-    border: 1px solid #E4E4E7;
     border-radius: 12px;
     padding: 32px 28px;
+    box-shadow: none;
   }
 }
