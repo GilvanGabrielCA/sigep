@@ -13,15 +13,12 @@ import {
 
 const router = Router()
 
-// Pública — qualquer pessoa pode ver a política de privacidade
 router.get('/privacidade', getPrivacidade)
 
-// Autenticadas — qualquer usuário logado
 router.use(authMiddleware)
 router.post('/solicitacao', postSolicitacao)
 router.get('/meus-dados', getMeusDados)
 
-// Gerente apenas
 router.use(requireGerente)
 router.get('/solicitacoes', getSolicitacoesHandler)
 router.patch('/solicitacoes/:id', patchSolicitacao)

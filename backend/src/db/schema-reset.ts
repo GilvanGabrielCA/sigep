@@ -5,7 +5,6 @@ import { pool } from './connection.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-// Drop todas as tabelas na ordem correta (respeita FKs)
 await pool.query(`
   DROP TABLE IF EXISTS tb_relatorio        CASCADE;
   DROP TABLE IF EXISTS tb_integracao       CASCADE;

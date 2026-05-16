@@ -48,7 +48,7 @@ export function KanbanPage() {
         gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6)
         osc.start(ctx.currentTime)
         osc.stop(ctx.currentTime + 0.6)
-      } catch { /* AudioContext indisponível */ }
+      } catch { }
     }
     socket.on('pedido:novo', playBeep)
     return () => { socket.off('pedido:novo', playBeep) }
@@ -59,7 +59,6 @@ export function KanbanPage() {
   return (
     <div className={styles.page}>
 
-      {/* ─── HEADER ─── */}
       <div className={styles.header}>
         <div className={styles.headerLeft}>
           <h1 className={styles.title}>Pedidos</h1>
@@ -78,7 +77,6 @@ export function KanbanPage() {
 
       {error && <div className={styles.errorBox} role="alert">{error}</div>}
 
-      {/* ─── BOARD ─── */}
       {loading ? (
         <div className={styles.board}>
           {COLUMNS.map((col) => (

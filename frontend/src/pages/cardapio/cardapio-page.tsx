@@ -5,8 +5,6 @@ import { ProdutoModal } from '../../components/cardapio/produto-modal'
 import type { Categoria, Produto, ProdutoFormData } from '../../types/cardapio'
 import styles from './cardapio-page.module.css'
 
-// ─── CONSTANTS ────────────────────────────────────────────────────────────────
-
 const CATEGORY_COLORS = ['#F59E0B', '#2563EB', '#16A34A', '#7C3AED', '#EA580C', '#0891B2']
 
 function getCatColor(categoriaId: string | null, categorias: Categoria[]): string {
@@ -18,8 +16,6 @@ function getCatColor(categoriaId: string | null, categorias: Categoria[]): strin
 function formatBRL(value: string): string {
   return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(parseFloat(value))
 }
-
-// ─── ICONS ────────────────────────────────────────────────────────────────────
 
 function IconPlus() {
   return (
@@ -58,8 +54,6 @@ function IconSearch() {
   )
 }
 
-// ─── DISPONIVEL TOGGLE ────────────────────────────────────────────────────────
-
 interface ToggleProps {
   value: boolean
   onChange: (v: boolean) => void
@@ -88,14 +82,10 @@ function DisponibilidadeToggle({ value, onChange, disabled }: ToggleProps) {
   )
 }
 
-// ─── CATEGORY FORM ────────────────────────────────────────────────────────────
-
 interface CatFormState {
   nome: string
   ordem: string
 }
-
-// ─── SKELETON ─────────────────────────────────────────────────────────────────
 
 function SkeletonLayout() {
   return (
@@ -114,8 +104,6 @@ function SkeletonLayout() {
   )
 }
 
-// ─── PAGE ─────────────────────────────────────────────────────────────────────
-
 export function CardapioPage() {
   const {
     categorias, produtos, loading, error,
@@ -132,8 +120,6 @@ export function CardapioPage() {
   const [catForm, setCatForm] = useState<CatFormState>({ nome: '', ordem: '0' })
   const [catError, setCatError] = useState<string | null>(null)
 
-  // ── filtered + grouped products ────────────────────────────────────────────
-
   const filtrados = produtos.filter((p) =>
     p.nome.toLowerCase().includes(busca.toLowerCase()),
   )
@@ -147,8 +133,6 @@ export function CardapioPage() {
     if (!grouped.has(key)) grouped.set(key, { label, produtos: [] })
     grouped.get(key)!.produtos.push(p)
   })
-
-  // ── category handlers ──────────────────────────────────────────────────────
 
   function startEditCat(cat: Categoria) {
     setEditingCat(cat)
@@ -179,10 +163,8 @@ export function CardapioPage() {
 
   async function handleDeleteCat(id: string) {
     if (!confirm('Remover esta categoria?')) return
-    try { await removerCategoria(id) } catch { /* ignore */ }
+    try { await removerCategoria(id) } catch { }
   }
-
-  // ── product handlers ───────────────────────────────────────────────────────
 
   async function handleSaveProduto(form: ProdutoFormData) {
     if (modalState.produto?.id) {
@@ -195,10 +177,8 @@ export function CardapioPage() {
 
   async function handleDeleteProduto(id: string) {
     if (!confirm('Remover este produto?')) return
-    try { await removerProduto(id) } catch { /* ignore */ }
+    try { await removerProduto(id) } catch { }
   }
-
-  // ── render ─────────────────────────────────────────────────────────────────
 
   return (
     <div className={styles.page}>
@@ -214,7 +194,6 @@ export function CardapioPage() {
       ) : (
         <div className={styles.layout}>
 
-          {/* ─── CATEGORIAS ─── */}
           <div className={styles.panel}>
             <div className={styles.panelHeader}>
               <h2 className={styles.panelTitle}>Categorias</h2>
@@ -312,7 +291,6 @@ export function CardapioPage() {
             )}
           </div>
 
-          {/* ─── PRODUTOS ─── */}
           <div className={styles.panel}>
             <div className={styles.panelHeader}>
               <h2 className={styles.panelTitle}>Produtos</h2>

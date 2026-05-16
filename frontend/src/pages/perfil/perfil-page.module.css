@@ -3,8 +3,6 @@
   font-family: 'Nunito', sans-serif;
 }
 
-/* ─── PAGE HEADER ─── */
-
 .pageHeader {
   margin-bottom: 1.75rem;
 }
@@ -24,8 +22,6 @@
   margin: 0;
 }
 
-/* ─── GRID ─── */
-
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -34,16 +30,12 @@
   align-items: start;
 }
 
-/* ─── CARD ─── */
-
 .card {
   background: #FFFFFF;
   border: 1px solid #E4E4E7;
   border-radius: 8px;
   overflow: hidden;
 }
-
-/* ─── CARD HERO ─── */
 
 .cardHero {
   background: #18181B;
@@ -103,8 +95,6 @@
   color: #A1A1AA;
 }
 
-/* ─── CARD BODY ─── */
-
 .cardBody {
   padding: 20px 22px 24px;
 }
@@ -122,8 +112,6 @@
   color: #71717A;
   margin: 0 0 1.25rem;
 }
-
-/* ─── FORM ─── */
 
 .fieldGroup {
   display: flex;
@@ -166,8 +154,6 @@
   margin: 16px 0;
 }
 
-/* ─── BUTTONS ─── */
-
 .btnPrimary {
   display: inline-flex;
   align-items: center;
@@ -196,8 +182,6 @@
   cursor: not-allowed;
 }
 
-/* ─── BANNERS ─── */
-
 .banner {
   display: flex;
   align-items: center;
@@ -219,8 +203,6 @@
   border: 1px solid #FECACA;
   color: #991B1B;
 }
-
-/* ─── SECURITY CARD ─── */
 
 .securityHeader {
   padding: 20px 22px 0;
@@ -250,8 +232,6 @@
   padding: 0 22px 24px;
 }
 
-/* ─── SPINNER ─── */
-
 .spinner {
   width: 14px;
   height: 14px;
@@ -261,8 +241,6 @@
   animation: spin 0.7s linear infinite;
   flex-shrink: 0;
 }
-
-/* ─── FOOTER INFO ─── */
 
 .footer {
   max-width: 860px;
@@ -323,8 +301,6 @@
   color: #52525B;
 }
 
-/* ─── SKELETON ─── */
-
 .skeletonCard {
   background: #FFFFFF;
   border: 1px solid #E4E4E7;
@@ -350,8 +326,6 @@
   border-radius: 4px;
   animation: pulse 1.4s ease infinite;
 }
-
-/* ─── ANIMATIONS ─── */
 
 @keyframes spin {
   to { transform: rotate(360deg); }

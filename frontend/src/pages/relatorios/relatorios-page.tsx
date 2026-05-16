@@ -6,8 +6,6 @@ import {
 import { useRelatorios } from '../../hooks/use-relatorios'
 import styles from './relatorios-page.module.css'
 
-// ─── HELPERS ─────────────────────────────────────────────────────────────────
-
 function toDateStr(date: Date): string {
   return date.toISOString().split('T')[0]!
 }
@@ -37,8 +35,6 @@ function formatMinutes(min: number | null): string {
   return `${(min / 60).toFixed(1)} h`
 }
 
-// ─── ICONS ───────────────────────────────────────────────────────────────────
-
 function IconWhatsapp() {
   return (
     <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
@@ -56,8 +52,6 @@ function IconMonitor() {
     </svg>
   )
 }
-
-// ─── SKELETON ────────────────────────────────────────────────────────────────
 
 function SkeletonPage() {
   return (
@@ -78,8 +72,6 @@ function SkeletonPage() {
   )
 }
 
-// ─── PAGE ─────────────────────────────────────────────────────────────────────
-
 export function RelatoriosPage() {
   const defaults = defaultDates()
   const [inicio, setInicio] = useState(defaults.inicio)
@@ -91,8 +83,6 @@ export function RelatoriosPage() {
   function handleUpdate() {
     setApplied({ inicio, fim })
   }
-
-  // ── Computed metrics ────────────────────────────────────────────────────────
 
   const totalFaturamento = data?.vendas.reduce((s, d) => s + d.faturamento, 0) ?? 0
   const totalPedidos     = data?.vendas.reduce((s, d) => s + d.pedidos, 0) ?? 0
@@ -118,7 +108,6 @@ export function RelatoriosPage() {
   return (
     <div className={styles.page}>
 
-      {/* ─── HEADER ─── */}
       <div className={styles.header}>
         <div className={styles.headerLeft}>
           <h1 className={styles.title}>Relatórios</h1>
@@ -153,7 +142,6 @@ export function RelatoriosPage() {
         <SkeletonPage />
       ) : (
         <>
-          {/* ─── KPI CARDS ─── */}
           <div className={styles.kpiGrid}>
             <div className={styles.kpiCard}>
               <div className={styles.kpiAccent} style={{ background: '#16A34A' }} />
@@ -183,7 +171,6 @@ export function RelatoriosPage() {
             </div>
           </div>
 
-          {/* ─── GRÁFICO ─── */}
           <div className={styles.sectionCard}>
             <div className={styles.sectionHead}>
               <h2 className={styles.sectionTitle}>Vendas por Dia</h2>
@@ -250,10 +237,8 @@ export function RelatoriosPage() {
             </div>
           </div>
 
-          {/* ─── BOTTOM GRID ─── */}
           <div className={styles.bottomGrid}>
 
-            {/* TOP PRODUTOS */}
             <div className={styles.sectionCard}>
               <div className={styles.sectionHead}>
                 <h2 className={styles.sectionTitle}>Top Produtos</h2>
@@ -293,7 +278,6 @@ export function RelatoriosPage() {
               </div>
             </div>
 
-            {/* CANAIS */}
             <div className={styles.sectionCard}>
               <div className={styles.sectionHead}>
                 <h2 className={styles.sectionTitle}>Pedidos por Canal</h2>

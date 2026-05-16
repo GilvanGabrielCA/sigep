@@ -15,8 +15,6 @@ import {
   type ProdutoInput,
 } from '../db/produto-queries.js'
 
-// ─── Categorias ───────────────────────────────────────────────────────────────
-
 export async function getCategorias(restauranteId: string): Promise<CategoriaRow[]> {
   return listCategorias(restauranteId)
 }
@@ -26,7 +24,11 @@ export async function addCategoria(
   nome: string,
   ordem: number,
 ): Promise<CategoriaRow> {
-  if (!nome.trim()) throw Object.assign(new Error('Nome é obrigatório'), { statusCode: 400 })
+  if (!nome.trim()) {
+    const err: any = new Error('Nome é obrigatório')
+    err.statusCode = 400
+    throw err
+  }
   return createCategoria(restauranteId, nome.trim(), ordem)
 }
 
@@ -37,18 +39,28 @@ export async function editCategoria(
   ordem: number,
   ativo: boolean,
 ): Promise<CategoriaRow> {
-  if (!nome.trim()) throw Object.assign(new Error('Nome é obrigatório'), { statusCode: 400 })
+  if (!nome.trim()) {
+    const err: any = new Error('Nome é obrigatório')
+    err.statusCode = 400
+    throw err
+  }
   const cat = await updateCategoria(id, restauranteId, nome.trim(), ordem, ativo)
-  if (!cat) throw Object.assign(new Error('Categoria não encontrada'), { statusCode: 404 })
+  if (!cat) {
+    const err: any = new Error('Categoria não encontrada')
+    err.statusCode = 404
+    throw err
+  }
   return cat
 }
 
 export async function removeCategoria(id: string, restauranteId: string): Promise<void> {
   const deleted = await deleteCategoria(id, restauranteId)
-  if (!deleted) throw Object.assign(new Error('Categoria não encontrada'), { statusCode: 404 })
+  if (!deleted) {
+    const err: any = new Error('Categoria não encontrada')
+    err.statusCode = 404
+    throw err
+  }
 }
-
-// ─── Produtos ─────────────────────────────────────────────────────────────────
 
 export async function getProdutos(restauranteId: string): Promise<ProdutoRow[]> {
   return listProdutos(restauranteId)
@@ -58,8 +70,16 @@ export async function addProduto(
   restauranteId: string,
   body: Partial<ProdutoInput>,
 ): Promise<ProdutoRow> {
-  if (!body.nome?.trim()) throw Object.assign(new Error('Nome é obrigatório'), { statusCode: 400 })
-  if (!body.preco || body.preco <= 0) throw Object.assign(new Error('Preço inválido'), { statusCode: 400 })
+  if (!body.nome?.trim()) {
+    const err: any = new Error('Nome é obrigatório')
+    err.statusCode = 400
+    throw err
+  }
+  if (!body.preco || body.preco <= 0) {
+    const err: any = new Error('Preço inválido')
+    err.statusCode = 400
+    throw err
+  }
   return createProduto({
     restauranteId,
     categoriaId: body.categoriaId ?? null,
@@ -76,8 +96,16 @@ export async function editProduto(
   restauranteId: string,
   body: Partial<ProdutoInput>,
 ): Promise<ProdutoRow> {
-  if (!body.nome?.trim()) throw Object.assign(new Error('Nome é obrigatório'), { statusCode: 400 })
-  if (!body.preco || body.preco <= 0) throw Object.assign(new Error('Preço inválido'), { statusCode: 400 })
+  if (!body.nome?.trim()) {
+    const err: any = new Error('Nome é obrigatório')
+    err.statusCode = 400
+    throw err
+  }
+  if (!body.preco || body.preco <= 0) {
+    const err: any = new Error('Preço inválido')
+    err.statusCode = 400
+    throw err
+  }
   const prod = await updateProduto(id, restauranteId, {
     categoriaId: body.categoriaId ?? null,
     nome: body.nome.trim(),
@@ -86,7 +114,11 @@ export async function editProduto(
     imagemUrl: body.imagemUrl ?? null,
     disponivel: body.disponivel ?? true,
   })
-  if (!prod) throw Object.assign(new Error('Produto não encontrado'), { statusCode: 404 })
+  if (!prod) {
+    const err: any = new Error('Produto não encontrado')
+    err.statusCode = 404
+    throw err
+  }
   return prod
 }
 
@@ -96,21 +128,28 @@ export async function toggleProdutoDisponivel(
   disponivel: boolean,
 ): Promise<ProdutoRow> {
   const prod = await toggleDisponibilidade(id, restauranteId, disponivel)
-  if (!prod) throw Object.assign(new Error('Produto não encontrado'), { statusCode: 404 })
+  if (!prod) {
+    const err: any = new Error('Produto não encontrado')
+    err.statusCode = 404
+    throw err
+  }
   return prod
 }
 
 export async function removeProduto(id: string, restauranteId: string): Promise<void> {
   try {
     const deleted = await deleteProduto(id, restauranteId)
-    if (!deleted) throw Object.assign(new Error('Produto não encontrado'), { statusCode: 404 })
+    if (!deleted) {
+      const err: any = new Error('Produto não encontrado')
+      err.statusCode = 404
+      throw err
+    }
   } catch (err: unknown) {
     const pgErr = err as { code?: string }
     if (pgErr.code === '23503') {
-      throw Object.assign(
-        new Error('Produto possui pedidos associados e não pode ser excluído'),
-        { statusCode: 409 },
-      )
+      const e: any = new Error('Produto possui pedidos associados e não pode ser excluído')
+      e.statusCode = 409
+      throw e
     }
     throw err
   }

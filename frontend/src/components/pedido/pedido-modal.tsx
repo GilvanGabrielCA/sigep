@@ -229,7 +229,6 @@ function ModalContent({ pedidoId, onClose }: PedidoModalProps & { pedidoId: stri
     >
       <div className={styles.panel}>
 
-        {/* HEADER */}
         <div className={styles.header}>
           <div className={styles.headerLeft}>
             <span className={styles.orderId}>PEDIDO #{data ? data.id.slice(-8).toUpperCase() : '········'}</span>
@@ -269,14 +268,12 @@ function ModalContent({ pedidoId, onClose }: PedidoModalProps & { pedidoId: stri
           </div>
         </div>
 
-        {/* BODY */}
         {loading && <SkeletonBody />}
         {error && <div className={styles.errorBox} role="alert">{error}</div>}
 
         {data && (
           <div className={styles.body}>
 
-            {/* CLIENTE */}
             <div className={styles.section}>
               <span className={styles.sectionLabel}>Cliente</span>
               <div className={styles.clientGrid}>
@@ -314,7 +311,6 @@ function ModalContent({ pedidoId, onClose }: PedidoModalProps & { pedidoId: stri
               </div>
             </div>
 
-            {/* ITENS */}
             <div className={styles.section}>
               <span className={styles.sectionLabel}>Itens do Pedido</span>
               {data.itens.length === 0 ? (
@@ -332,7 +328,6 @@ function ModalContent({ pedidoId, onClose }: PedidoModalProps & { pedidoId: stri
               )}
             </div>
 
-            {/* HISTÓRICO */}
             <div className={styles.section}>
               <span className={styles.sectionLabel}>Histórico de Status</span>
               {data.historico.length === 0 ? (

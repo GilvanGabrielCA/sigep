@@ -157,7 +157,6 @@ export function ConfiguracoesPage() {
       <div className={styles.wrap}>
         <div className={styles.card}>
 
-          {/* CARD HEADER */}
           <div className={styles.cardHead}>
             <div className={styles.cardHeadIcon}>
               <IconStore />
@@ -168,7 +167,6 @@ export function ConfiguracoesPage() {
             </div>
           </div>
 
-          {/* FORM BODY */}
           {loading ? (
             <SkeletonForm />
           ) : (
@@ -181,7 +179,6 @@ export function ConfiguracoesPage() {
                 </div>
               )}
 
-              {/* Nome */}
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>
                   Nome do Restaurante<span className={styles.required}>*</span>
@@ -196,7 +193,6 @@ export function ConfiguracoesPage() {
                 />
               </div>
 
-              {/* Endereço */}
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>Endereço</label>
                 <textarea
@@ -209,7 +205,6 @@ export function ConfiguracoesPage() {
                 />
               </div>
 
-              {/* Telefone */}
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>Telefone</label>
                 <input
@@ -222,7 +217,6 @@ export function ConfiguracoesPage() {
                 />
               </div>
 
-              {/* Logo Upload */}
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>Logo do Restaurante</label>
                 <input
@@ -291,7 +285,6 @@ export function ConfiguracoesPage() {
             </form>
           )}
 
-          {/* CARD FOOTER */}
           {!loading && (
             <div className={styles.cardFooter}>
 

@@ -19,13 +19,11 @@ import { LgpdPage } from './pages/lgpd/lgpd-page'
 export function AppRouter() {
   return (
     <Routes>
-      {/* Rotas públicas */}
       <Route path="/login" element={<LoginPage />} />
       <Route path="/esqueci-senha" element={<ForgotPasswordPage />} />
       <Route path="/redefinir-senha" element={<ResetPasswordPage />} />
       <Route path="/privacidade" element={<PrivacidadePage />} />
 
-      {/* Rotas protegidas */}
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />

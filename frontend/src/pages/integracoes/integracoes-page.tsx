@@ -136,7 +136,6 @@ export function IntegracoesPage() {
       </div>
 
       <div className={styles.layout}>
-        {/* ── Left column ─────────────────────────────────────────────── */}
         <div className={styles.leftCol}>
           <p className={styles.sectionLabel}>Canais disponíveis</p>
 
@@ -168,9 +167,7 @@ export function IntegracoesPage() {
 
         </div>
 
-        {/* ── Right column — Chat simulator ───────────────────────────── */}
         <div className={styles.chatCard}>
-          {/* WhatsApp-style header */}
           <div className={styles.chatHeader}>
             <div className={styles.chatHeaderAvatar}>
               <WhatsAppIcon size={20} color="#fff" />
@@ -186,7 +183,6 @@ export function IntegracoesPage() {
             </div>
           </div>
 
-          {/* Phone input */}
           <div className={styles.phoneBar}>
             <span className={styles.phoneLabel}>Telefone:</span>
             <input
@@ -198,7 +194,6 @@ export function IntegracoesPage() {
             />
           </div>
 
-          {/* Messages */}
           <div className={styles.messagesArea}>
             {mensagens.length === 0 && !enviando && (
               <div className={styles.emptyState}>
@@ -232,7 +227,6 @@ export function IntegracoesPage() {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input area */}
           <div className={styles.chatInputArea}>
             <textarea
               ref={textareaRef}

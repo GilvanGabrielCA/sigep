@@ -1,8 +1,6 @@
 import { api } from './api'
 import type { Categoria, Produto, ProdutoFormData } from '../types/cardapio'
 
-// ─── Categorias ───────────────────────────────────────────────────────────────
-
 export async function fetchCategorias(): Promise<Categoria[]> {
   const { data } = await api.get<Categoria[]>('/api/cardapio/categorias')
   return data
@@ -26,8 +24,6 @@ export async function updateCategoria(
 export async function deleteCategoria(id: string): Promise<void> {
   await api.delete(`/api/cardapio/categorias/${id}`)
 }
-
-// ─── Produtos ─────────────────────────────────────────────────────────────────
 
 export async function fetchProdutos(): Promise<Produto[]> {
   const { data } = await api.get<Produto[]>('/api/cardapio/produtos')

@@ -82,7 +82,6 @@ function ModalInner({ onClose, produto, categorias, onSave }: Omit<ProdutoModalP
     >
       <form className={styles.panel} onSubmit={handleSubmit} noValidate>
 
-        {/* HEADER */}
         <div className={styles.header}>
           <div className={styles.headerLeft}>
             <span className={styles.headerEyebrow}>{isEdicao ? 'Editar Produto' : 'Novo Produto'}</span>
@@ -93,10 +92,8 @@ function ModalInner({ onClose, produto, categorias, onSave }: Omit<ProdutoModalP
           </button>
         </div>
 
-        {/* BODY */}
         <div className={styles.body}>
 
-          {/* Nome */}
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
               Nome<span className={styles.required}>*</span>
@@ -111,7 +108,6 @@ function ModalInner({ onClose, produto, categorias, onSave }: Omit<ProdutoModalP
             />
           </div>
 
-          {/* Categoria + Preço */}
           <div className={styles.fieldRow}>
             <div className={styles.fieldGroup}>
               <label className={styles.label}>Categoria</label>
@@ -143,7 +139,6 @@ function ModalInner({ onClose, produto, categorias, onSave }: Omit<ProdutoModalP
             </div>
           </div>
 
-          {/* Descrição */}
           <div className={styles.fieldGroup}>
             <label className={styles.label}>Descrição</label>
             <textarea
@@ -155,7 +150,6 @@ function ModalInner({ onClose, produto, categorias, onSave }: Omit<ProdutoModalP
             />
           </div>
 
-          {/* URL imagem */}
           <div className={styles.fieldGroup}>
             <label className={styles.label}>URL da Imagem</label>
             <input
@@ -178,7 +172,6 @@ function ModalInner({ onClose, produto, categorias, onSave }: Omit<ProdutoModalP
             )}
           </div>
 
-          {/* Disponível switch */}
           <div
             className={styles.switchWrap}
             onClick={() => setField('disponivel', !form.disponivel)}
@@ -200,7 +193,6 @@ function ModalInner({ onClose, produto, categorias, onSave }: Omit<ProdutoModalP
 
           {error && <div className={styles.errorBox} role="alert">{error}</div>}
 
-          {/* FOOTER */}
           <div className={styles.footer}>
             <button type="button" className={styles.btnCancel} onClick={onClose}>
               Cancelar

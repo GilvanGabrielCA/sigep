@@ -16,14 +16,11 @@ export function useRestaurante() {
     try {
       let updated = data
       if (logoFile) {
-        // Sobe a logo e recebe o restaurante com logo_url atualizado
         updated = await uploadLogo(logoFile)
-        // Persiste também os campos de texto
         updated = await updateRestaurante({ ...form, logoUrl: updated?.logo_url ?? '' })
       } else {
         updated = await updateRestaurante(form)
       }
-      // Atualiza o context global — sidebar reflete imediatamente
       setRestaurante(updated)
       setSuccess(true)
       setTimeout(() => setSuccess(false), 3000)

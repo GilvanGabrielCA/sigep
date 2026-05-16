@@ -8,8 +8,6 @@
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* ─── BACKDROP ─── */
-
 .backdrop {
   position: fixed;
   inset: 0;
@@ -23,8 +21,6 @@
   padding: 1rem;
   animation: fadeIn 0.2s ease both;
 }
-
-/* ─── PANEL ─── */
 
 .panel {
   background: #fff;
@@ -42,8 +38,6 @@
 .panel::-webkit-scrollbar { width: 5px; }
 .panel::-webkit-scrollbar-track { background: transparent; }
 .panel::-webkit-scrollbar-thumb { background: #ECEAE5; border-radius: 3px; }
-
-/* ─── HEADER ─── */
 
 .header {
   background: #1C1917;
@@ -97,8 +91,6 @@
   background: rgba(255,255,255,0.15);
   color: #F5F4F0;
 }
-
-/* ─── BODY / FORM ─── */
 
 .body {
   padding: 1.375rem 1.5rem 1.5rem;
@@ -169,8 +161,6 @@
   padding-right: 2rem;
 }
 
-/* ─── DISPONIVEL SWITCH ─── */
-
 .switchWrap {
   display: flex;
   align-items: center;
@@ -220,8 +210,6 @@
   transition: left 0.2s ease;
 }
 
-/* ─── IMAGE PREVIEW ─── */
-
 .imgPreviewWrap {
   margin-top: 0.5rem;
   border-radius: 8px;
@@ -238,8 +226,6 @@
   display: none;
 }
 
-/* ─── ERROR ─── */
-
 .errorBox {
   padding: 0.625rem 0.875rem;
   background: rgba(220,38,38,0.05);
@@ -250,8 +236,6 @@
   font-size: 0.8125rem;
   color: #B91C1C;
 }
-
-/* ─── FOOTER ─── */
 
 .footer {
   display: flex;
@@ -295,8 +279,6 @@
 
 .btnSave:hover:not(:disabled) { background: #D97706; }
 .btnSave:disabled { opacity: 0.65; cursor: not-allowed; }
-
-/* ─── SPINNER ─── */
 
 @keyframes spin {
   to { transform: rotate(360deg); }

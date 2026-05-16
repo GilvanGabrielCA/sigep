@@ -9,13 +9,11 @@ const router = Router()
 
 router.use(authMiddleware)
 
-// Categorias — write operations restricted to gerente
 router.get('/categorias', listCategorias)
 router.post('/categorias', requireGerente, postCategoria)
 router.put('/categorias/:id', requireGerente, putCategoria)
 router.delete('/categorias/:id', requireGerente, delCategoria)
 
-// Produtos — write operations restricted to gerente
 router.get('/produtos', listProdutos)
 router.post('/produtos', requireGerente, postProduto)
 router.put('/produtos/:id', requireGerente, putProduto)

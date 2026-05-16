@@ -3,8 +3,6 @@
   font-family: 'Nunito', sans-serif;
 }
 
-/* ─── HEADER ─── */
-
 .header {
   display: flex;
   align-items: flex-end;
@@ -30,8 +28,6 @@
   margin: 0;
 }
 
-/* ─── BUTTONS ─── */
-
 .btnPrimary {
   display: inline-flex;
   align-items: center;
@@ -53,8 +49,6 @@
   background: #27272A;
 }
 
-/* ─── NOTICE ─── */
-
 .notice {
   background: #FFFBEB;
   border: 1px solid #FDE68A;
@@ -67,8 +61,6 @@
   font-size: 0.825rem;
   color: #92400E;
 }
-
-/* ─── TABLE ─── */
 
 .tableCard {
   background: #FFFFFF;
@@ -118,8 +110,6 @@
   vertical-align: middle;
 }
 
-/* ─── USER CELL ─── */
-
 .userCell {
   display: flex;
   align-items: center;
@@ -152,8 +142,6 @@
   color: #71717A;
 }
 
-/* ─── BADGES ─── */
-
 .badge {
   display: inline-flex;
   align-items: center;
@@ -184,8 +172,6 @@
   background: rgba(220, 38, 38, 0.07);
   color: #991B1B;
 }
-
-/* ─── ACTIONS ─── */
 
 .actionsCell {
   display: flex;
@@ -230,8 +216,6 @@
   opacity: 0.35;
   cursor: not-allowed;
 }
-
-/* ─── EMPTY / LOADING ─── */
 
 .emptyRow td {
   padding: 3rem 1.25rem;

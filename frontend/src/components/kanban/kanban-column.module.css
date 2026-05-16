@@ -6,8 +6,6 @@
   flex-direction: column;
 }
 
-/* ─── HEADER ─── */
-
 .header {
   display: flex;
   align-items: center;
@@ -47,8 +45,6 @@
   color: #A1A1AA;
 }
 
-/* ─── BODY ─── */
-
 .body {
   background: #EBEBEB;
   border-radius: 8px;
@@ -58,8 +54,6 @@
   flex-direction: column;
   gap: 0.4rem;
 }
-
-/* ─── EMPTY ─── */
 
 .empty {
   flex: 1;

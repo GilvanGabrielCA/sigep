@@ -3,8 +3,6 @@
   display: flex;
 }
 
-/* ─── BRAND PANEL ─── */
-
 .brand {
   width: 400px;
   background: #18181B;
@@ -122,8 +120,6 @@
   letter-spacing: 0.05em;
 }
 
-/* ─── FORM PANEL ─── */
-
 .formPanel {
   flex: 1;
   background: #FFFDF8;
@@ -175,8 +171,6 @@
 }
 
 .formAccent { display: none; }
-
-/* ─── FIELDS ─── */
 
 .formFields {
   display: flex;
@@ -247,8 +241,6 @@
   color: #52525B;
 }
 
-/* ─── ERROR ─── */
-
 .errorBox {
   display: flex;
   align-items: center;
@@ -269,8 +261,6 @@
   font-size: 0.8125rem;
   color: #991B1B;
 }
-
-/* ─── FORGOT / SUBMIT ─── */
 
 .forgotRow {
   display: flex;
@@ -329,8 +319,6 @@
   to { transform: rotate(360deg); }
 }
 
-/* ─── FOOTER ─── */
-
 .formFooter {
   margin-top: 2rem;
   text-align: center;
@@ -340,8 +328,6 @@
   font-size: 0.7rem;
   color: #A1A1AA;
 }
-
-/* ─── RESPONSIVE ─── */
 
 @media (max-width: 768px) {
   .brand {

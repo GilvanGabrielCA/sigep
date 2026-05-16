@@ -118,7 +118,8 @@ export async function updatePedidoStatusDb(
       [pedidoId, restauranteId],
     )
     if (!current[0]) {
-      const err = Object.assign(new Error('Pedido não encontrado'), { statusCode: 404 })
+      const err: any = new Error('Pedido não encontrado')
+      err.statusCode = 404
       throw err
     }
 

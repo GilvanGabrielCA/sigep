@@ -92,7 +92,6 @@ export function PrivacidadePage() {
       </div>
 
       <div className={styles.container}>
-        {/* Hero */}
         <div className={styles.hero}>
           <div className={styles.shieldWrap}>
             <IconShield />
@@ -107,7 +106,6 @@ export function PrivacidadePage() {
           </p>
         </div>
 
-        {/* Sections */}
         {SECTIONS.map((sec, i) => (
           <div
             key={sec.num}

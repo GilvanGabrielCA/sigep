@@ -1,7 +1,5 @@
 import { pool } from './connection.js'
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 export interface ConsentimentoRow {
   id: string
   restaurante_id: string
@@ -36,8 +34,6 @@ export interface SolicitacaoLgpdRow {
   atualizado_em: string
 }
 
-// ─── Consentimento ────────────────────────────────────────────────────────────
-
 export async function findConsentimento(
   restauranteId: string,
   telefone: string,
@@ -69,8 +65,6 @@ export async function listConsentimentos(restauranteId: string): Promise<Consent
   )
   return rows
 }
-
-// ─── Auditoria ────────────────────────────────────────────────────────────────
 
 export async function insertAuditoria(
   restauranteId: string | null,
@@ -106,8 +100,6 @@ export async function listAuditoria(
   )
   return rows
 }
-
-// ─── Solicitações LGPD ────────────────────────────────────────────────────────
 
 export async function insertSolicitacao(
   restauranteId: string,
@@ -152,8 +144,6 @@ export async function updateSolicitacao(
   return rows[0] ?? null
 }
 
-// ─── Dados do cliente (para solicitação de acesso) ────────────────────────────
-
 export async function findClienteComPedidos(
   restauranteId: string,
   telefone: string,
@@ -181,8 +171,6 @@ export async function findClienteComPedidos(
   )
   return (rows[0] as Record<string, unknown> | undefined) ?? null
 }
-
-// ─── Anonimização ─────────────────────────────────────────────────────────────
 
 export async function anonymizeInactiveClients(
   restauranteId: string,

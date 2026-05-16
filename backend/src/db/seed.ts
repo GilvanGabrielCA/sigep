@@ -1,9 +1,6 @@
-// Seed do Bruto's Burger — limpa dados existentes e recria do zero
-// Executar: npx tsx src/db/seed.ts
 import bcrypt from 'bcrypt'
 import { pool } from './connection.js'
 
-// ---------- limpeza ----------
 await pool.query(`
   TRUNCATE tb_relatorio, tb_reset_token, tb_status_historico,
            tb_item_pedido, tb_pedido, tb_integracao,
@@ -12,7 +9,6 @@ await pool.query(`
   RESTART IDENTITY CASCADE
 `)
 
-// ---------- restaurante ----------
 const { rows: [rest] } = await pool.query<{ id: string }>(`
   INSERT INTO tb_restaurante (nome, endereco, telefone)
   VALUES ($1, $2, $3)
@@ -25,7 +21,6 @@ const { rows: [rest] } = await pool.query<{ id: string }>(`
 )
 const rid = rest!.id
 
-// ---------- usuários ----------
 const hashGerente1  = await bcrypt.hash('Ger#2026!kM9',  12)
 const hashGerente2  = await bcrypt.hash('Am&nd@$ilv88',  12)
 const hashAtend1    = await bcrypt.hash('Raf@C0stA*12',  12)
@@ -46,7 +41,6 @@ await pool.query(`
   [rid, hashGerente1, hashGerente2, hashAtend1, hashAtend2, hashAtend3, hashAtend4, hashAtend5],
 )
 
-// ---------- categorias ----------
 const { rows: [catEntradas] } = await pool.query<{ id: string }>(
   `INSERT INTO tb_categoria (restaurante_id, nome, ordem) VALUES ($1, 'Entradas', 1) RETURNING id`,
   [rid],
@@ -64,7 +58,6 @@ const { rows: [catBebidas] } = await pool.query<{ id: string }>(
   [rid],
 )
 
-// ---------- produtos — Entradas ----------
 await pool.query(`
   INSERT INTO tb_produto (restaurante_id, categoria_id, nome, descricao, preco, imagem_url) VALUES
   (
@@ -91,7 +84,6 @@ await pool.query(`
   [rid, catEntradas!.id],
 )
 
-// ---------- produtos — Pratos Principais ----------
 await pool.query(`
   INSERT INTO tb_produto (restaurante_id, categoria_id, nome, descricao, preco, imagem_url) VALUES
   (
@@ -125,7 +117,6 @@ await pool.query(`
   [rid, catPrincipais!.id],
 )
 
-// ---------- produtos — Sobremesas ----------
 await pool.query(`
   INSERT INTO tb_produto (restaurante_id, categoria_id, nome, descricao, preco, imagem_url) VALUES
   (
@@ -152,7 +143,6 @@ await pool.query(`
   [rid, catSobremesas!.id],
 )
 
-// ---------- produtos — Bebidas ----------
 await pool.query(`
   INSERT INTO tb_produto (restaurante_id, categoria_id, nome, descricao, preco, imagem_url) VALUES
   (
@@ -179,13 +169,11 @@ await pool.query(`
   [rid, catBebidas!.id],
 )
 
-// ---------- integração WhatsApp ----------
 await pool.query(
   `INSERT INTO tb_integracao (restaurante_id, tipo, ativo) VALUES ($1, 'whatsapp', true)`,
   [rid],
 )
 
-// ---------- resumo ----------
 console.log("✅ Seed do Bruto's Burger concluído!")
 console.log('')
 console.log('  Restaurante : Bruto\'s Burger — Dourados/MS')

@@ -23,7 +23,6 @@ export async function sendPasswordResetEmail(
   const transporter = buildTransporter()
 
   if (!transporter) {
-    // Sem SMTP configurado — loga o link para uso em desenvolvimento
     console.log(`\n[SIGEP] ── Redefinição de senha ──`)
     console.log(`  Para: ${email}`)
     console.log(`  Link: ${resetLink}`)

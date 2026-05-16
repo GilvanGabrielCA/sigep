@@ -15,8 +15,7 @@ const MSGS_STATUS: Record<string, (shortId: string, isRetirada: boolean) => stri
 
 export async function listPedidos(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
-    const pedidos = await getPedidosKanban(req.user!.restauranteId)
-    res.json(pedidos)
+    res.json(await getPedidosKanban(req.user!.restauranteId))
   } catch (err) {
     next(err)
   }
@@ -24,8 +23,7 @@ export async function listPedidos(req: Request, res: Response, next: NextFunctio
 
 export async function getPedido(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
-    const pedido = await getPedidoDetalhe(req.params['id']!, req.user!.restauranteId)
-    res.json(pedido)
+    res.json(await getPedidoDetalhe(req.params['id']!, req.user!.restauranteId))
   } catch (err) {
     next(err)
   }
@@ -47,7 +45,6 @@ export async function patchStatus(req: Request, res: Response, next: NextFunctio
     getIo().to(req.user!.restauranteId).emit('pedido:atualizado', pedidoAtualizado)
     getIo().to(req.user!.restauranteId).emit('dashboard:atualizado')
 
-    // Notificação WhatsApp simulada
     if (pedidoAtualizado.canal === 'whatsapp' && pedidoAtualizado.cliente_telefone) {
       const shortId = pedidoAtualizado.id.slice(-8).toUpperCase()
       const isRetirada = pedidoAtualizado.observacoes === 'retirada'

@@ -21,14 +21,12 @@ export function useDashboard() {
     }
   }, [])
 
-  // Carga inicial + polling a cada 30s
   useEffect(() => {
     load()
     const interval = setInterval(() => load(true), 30_000)
     return () => clearInterval(interval)
   }, [load])
 
-  // Atualização em tempo real via socket
   useEffect(() => {
     if (!socket) return
     const handler = () => load(true)

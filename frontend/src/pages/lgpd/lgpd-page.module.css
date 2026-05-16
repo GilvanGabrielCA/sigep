@@ -1,12 +1,8 @@
-/* ─── PAGE ─── */
-
 .page {
   padding: 2rem 2rem 4rem;
   max-width: 1100px;
   font-family: 'Nunito', sans-serif;
 }
-
-/* ─── HEADER ─── */
 
 .header {
   display: flex;
@@ -101,8 +97,6 @@
   color: #18181B;
 }
 
-/* ─── ERROR ─── */
-
 .errorBanner {
   background: #FEF2F2;
   border: 1px solid #FECACA;
@@ -112,8 +106,6 @@
   color: #991B1B;
   margin-bottom: 1.25rem;
 }
-
-/* ─── TABS ─── */
 
 .tabs {
   display: flex;
@@ -159,8 +151,6 @@
   color: #D97706;
 }
 
-/* ─── PANEL ─── */
-
 .panel {
   background: #FFFFFF;
   border: 1px solid #E4E4E7;
@@ -171,8 +161,6 @@
 .tabContent {
   padding: 1.25rem;
 }
-
-/* ─── TOOLBAR ─── */
 
 .tableToolbar {
   display: flex;
@@ -196,8 +184,6 @@
 .countMuted {
   color: #A1A1AA;
 }
-
-/* ─── TABLE ─── */
 
 .tableWrap {
   overflow-x: auto;
@@ -243,8 +229,6 @@
   background: #FAFAFA;
 }
 
-/* ─── BADGES ─── */
-
 .badge {
   display: inline-flex;
   align-items: center;
@@ -264,8 +248,6 @@
 .badgeRed    { color: #991B1B; background: rgba(220, 38, 38, 0.1); }
 .badgePurple { color: #5B21B6; background: rgba(139, 92, 246, 0.1); }
 .badgeSlate  { color: #374151; background: rgba(107, 114, 128, 0.1); }
-
-/* ─── TABLE CELL VARIANTS ─── */
 
 .tipoTag {
   font-size: 0.8rem;
@@ -326,8 +308,6 @@
   font-size: 0.825rem;
 }
 
-/* ─── SKELETON ─── */
-
 .skeleton {
   height: 14px;
   background: #E4E4E7;
@@ -339,8 +319,6 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
 }
-
-/* ─── BUTTONS ─── */
 
 .btnPrimary {
   display: inline-flex;
@@ -431,8 +409,6 @@
   cursor: not-allowed;
 }
 
-/* ─── MODAL ─── */
-
 .overlay {
   position: fixed;
   inset: 0;
@@ -502,8 +478,6 @@
   padding-top: 0.5rem;
 }
 
-/* ─── FORM FIELDS ─── */
-
 .field {
   display: flex;
   flex-direction: column;
@@ -563,8 +537,6 @@
   font-weight: 700;
   color: #18181B;
 }
-
-/* ─── ANONIMIZAÇÃO ─── */
 
 .anonCard {
   background: #FAFAFA;

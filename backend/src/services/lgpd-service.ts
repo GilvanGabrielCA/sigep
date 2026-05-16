@@ -14,8 +14,6 @@ import {
   type SolicitacaoLgpdRow,
 } from '../db/lgpd-queries.js'
 
-// ─── Consentimento ────────────────────────────────────────────────────────────
-
 export async function verificarConsentimento(
   restauranteId: string,
   telefone: string,
@@ -40,8 +38,6 @@ export async function getConsentimentos(restauranteId: string): Promise<Consenti
   return listConsentimentos(restauranteId)
 }
 
-// ─── Auditoria ────────────────────────────────────────────────────────────────
-
 export async function registrarAuditoria(
   restauranteId: string | null,
   usuarioId: string | null,
@@ -59,8 +55,6 @@ export async function getAuditoria(restauranteId: string): Promise<AuditoriaRow[
   return listAuditoria(restauranteId)
 }
 
-// ─── Solicitações LGPD ────────────────────────────────────────────────────────
-
 const TIPOS_VALIDOS = ['ACESSO', 'CORRECAO', 'EXCLUSAO', 'PORTABILIDADE', 'REVOGACAO']
 const STATUS_VALIDOS = ['em_analise', 'concluido', 'negado']
 
@@ -72,10 +66,14 @@ export async function submeterSolicitacao(
   descricao: string,
 ): Promise<SolicitacaoLgpdRow> {
   if (!TIPOS_VALIDOS.includes(tipo)) {
-    throw Object.assign(new Error('Tipo de solicitação inválido'), { statusCode: 400 })
+    const err: any = new Error('Tipo de solicitação inválido')
+    err.statusCode = 400
+    throw err
   }
   if (!telefone && !email) {
-    throw Object.assign(new Error('Telefone ou e-mail são obrigatórios'), { statusCode: 400 })
+    const err: any = new Error('Telefone ou e-mail são obrigatórios')
+    err.statusCode = 400
+    throw err
   }
   const sol = await insertSolicitacao(restauranteId, telefone, email, tipo, descricao)
   await registrarAuditoria(
@@ -97,11 +95,15 @@ export async function responderSolicitacao(
   usuarioId: string,
 ): Promise<SolicitacaoLgpdRow> {
   if (!STATUS_VALIDOS.includes(status)) {
-    throw Object.assign(new Error('Status inválido'), { statusCode: 400 })
+    const err: any = new Error('Status inválido')
+    err.statusCode = 400
+    throw err
   }
   const updated = await updateSolicitacao(id, restauranteId, status, resposta)
   if (!updated) {
-    throw Object.assign(new Error('Solicitação não encontrada'), { statusCode: 404 })
+    const err: any = new Error('Solicitação não encontrada')
+    err.statusCode = 404
+    throw err
   }
   await registrarAuditoria(
     restauranteId, usuarioId, 'solicitacao_lgpd', id, 'UPDATE',
@@ -110,8 +112,6 @@ export async function responderSolicitacao(
   return updated
 }
 
-// ─── Acesso a dados (direito de acesso LGPD art. 18) ─────────────────────────
-
 export async function acessarDadosCliente(
   restauranteId: string,
   telefone: string,
@@ -119,7 +119,9 @@ export async function acessarDadosCliente(
 ): Promise<Record<string, unknown>> {
   const data = await findClienteComPedidos(restauranteId, telefone)
   if (!data) {
-    throw Object.assign(new Error('Nenhum dado encontrado para este número'), { statusCode: 404 })
+    const err: any = new Error('Nenhum dado encontrado para este número')
+    err.statusCode = 404
+    throw err
   }
   await registrarAuditoria(
     restauranteId, usuarioId, 'cliente', String(data.id ?? ''), 'READ',
@@ -128,15 +130,15 @@ export async function acessarDadosCliente(
   return data
 }
 
-// ─── Anonimização ─────────────────────────────────────────────────────────────
-
 export async function anonimizarClientesInativos(
   restauranteId: string,
   meses: number,
   usuarioId: string,
 ): Promise<number> {
   if (meses < 1 || meses > 120) {
-    throw Object.assign(new Error('Período deve estar entre 1 e 120 meses'), { statusCode: 400 })
+    const err: any = new Error('Período deve estar entre 1 e 120 meses')
+    err.statusCode = 400
+    throw err
   }
   const count = await anonymizeInactiveClients(restauranteId, meses)
   if (count > 0) {

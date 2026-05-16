@@ -5,8 +5,6 @@ import { getIo } from '../socket/socket-instance.js'
 import { verificarConsentimento, registrarConsentimento } from './lgpd-service.js'
 import type { ProdutoRow } from '../db/produto-queries.js'
 
-// ─── Outbox de notificações ───────────────────────────────────────────────────
-
 const outbox = new Map<string, string[]>()
 
 function outboxKey(restauranteId: string, telefone: string) {
@@ -29,8 +27,6 @@ export function consumirOutbox(restauranteId: string, telefone: string): string[
   outbox.delete(key)
   return msgs
 }
-
-// ─── Types ────────────────────────────────────────────────────────────────────
 
 interface ItemBot {
   produtoId: string
@@ -66,8 +62,6 @@ const conversas = new Map<string, ConversaState>()
 function conversaKey(r: string, t: string) {
   return `${r}:${t}`
 }
-
-// ─── Helpers de mensagem ──────────────────────────────────────────────────────
 
 function saudacao(): string {
   const hora = new Date(Date.now() - 3 * 60 * 60 * 1000).getUTCHours()
@@ -153,8 +147,6 @@ function msgPagamento(): string {
   )
 }
 
-// ─── Criação do pedido no banco ───────────────────────────────────────────────
-
 async function criarPedidoDB(
   restauranteId: string,
   telefone: string,
@@ -238,8 +230,6 @@ async function emitirPedido(restauranteId: string, pedidoId: string): Promise<vo
   }
 }
 
-// ─── Handler principal ────────────────────────────────────────────────────────
-
 export async function processarMensagem(
   restauranteId: string,
   telefone: string,
@@ -249,7 +239,6 @@ export async function processarMensagem(
   const msg = mensagem.trim().toLowerCase()
   let state = conversas.get(key)
 
-  // ── Primeira mensagem ─────────────────────────────────────────────────────
   if (!state) {
     const [produtos, restaurante] = await Promise.all([
       listProdutos(restauranteId),
@@ -261,7 +250,6 @@ export async function processarMensagem(
       ...new Set(disponiveis.map((p) => p.categoria_nome ?? 'Outros')),
     ]
 
-    // Verificar consentimento LGPD existente
     const temConsentimento = await verificarConsentimento(restauranteId, telefone)
 
     state = {
@@ -288,7 +276,6 @@ export async function processarMensagem(
     return msgConsentimento(nomeRestaurante)
   }
 
-  // ── Comandos globais ──────────────────────────────────────────────────────
   if (msg === 'cancelar') {
     conversas.delete(key)
     return `Tudo bem! 😊 Espero te ver em breve no *${state.restauranteNome}*! 👋`
@@ -327,7 +314,6 @@ export async function processarMensagem(
     return `${statusEmoji[rows[0].status] ?? '📋'} *Pedido #${shortId}*\nStatus: *${rows[0].status}*`
   }
 
-  // ── AGUARDANDO_CONSENTIMENTO ──────────────────────────────────────────────
   if (state.estado === 'AGUARDANDO_CONSENTIMENTO') {
     const aceitou =
       msg === 'concordo' ||
@@ -369,7 +355,6 @@ export async function processarMensagem(
     )
   }
 
-  // ── ESCOLHENDO_CATEGORIA ──────────────────────────────────────────────────
   if (state.estado === 'ESCOLHENDO_CATEGORIA') {
     if ((msg === 'carrinho' || msg === 'pedido') && state.itens.length > 0) {
       return `${msgCarrinho(state.itens)}\n\n${msgCategorias(state.categorias, state.restauranteNome, true)}`
@@ -402,7 +387,6 @@ export async function processarMensagem(
     )
   }
 
-  // ── COLETANDO_ITENS ───────────────────────────────────────────────────────
   if (state.estado === 'COLETANDO_ITENS') {
     if (
       msg === 'categorias' ||
@@ -461,7 +445,6 @@ export async function processarMensagem(
     )
   }
 
-  // ── ESCOLHENDO_TIPO ───────────────────────────────────────────────────────
   if (state.estado === 'ESCOLHENDO_TIPO') {
     const isEntrega = msg === '1' || msg === 'entrega' || msg === 'delivery'
     const isRetirada =
@@ -483,7 +466,6 @@ export async function processarMensagem(
     return `Por favor, escolha:\n\n1️⃣ *Entrega* — receber no seu endereço\n2️⃣ *Retirada* — buscar no restaurante`
   }
 
-  // ── AGUARDANDO_ENDERECO ───────────────────────────────────────────────────
   if (state.estado === 'AGUARDANDO_ENDERECO') {
     const endereco = mensagem.trim()
     if (endereco.length < 5) {
@@ -494,7 +476,6 @@ export async function processarMensagem(
     return `📍 Endereço registrado: _${endereco}_\n\n${msgPagamento()}`
   }
 
-  // ── ESCOLHENDO_PAGAMENTO ──────────────────────────────────────────────────
   if (state.estado === 'ESCOLHENDO_PAGAMENTO') {
     const formas: Record<string, string> = {
       '1': 'PIX', 'pix': 'PIX',

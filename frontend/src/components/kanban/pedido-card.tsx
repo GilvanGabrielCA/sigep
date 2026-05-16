@@ -107,7 +107,6 @@ export function PedidoCard({
       <div className={styles.accent} style={{ background: accentColor }} />
 
       <div className={styles.content}>
-        {/* TOP ROW */}
         <div className={styles.topRow}>
           <span className={styles.orderId}>#{shortId}</span>
           <button
@@ -120,7 +119,6 @@ export function PedidoCard({
           </button>
         </div>
 
-        {/* CLIENT */}
         <span
           className={styles.clientName}
           onClick={() => onVerDetalhes(pedido.id)}
@@ -129,7 +127,6 @@ export function PedidoCard({
           {clienteName}
         </span>
 
-        {/* META */}
         <div className={styles.metaRow}>
           <span className={styles.canal}>
             {isWhatsapp ? <IconWhatsapp /> : <IconMonitor />}
@@ -143,12 +140,10 @@ export function PedidoCard({
           )}
         </div>
 
-        {/* OBSERVATIONS */}
         {pedido.observacoes && (
           <span className={styles.obs}>{pedido.observacoes}</span>
         )}
 
-        {/* FOOTER */}
         <div className={styles.footer}>
           <span className={styles.total}>{total}</span>
           <div className={styles.actions}>

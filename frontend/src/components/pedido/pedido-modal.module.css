@@ -13,8 +13,6 @@
   100% { background-position: 600px 0; }
 }
 
-/* ─── BACKDROP ─── */
-
 .backdrop {
   position: fixed;
   inset: 0;
@@ -28,8 +26,6 @@
   padding: 1rem;
   animation: fadeIn 0.2s ease both;
 }
-
-/* ─── PANEL ─── */
 
 .panel {
   background: #fff;
@@ -56,8 +52,6 @@
   background: #ECEAE5;
   border-radius: 3px;
 }
-
-/* ─── HEADER ─── */
 
 .header {
   background: #1C1917;
@@ -165,13 +159,9 @@
   color: #F5F4F0;
 }
 
-/* ─── BODY ─── */
-
 .body {
   padding: 0 1.5rem 1.5rem;
 }
-
-/* ─── SECTION ─── */
 
 .section {
   padding-top: 1.25rem;
@@ -193,8 +183,6 @@
   margin-bottom: 0.875rem;
   display: block;
 }
-
-/* ─── CLIENT INFO ─── */
 
 .clientGrid {
   display: grid;
@@ -233,8 +221,6 @@
   gap: 0.3rem;
   color: #78716C;
 }
-
-/* ─── ITEMS ─── */
 
 .itemsList {
   display: flex;
@@ -321,8 +307,6 @@
   letter-spacing: -0.02em;
 }
 
-/* ─── TIMELINE ─── */
-
 .timeline {
   display: flex;
   flex-direction: column;
@@ -406,8 +390,6 @@
   background: #D6D3CE;
 }
 
-/* ─── SKELETON ─── */
-
 .skeleton {
   background: linear-gradient(
     90deg,
@@ -426,8 +408,6 @@
   flex-direction: column;
   gap: 0.75rem;
 }
-
-/* ─── ERROR ─── */
 
 .errorBox {
   margin: 1.5rem;

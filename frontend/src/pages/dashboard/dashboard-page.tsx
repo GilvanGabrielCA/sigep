@@ -4,8 +4,6 @@ import { useAuth } from '../../hooks/use-auth'
 import { useDashboard } from '../../hooks/use-dashboard'
 import styles from './dashboard-page.module.css'
 
-// ─── HELPERS ─────────────────────────────────────────────────────────────────
-
 function getGreeting(): string {
   const h = new Date().getHours()
   if (h < 12) return 'Bom dia'
@@ -40,8 +38,6 @@ function formatChartDay(dateStr: string): string {
     .replace('.', '')
     .slice(0, 3)
 }
-
-// ─── ICONS ───────────────────────────────────────────────────────────────────
 
 function IconOrders() {
   return (
@@ -81,8 +77,6 @@ function IconClock() {
   )
 }
 
-// ─── KPI CARD ────────────────────────────────────────────────────────────────
-
 interface KpiCardProps {
   label: string
   value: string | number
@@ -114,8 +108,6 @@ function KpiCard({ label, value, sub, accentColor, iconBg, icon, delay }: KpiCar
   )
 }
 
-// ─── SKELETON ────────────────────────────────────────────────────────────────
-
 function SkeletonCard() {
   return (
     <div className={styles.skeletonCard}>
@@ -126,15 +118,11 @@ function SkeletonCard() {
   )
 }
 
-// ─── STATUS CONFIG ────────────────────────────────────────────────────────────
-
 const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
   'Recebido':             { label: 'Recebido',           color: '#F59E0B' },
   'Em Preparacao':        { label: 'Em Preparação',      color: '#EA580C' },
   'Pronto para Entrega':  { label: 'Pronto p/ Entrega',  color: '#16A34A' },
 }
-
-// ─── DASHBOARD PAGE ───────────────────────────────────────────────────────────
 
 export function DashboardPage() {
   const { user } = useAuth()
@@ -154,7 +142,6 @@ export function DashboardPage() {
   return (
     <div className={styles.page}>
 
-      {/* ─── GREETING ─── */}
       <div className={styles.greeting}>
         <span className={styles.greetingEyebrow}>{greeting}</span>
         <h1 className={styles.greetingTitle}>
@@ -166,7 +153,6 @@ export function DashboardPage() {
 
       {error && <div className={styles.errorBox} role="alert">{error}</div>}
 
-      {/* ─── KPI CARDS ─── */}
       <div className={styles.kpiGrid}>
         {loading ? (
           <>
@@ -217,7 +203,6 @@ export function DashboardPage() {
         )}
       </div>
 
-      {/* ─── STATUS PIPELINE ─── */}
       {!loading && (
         <>
           <div className={styles.sectionHeader}>
@@ -246,7 +231,6 @@ export function DashboardPage() {
         </>
       )}
 
-      {/* ─── CHART: ÚLTIMOS 7 DIAS ─── */}
       {!loading && (
         <>
           <div className={styles.sectionHeader}>

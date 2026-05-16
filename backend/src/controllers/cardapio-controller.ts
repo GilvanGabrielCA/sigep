@@ -4,8 +4,6 @@ import {
   getProdutos, addProduto, editProduto, toggleProdutoDisponivel, removeProduto,
 } from '../services/cardapio-service.js'
 
-// ─── Categorias ───────────────────────────────────────────────────────────────
-
 export async function listCategorias(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     res.json(await getCategorias(req.user!.restauranteId))
@@ -32,8 +30,6 @@ export async function delCategoria(req: Request, res: Response, next: NextFuncti
     res.status(204).end()
   } catch (err) { next(err) }
 }
-
-// ─── Produtos ─────────────────────────────────────────────────────────────────
 
 export async function listProdutos(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {

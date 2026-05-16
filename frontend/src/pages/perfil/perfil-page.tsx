@@ -120,7 +120,6 @@ export function PerfilPage() {
       </div>
 
       <div className={styles.grid}>
-        {/* ── Card 1: Dados pessoais ─────────────────────────────── */}
         <div className={styles.card}>
           <div className={styles.cardHero}>
             <div className={styles.avatar} style={{ background: color }}>
@@ -176,7 +175,6 @@ export function PerfilPage() {
           </div>
         </div>
 
-        {/* ── Card 2: Segurança ───────────────────────────────────── */}
         <div className={styles.card}>
           <div className={styles.securityHeader}>
             <h2 className={styles.securityTitle}>Segurança</h2>
@@ -247,7 +245,6 @@ export function PerfilPage() {
         </div>
       </div>
 
-      {/* ── Footer info ─────────────────────────────────────────────── */}
       {data && (
         <div className={styles.footer}>
           <div className={styles.footerItem}>

@@ -7,15 +7,11 @@
   50% { opacity: 0.5; }
 }
 
-/* ─── PAGE ─── */
-
 .page {
   padding: 2rem 2.25rem 3rem;
   min-height: 100%;
   font-family: 'Nunito', sans-serif;
 }
-
-/* ─── HEADER ─── */
 
 .header {
   margin-bottom: 1.75rem;
@@ -36,13 +32,9 @@
   margin: 0;
 }
 
-/* ─── CONTENT WRAP ─── */
-
 .wrap {
   max-width: 680px;
 }
-
-/* ─── CARD ─── */
 
 .card {
   background: #FFFFFF;
@@ -88,8 +80,6 @@
   font-size: 0.75rem;
   color: #71717A;
 }
-
-/* ─── FORM ─── */
 
 .form {
   padding: 1.25rem 1.5rem;
@@ -146,8 +136,6 @@
   resize: vertical;
   min-height: 80px;
 }
-
-/* ─── LOGO UPLOAD ─── */
 
 .logoDropZone {
   border: 1px dashed #D4D4D8;
@@ -270,8 +258,6 @@
   line-height: 1.4;
 }
 
-/* ─── READ-ONLY ACCESS WARNING ─── */
-
 .accessWarning {
   display: flex;
   align-items: flex-start;
@@ -283,8 +269,6 @@
   font-size: 0.8125rem;
   color: #92400E;
 }
-
-/* ─── FOOTER ─── */
 
 .cardFooter {
   padding: 1.125rem 1.5rem;
@@ -346,8 +330,6 @@
   flex-shrink: 0;
 }
 
-/* ─── BANNERS ─── */
-
 .successBanner,
 .errorBanner {
   display: flex;
@@ -369,8 +351,6 @@
   border: 1px solid #FECACA;
   color: #991B1B;
 }
-
-/* ─── SKELETON ─── */
 
 .skeleton {
   background: #E4E4E7;

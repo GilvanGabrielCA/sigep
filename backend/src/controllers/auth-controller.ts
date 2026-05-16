@@ -12,8 +12,7 @@ export async function loginController(
       res.status(400).json({ error: 'Email e senha são obrigatórios' })
       return
     }
-    const token = await login(email, senha)
-    res.json({ token })
+    res.json({ token: await login(email, senha) })
   } catch (err) {
     next(err)
   }
@@ -31,7 +30,6 @@ export async function forgotPasswordController(
       return
     }
     await forgotPassword(email.trim().toLowerCase())
-    // Resposta sempre genérica — nunca revela se o e-mail existe
     res.json({ message: 'Se este e-mail estiver cadastrado, você receberá as instruções em breve.' })
   } catch (err) {
     next(err)

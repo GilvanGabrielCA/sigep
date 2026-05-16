@@ -6,8 +6,6 @@
   min-height: 0;
 }
 
-/* ─── HEADER ─── */
-
 .header {
   display: flex;
   align-items: center;
@@ -62,8 +60,6 @@
   flex-shrink: 0;
 }
 
-/* ─── BOARD ─── */
-
 .board {
   flex: 1;
   display: flex;
@@ -73,8 +69,6 @@
   align-items: flex-start;
   padding-bottom: 1rem;
 }
-
-/* ─── SKELETON ─── */
 
 .skeletonBoard {
   display: flex;
@@ -110,8 +104,6 @@
   50% { opacity: 0.5; }
 }
 
-/* ─── ERROR ─── */
-
 .errorBox {
   background: #FEF2F2;
   border: 1px solid #FECACA;
@@ -121,8 +113,6 @@
   font-size: 0.8125rem;
   margin-bottom: 1rem;
 }
-
-/* ─── RESPONSIVE ─── */
 
 @media (max-width: 768px) {
   .board {

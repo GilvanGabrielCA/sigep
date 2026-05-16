@@ -3,7 +3,7 @@ import multer from 'multer'
 import { getRestaurante, editRestaurante, editLogoRestaurante } from '../services/restaurante-service.js'
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml']
-const MAX_SIZE_BYTES = 2 * 1024 * 1024 // 2 MB
+const MAX_SIZE_BYTES = 2 * 1024 * 1024
 
 export const logoUpload = multer({
   storage: multer.memoryStorage(),

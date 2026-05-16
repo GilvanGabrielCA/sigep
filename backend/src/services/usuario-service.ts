@@ -28,7 +28,9 @@ export async function addUsuario(
 ): Promise<UsuarioPublico> {
   const existing = await findUsuarioByEmail(data.email)
   if (existing) {
-    throw Object.assign(new Error('E-mail já cadastrado'), { statusCode: 409 })
+    const err: any = new Error('E-mail já cadastrado')
+    err.statusCode = 409
+    throw err
   }
   const senhaHash = await bcrypt.hash(data.senha, 10)
   const row = await createUsuario({ restauranteId, ...data, senhaHash })
@@ -42,12 +44,16 @@ export async function editUsuario(
 ): Promise<UsuarioPublico> {
   const row = await findUsuarioById(id)
   if (!row || row.restaurante_id !== restauranteId) {
-    throw Object.assign(new Error('Usuário não encontrado'), { statusCode: 404 })
+    const err: any = new Error('Usuário não encontrado')
+    err.statusCode = 404
+    throw err
   }
   if (data.email && data.email !== row.email) {
     const existing = await findUsuarioByEmail(data.email)
     if (existing && existing.id !== id) {
-      throw Object.assign(new Error('E-mail já cadastrado'), { statusCode: 409 })
+      const err: any = new Error('E-mail já cadastrado')
+      err.statusCode = 409
+      throw err
     }
   }
   const updated = await updateUsuario(id, data)
@@ -61,7 +67,9 @@ export async function setUsuarioAtivo(
 ): Promise<void> {
   const row = await findUsuarioById(id)
   if (!row || row.restaurante_id !== restauranteId) {
-    throw Object.assign(new Error('Usuário não encontrado'), { statusCode: 404 })
+    const err: any = new Error('Usuário não encontrado')
+    err.statusCode = 404
+    throw err
   }
   await toggleUsuarioAtivo(id, ativo)
 }
@@ -73,7 +81,9 @@ export async function resetSenha(
 ): Promise<void> {
   const row = await findUsuarioById(id)
   if (!row || row.restaurante_id !== restauranteId) {
-    throw Object.assign(new Error('Usuário não encontrado'), { statusCode: 404 })
+    const err: any = new Error('Usuário não encontrado')
+    err.statusCode = 404
+    throw err
   }
   const senhaHash = await bcrypt.hash(novaSenha, 10)
   await updateUsuarioSenha(id, senhaHash)

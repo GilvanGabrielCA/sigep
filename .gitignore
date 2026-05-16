@@ -4,3 +4,4 @@ dist/
 *.env.local
 frontend/.env.local
 backend/.env.local
+CLAUDE.md

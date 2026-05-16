@@ -27,8 +27,6 @@ export function useCardapio() {
 
   useEffect(() => { load() }, [load])
 
-  // ── Produto actions ────────────────────────────────────────────────────────
-
   const adicionarProduto = useCallback(async (form: ProdutoFormData) => {
     const novo = await createProduto(form)
     setProdutos((prev) => [...prev, novo])
@@ -48,8 +46,6 @@ export function useCardapio() {
     const atualizado = await toggleDisponibilidade(id, disponivel)
     setProdutos((prev) => prev.map((p) => (p.id === id ? atualizado : p)))
   }, [])
-
-  // ── Categoria actions ──────────────────────────────────────────────────────
 
   const adicionarCategoria = useCallback(async (nome: string, ordem: number) => {
     const nova = await createCategoria(nome, ordem)

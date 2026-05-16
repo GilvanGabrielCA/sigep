@@ -5,8 +5,6 @@ import { useRestauranteContext } from '../../contexts/restaurante-context'
 import { SigepMark } from '../sigep-logo'
 import styles from './sidebar.module.css'
 
-// ─── ICONS ────────────────────────────────────────────────────────────────────
-
 function IconDashboard() {
   return (
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
@@ -106,8 +104,6 @@ function IconLogout() {
   )
 }
 
-// ─── NAV CONFIG ───────────────────────────────────────────────────────────────
-
 interface NavItemConfig {
   label: string
   to: string
@@ -128,8 +124,6 @@ const NAV_GERENTE: NavItemConfig[] = [
   { label: 'Integrações',   to: '/integracoes',   icon: <IconPlug /> },
   { label: 'LGPD',          to: '/lgpd',          icon: <IconShield /> },
 ]
-
-// ─── COMPONENT ────────────────────────────────────────────────────────────────
 
 function navClassName({ isActive }: { isActive: boolean }): string {
   return `${styles.navItem} ${isActive ? styles.navItemActive : ''}`
@@ -154,7 +148,6 @@ export function Sidebar() {
   return (
     <aside className={styles.sidebar}>
 
-      {/* Logo */}
       <div className={styles.logoArea}>
         <div className={styles.logoInner}>
           {restaurante?.logo_url ? (
@@ -179,7 +172,6 @@ export function Sidebar() {
         </div>
       </div>
 
-      {/* Navigation */}
       <nav className={styles.nav}>
         {NAV_GENERAL.map((item) => (
           <NavLink key={item.to} to={item.to} className={navClassName}>
@@ -205,7 +197,6 @@ export function Sidebar() {
         )}
       </nav>
 
-      {/* Footer */}
       <div className={styles.footer}>
         <div className={styles.userRow}>
           <div className={styles.avatar}>{initials}</div>

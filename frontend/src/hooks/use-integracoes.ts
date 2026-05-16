@@ -55,7 +55,6 @@ export function useChatSimulator(telefone: string): UseChatSimulator {
   const [mensagens, setMensagens] = useState<MensagemChat[]>([])
   const [enviando, setEnviando] = useState(false)
 
-  // Polling do outbox: mensagens enviadas pelo restaurante ao cliente
   useEffect(() => {
     if (!telefone.trim()) return
     const interval = setInterval(async () => {
@@ -68,7 +67,6 @@ export function useChatSimulator(telefone: string): UseChatSimulator {
           ])
         }
       } catch {
-        // silencioso — outbox é best-effort
       }
     }, 2500)
     return () => clearInterval(interval)

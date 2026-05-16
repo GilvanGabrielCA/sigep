@@ -26,7 +26,9 @@ export async function getPedidoDetalhe(
 ): Promise<PedidoDetalheRow> {
   const pedido = await findPedidoById(id, restauranteId)
   if (!pedido) {
-    throw Object.assign(new Error('Pedido não encontrado'), { statusCode: 404 })
+    const err: any = new Error('Pedido não encontrado')
+    err.statusCode = 404
+    throw err
   }
   return pedido
 }
@@ -38,7 +40,9 @@ export async function atualizarStatusPedido(
   usuarioId: string,
 ): Promise<PedidoKanbanRow> {
   if (!STATUS_VALIDOS.includes(novoStatus)) {
-    throw Object.assign(new Error('Status inválido'), { statusCode: 400 })
+    const err: any = new Error('Status inválido')
+    err.statusCode = 400
+    throw err
   }
   const pedido = await updatePedidoStatusDb(pedidoId, restauranteId, novoStatus, usuarioId)
   if (pedido.canal === 'whatsapp' && pedido.cliente_telefone && STATUS_MSGS[novoStatus]) {

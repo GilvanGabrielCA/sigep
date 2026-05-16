@@ -3,8 +3,6 @@ import { useLgpd } from '../../hooks/use-lgpd'
 import type { SolicitacaoLgpd, AuditoriaItem, ConsentimentoItem } from '../../services/lgpd-api'
 import styles from './lgpd-page.module.css'
 
-// ─── ICONS ────────────────────────────────────────────────────────────────────
-
 function IconShield() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
@@ -76,8 +74,6 @@ function IconRefresh() {
   )
 }
 
-// ─── HELPERS ──────────────────────────────────────────────────────────────────
-
 const formatDate = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'short' })
 
 function fmt(d: string) {
@@ -88,8 +84,6 @@ function maskPhone(s: string): string {
   if (s.length <= 4) return s
   return s.slice(0, 2) + '****' + s.slice(-4)
 }
-
-// ─── BADGES ───────────────────────────────────────────────────────────────────
 
 const STATUS_COLORS: Record<string, string> = {
   pendente: styles.badgeAmber,
@@ -121,8 +115,6 @@ const OP_COLORS: Record<string, string> = {
   EXPORT: styles.badgeSlate,
   CONSENT: styles.badgeGreen,
 }
-
-// ─── MODAL NOVA SOLICITAÇÃO ───────────────────────────────────────────────────
 
 interface NovaSolicitacaoModalProps {
   onClose: () => void
@@ -191,8 +183,6 @@ function NovaSolicitacaoModal({ onClose, onSubmit, submitting }: NovaSolicitacao
   )
 }
 
-// ─── MODAL RESPONDER ─────────────────────────────────────────────────────────
-
 interface ResponderModalProps {
   solicitacao: SolicitacaoLgpd
   onClose: () => void
@@ -247,8 +237,6 @@ function ResponderModal({ solicitacao, onClose, onSave, submitting }: ResponderM
     </div>
   )
 }
-
-// ─── TAB: SOLICITAÇÕES ────────────────────────────────────────────────────────
 
 interface TabSolicitacoesProps {
   solicitacoes: SolicitacaoLgpd[]
@@ -344,8 +332,6 @@ function TabSolicitacoes({ solicitacoes, loading, submitting, criarSolicitacao, 
   )
 }
 
-// ─── TAB: AUDITORIA ───────────────────────────────────────────────────────────
-
 function TabAuditoria({ auditoria, loading }: { auditoria: AuditoriaItem[]; loading: boolean }) {
   const limited = auditoria.slice(0, 200)
 
@@ -403,8 +389,6 @@ function TabAuditoria({ auditoria, loading }: { auditoria: AuditoriaItem[]; load
   )
 }
 
-// ─── TAB: CONSENTIMENTOS ──────────────────────────────────────────────────────
-
 function TabConsentimentos({ consentimentos, loading }: { consentimentos: ConsentimentoItem[]; loading: boolean }) {
   const ativos = consentimentos.filter((c) => c.aceito).length
 
@@ -461,8 +445,6 @@ function TabConsentimentos({ consentimentos, loading }: { consentimentos: Consen
     </div>
   )
 }
-
-// ─── TAB: ANONIMIZAÇÃO ────────────────────────────────────────────────────────
 
 function TabAnonimizacao({ anonimizar, anonimizando }: { anonimizar: (meses: number) => Promise<{ anonimizados: number; meses: number } | undefined>; anonimizando: boolean }) {
   const [meses, setMeses] = useState(24)
@@ -550,8 +532,6 @@ function TabAnonimizacao({ anonimizar, anonimizando }: { anonimizar: (meses: num
   )
 }
 
-// ─── PAGE ─────────────────────────────────────────────────────────────────────
-
 type TabId = 'solicitacoes' | 'auditoria' | 'consentimentos' | 'anonimizacao'
 
 const TABS: { id: TabId; label: string; icon: React.ReactNode }[] = [
@@ -579,7 +559,6 @@ export function LgpdPage() {
 
   return (
     <div className={styles.page}>
-      {/* Header */}
       <div className={styles.header}>
         <div className={styles.headerLeft}>
           <div className={styles.headerIcon}>
@@ -605,7 +584,6 @@ export function LgpdPage() {
         <div className={styles.errorBanner}>{error}</div>
       )}
 
-      {/* Tabs */}
       <div className={styles.tabs}>
         {TABS.map((tab) => (
           <button
@@ -620,7 +598,6 @@ export function LgpdPage() {
         ))}
       </div>
 
-      {/* Tab panels */}
       <div className={styles.panel}>
         {activeTab === 'solicitacoes' && (
           <TabSolicitacoes
