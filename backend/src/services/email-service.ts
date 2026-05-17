@@ -32,7 +32,8 @@ export async function sendPasswordResetEmail(
 
   const from = process.env.EMAIL_FROM ?? '"SIGEP" <noreply@sigep.app>'
 
-  await transporter.sendMail({
+  try {
+    await transporter.sendMail({
     from,
     to: email,
     subject: 'SIGEP — Redefinição de senha',
@@ -68,5 +69,11 @@ export async function sendPasswordResetEmail(
         <p style="color:#D4CFC9;font-size:11px;margin:8px 0 0;">SIGEP — Sistema Integrado de Gestão de Pedidos</p>
       </div>
     `,
-  })
+    })
+  } catch {
+    console.log(`\n[SIGEP] ── Redefinição de senha (SMTP falhou) ──`)
+    console.log(`  Para: ${email}`)
+    console.log(`  Link: ${resetLink}`)
+    console.log(`  (válido por 1 hora)\n`)
+  }
 }
