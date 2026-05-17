@@ -15,7 +15,8 @@ import lgpdRoutes from './routes/lgpd-routes.js'
 export function createApp() {
   const app = express()
 
-  app.use(cors())
+  const allowedOrigin = process.env.FRONTEND_URL ?? 'http://localhost:5173'
+  app.use(cors({ origin: allowedOrigin }))
   app.use(express.json())
 
   app.get('/api/health', (_req, res) => res.json({ ok: true }))

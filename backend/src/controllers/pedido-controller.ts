@@ -47,7 +47,7 @@ export async function patchStatus(req: Request, res: Response, next: NextFunctio
 
     if (pedidoAtualizado.canal === 'whatsapp' && pedidoAtualizado.cliente_telefone) {
       const shortId = pedidoAtualizado.id.slice(-8).toUpperCase()
-      const isRetirada = pedidoAtualizado.observacoes === 'retirada'
+      const isRetirada = pedidoAtualizado.observacoes?.toLowerCase().includes('retirada') ?? false
       const buildMsg = MSGS_STATUS[status]
       if (buildMsg) {
         enviarNotificacaoCliente(

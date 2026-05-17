@@ -57,7 +57,21 @@ interface ConversaState {
   enderecoEntrega: string | null
 }
 
-const conversas = new Map<string, ConversaState>()
+const CONVERSA_TTL_MS = 30 * 60 * 1000
+
+interface ConversaEntry {
+  state: ConversaState
+  expiresAt: number
+}
+
+const conversas = new Map<string, ConversaEntry>()
+
+setInterval(() => {
+  const now = Date.now()
+  for (const [key, entry] of conversas) {
+    if (entry.expiresAt < now) conversas.delete(key)
+  }
+}, 5 * 60 * 1000)
 
 function conversaKey(r: string, t: string) {
   return `${r}:${t}`
@@ -237,7 +251,12 @@ export async function processarMensagem(
 ): Promise<string> {
   const key = conversaKey(restauranteId, telefone)
   const msg = mensagem.trim().toLowerCase()
-  let state = conversas.get(key)
+  const entry = conversas.get(key)
+  let state = entry?.state ?? null
+
+  const refreshTtl = () => {
+    if (state) conversas.set(key, { state, expiresAt: Date.now() + CONVERSA_TTL_MS })
+  }
 
   if (!state) {
     const [produtos, restaurante] = await Promise.all([
@@ -265,7 +284,7 @@ export async function processarMensagem(
       tipoEntrega: null,
       enderecoEntrega: null,
     }
-    conversas.set(key, state)
+    conversas.set(key, { state, expiresAt: Date.now() + CONVERSA_TTL_MS })
 
     if (temConsentimento) {
       return (
@@ -275,6 +294,8 @@ export async function processarMensagem(
     }
     return msgConsentimento(nomeRestaurante)
   }
+
+  refreshTtl()
 
   if (msg === 'cancelar') {
     conversas.delete(key)
