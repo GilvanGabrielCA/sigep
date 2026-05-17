@@ -1,7 +1,0 @@
-node_modules/
-dist/
-.env
-*.env.local
-frontend/.env.local
-backend/.env.local
-CLAUDE.md
