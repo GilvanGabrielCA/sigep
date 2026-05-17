@@ -161,7 +161,7 @@ async function criarPedidoDB(
     const { rows: clienteRows } = await client.query<{ id: string }>(
       `INSERT INTO tb_cliente (restaurante_id, nome, telefone, endereco, canal)
        VALUES ($1, $2, $3, $4, 'whatsapp')
-       ON CONFLICT DO NOTHING RETURNING id`,
+       ON CONFLICT (restaurante_id, telefone) DO NOTHING RETURNING id`,
       [restauranteId, `WhatsApp ${telefone}`, telefone, endereco],
     )
 
