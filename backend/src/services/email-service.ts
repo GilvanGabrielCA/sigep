@@ -9,6 +9,8 @@ function buildTransporter() {
     port: Number(SMTP_PORT ?? 587),
     secure: Number(SMTP_PORT ?? 587) === 465,
     auth: { user: SMTP_USER, pass: SMTP_PASS },
+    connectionTimeout: 5000,
+    socketTimeout: 5000,
   })
 }
 
