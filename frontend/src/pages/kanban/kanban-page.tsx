@@ -31,7 +31,7 @@ const COLUMNS = [
 export function KanbanPage() {
   const { pedidos, loading, error, moverPedido } = usePedidos()
   const [selectedPedidoId, setSelectedPedidoId] = useState<string | null>(null)
-  const socket = useSocket()
+  const { socket, connected } = useSocket()
 
   useEffect(() => {
     if (!socket) return
@@ -68,9 +68,9 @@ export function KanbanPage() {
           <span className={styles.totalBadge}>
             <strong>{total}</strong> pedido{total !== 1 ? 's' : ''} ativo{total !== 1 ? 's' : ''}
           </span>
-          <div className={styles.liveBadge}>
+          <div className={`${styles.liveBadge} ${!connected ? styles.liveBadgeOff : ''}`}>
             <span className={styles.liveDot} />
-            <span className={styles.liveText}>Ao vivo</span>
+            <span className={styles.liveText}>{connected ? 'Ao vivo' : 'Reconectando…'}</span>
           </div>
         </div>
       </div>

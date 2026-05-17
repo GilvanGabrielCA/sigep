@@ -7,7 +7,7 @@ export function usePedidos() {
   const [pedidos, setPedidos] = useState<PedidoKanban[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const socket = useSocket()
+  const { socket } = useSocket()
 
   useEffect(() => {
     let cancelled = false

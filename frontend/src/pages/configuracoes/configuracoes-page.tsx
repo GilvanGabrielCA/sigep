@@ -87,7 +87,7 @@ export function ConfiguracoesPage() {
   const isGerente = user?.perfil === 'gerente'
 
   const [form, setForm] = useState<RestauranteFormData>({
-    nome: '', endereco: '', telefone: '', logoUrl: '',
+    nome: '', endereco: '', telefone: '', logoUrl: '', dpoNome: '', dpoEmail: '',
   })
   const [logoFile, setLogoFile] = useState<File | null>(null)
   const [logoPreview, setLogoPreview] = useState<string | null>(null)
@@ -101,6 +101,8 @@ export function ConfiguracoesPage() {
         endereco: data.endereco  ?? '',
         telefone: data.telefone  ?? '',
         logoUrl:  data.logo_url  ?? '',
+        dpoNome:  data.dpo_nome  ?? '',
+        dpoEmail: data.dpo_email ?? '',
       })
     }
   }, [data])
@@ -214,6 +216,29 @@ export function ConfiguracoesPage() {
                   placeholder="(00) 00000-0000"
                   disabled={!isGerente}
                   type="tel"
+                />
+              </div>
+
+              <div className={styles.fieldGroup}>
+                <label className={styles.label}>Encarregado de Dados (DPO) — Nome</label>
+                <input
+                  className={styles.input}
+                  value={form.dpoNome}
+                  onChange={(e) => setField('dpoNome', e.target.value)}
+                  placeholder="Ex: João da Silva"
+                  disabled={!isGerente}
+                />
+              </div>
+
+              <div className={styles.fieldGroup}>
+                <label className={styles.label}>Encarregado de Dados (DPO) — E-mail</label>
+                <input
+                  className={styles.input}
+                  value={form.dpoEmail}
+                  onChange={(e) => setField('dpoEmail', e.target.value)}
+                  placeholder="dpo@restaurante.com.br"
+                  disabled={!isGerente}
+                  type="email"
                 />
               </div>
 

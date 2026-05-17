@@ -119,6 +119,7 @@ export function CardapioPage() {
   const [editingCat, setEditingCat] = useState<Categoria | 'new' | null>(null)
   const [catForm, setCatForm] = useState<CatFormState>({ nome: '', ordem: '0' })
   const [catError, setCatError] = useState<string | null>(null)
+  const [deleteError, setDeleteError] = useState<string | null>(null)
 
   const filtrados = produtos.filter((p) =>
     p.nome.toLowerCase().includes(busca.toLowerCase()),
@@ -163,7 +164,12 @@ export function CardapioPage() {
 
   async function handleDeleteCat(id: string) {
     if (!confirm('Remover esta categoria?')) return
-    try { await removerCategoria(id) } catch { }
+    try {
+      setDeleteError(null)
+      await removerCategoria(id)
+    } catch {
+      setDeleteError('Não foi possível remover a categoria. Verifique se ela não possui produtos.')
+    }
   }
 
   async function handleSaveProduto(form: ProdutoFormData) {
@@ -177,7 +183,12 @@ export function CardapioPage() {
 
   async function handleDeleteProduto(id: string) {
     if (!confirm('Remover este produto?')) return
-    try { await removerProduto(id) } catch { }
+    try {
+      setDeleteError(null)
+      await removerProduto(id)
+    } catch {
+      setDeleteError('Não foi possível remover o produto.')
+    }
   }
 
   return (
@@ -187,7 +198,9 @@ export function CardapioPage() {
         <p className={styles.pageSubtitle}>Gerencie categorias e produtos</p>
       </div>
 
-      {error && <div className={styles.errorBox} role="alert">{error}</div>}
+      {(error || deleteError) && (
+        <div className={styles.errorBox} role="alert">{deleteError ?? error}</div>
+      )}
 
       {loading ? (
         <SkeletonLayout />

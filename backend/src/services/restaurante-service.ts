@@ -30,6 +30,8 @@ export async function editRestaurante(
     endereco: input.endereco ?? null,
     telefone: input.telefone ?? null,
     logoUrl: input.logoUrl ?? null,
+    dpoNome: input.dpoNome ?? null,
+    dpoEmail: input.dpoEmail ?? null,
   })
   if (!r) {
     const err: any = new Error('Restaurante não encontrado')

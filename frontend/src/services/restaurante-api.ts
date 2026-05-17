@@ -12,6 +12,8 @@ export async function updateRestaurante(form: RestauranteFormData): Promise<Rest
     endereco: form.endereco || null,
     telefone: form.telefone || null,
     logoUrl:  form.logoUrl  || null,
+    dpoNome:  form.dpoNome  || null,
+    dpoEmail: form.dpoEmail || null,
   })
   return data
 }

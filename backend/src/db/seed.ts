@@ -138,7 +138,7 @@ await pool.query(`
     'Pudim de Leite Perfeito',
     'Fatias de pudim de leite condensado sem furinhos, com calda de caramelo tostado levemente salgada.',
     18.00,
-    'https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=800&q=80'
+    'https://images.unsplash.com/photo-1702728109878-c61a98d80491?auto=format&fit=crop&w=800&q=80'
   )`,
   [rid, catSobremesas!.id],
 )
@@ -157,7 +157,7 @@ await pool.query(`
     'Suco Natural de Laranja',
     'Copo de 400ml, suco espremido na hora, sem adição de água ou açúcar.',
     12.00,
-    'https://images.unsplash.com/photo-1534353436294-0dbd4bdac845?auto=format&fit=crop&w=800&q=80'
+    'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?auto=format&fit=crop&w=800&q=80'
   ),
   (
     $1, $2,

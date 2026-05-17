@@ -32,7 +32,7 @@ export interface ConsentimentoItem {
 }
 
 export async function getSolicitacoes(): Promise<SolicitacaoLgpd[]> {
-  const { data } = await api.get<SolicitacaoLgpd[]>('/lgpd/solicitacoes')
+  const { data } = await api.get<SolicitacaoLgpd[]>('/api/lgpd/solicitacoes')
   return data
 }
 
@@ -42,7 +42,7 @@ export async function postSolicitacao(payload: {
   tipo: string
   descricao?: string
 }): Promise<SolicitacaoLgpd> {
-  const { data } = await api.post<SolicitacaoLgpd>('/lgpd/solicitacao', payload)
+  const { data } = await api.post<SolicitacaoLgpd>('/api/lgpd/solicitacao', payload)
   return data
 }
 
@@ -51,7 +51,7 @@ export async function patchSolicitacao(
   status: string,
   resposta: string,
 ): Promise<SolicitacaoLgpd> {
-  const { data } = await api.patch<SolicitacaoLgpd>(`/lgpd/solicitacoes/${id}`, {
+  const { data } = await api.patch<SolicitacaoLgpd>(`/api/lgpd/solicitacoes/${id}`, {
     status,
     resposta,
   })
@@ -59,24 +59,24 @@ export async function patchSolicitacao(
 }
 
 export async function getAuditoria(): Promise<AuditoriaItem[]> {
-  const { data } = await api.get<AuditoriaItem[]>('/lgpd/auditoria')
+  const { data } = await api.get<AuditoriaItem[]>('/api/lgpd/auditoria')
   return data
 }
 
 export async function getConsentimentos(): Promise<ConsentimentoItem[]> {
-  const { data } = await api.get<ConsentimentoItem[]>('/lgpd/consentimentos')
+  const { data } = await api.get<ConsentimentoItem[]>('/api/lgpd/consentimentos')
   return data
 }
 
 export async function postAnonimizar(meses: number): Promise<{ anonimizados: number; meses: number }> {
-  const { data } = await api.post<{ anonimizados: number; meses: number }>('/lgpd/anonimizar', {
+  const { data } = await api.post<{ anonimizados: number; meses: number }>('/api/lgpd/anonimizar', {
     meses,
   })
   return data
 }
 
 export async function getMeusDados(telefone: string): Promise<Record<string, unknown>> {
-  const { data } = await api.get<Record<string, unknown>>('/lgpd/meus-dados', {
+  const { data } = await api.get<Record<string, unknown>>('/api/lgpd/meus-dados', {
     params: { telefone },
   })
   return data

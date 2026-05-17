@@ -7,7 +7,7 @@ export function useDashboard() {
   const [data, setData] = useState<DashboardKpis | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const socket = useSocket()
+  const { socket } = useSocket()
 
   const load = useCallback(async (silent = false) => {
     try {
