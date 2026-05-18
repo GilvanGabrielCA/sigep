@@ -5,8 +5,9 @@ export interface Usuario {
   restaurante_id: string
   nome: string
   email: string
-  perfil: 'gerente' | 'atendente'
+  perfil: 'gerente' | 'atendente' | 'superadmin'
   ativo: boolean
+  foto_url: string | null
   criado_em: string
 }
 
@@ -14,13 +15,13 @@ export interface NovoUsuario {
   nome: string
   email: string
   senha: string
-  perfil: 'gerente' | 'atendente'
+  perfil: 'gerente' | 'atendente' | 'superadmin'
 }
 
 export interface EditarUsuario {
   nome?: string
   email?: string
-  perfil?: 'gerente' | 'atendente'
+  perfil?: 'gerente' | 'atendente' | 'superadmin'
 }
 
 export async function fetchUsuarios(): Promise<Usuario[]> {

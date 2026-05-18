@@ -24,8 +24,14 @@ export async function getUsuarios(restauranteId: string): Promise<UsuarioPublico
 
 export async function addUsuario(
   restauranteId: string,
-  data: { nome: string; email: string; senha: string; perfil: 'gerente' | 'atendente' },
+  data: { nome: string; email: string; senha: string; perfil: 'gerente' | 'atendente' | 'superadmin' },
+  requesterPerfil: 'gerente' | 'atendente' | 'superadmin',
 ): Promise<UsuarioPublico> {
+  if (data.perfil === 'superadmin' && requesterPerfil !== 'superadmin') {
+    const err: any = new Error('Apenas super admins podem criar usuários superadmin')
+    err.statusCode = 403
+    throw err
+  }
   const existing = await findUsuarioByEmail(data.email)
   if (existing) {
     const err: any = new Error('E-mail já cadastrado')
@@ -40,8 +46,14 @@ export async function addUsuario(
 export async function editUsuario(
   id: string,
   restauranteId: string,
-  data: Partial<{ nome: string; email: string; perfil: 'gerente' | 'atendente' }>,
+  data: Partial<{ nome: string; email: string; perfil: 'gerente' | 'atendente' | 'superadmin' }>,
+  requesterPerfil?: 'gerente' | 'atendente' | 'superadmin',
 ): Promise<UsuarioPublico> {
+  if (data.perfil === 'superadmin' && requesterPerfil !== 'superadmin') {
+    const err: any = new Error('Apenas super admins podem atribuir o perfil superadmin')
+    err.statusCode = 403
+    throw err
+  }
   const row = await findUsuarioById(id)
   if (!row || row.restaurante_id !== restauranteId) {
     const err: any = new Error('Usuário não encontrado')

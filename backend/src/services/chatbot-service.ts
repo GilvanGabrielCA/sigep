@@ -37,6 +37,7 @@ interface ItemBot {
 
 type Estado =
   | 'AGUARDANDO_CONSENTIMENTO'
+  | 'COLETANDO_NOME'
   | 'ESCOLHENDO_CATEGORIA'
   | 'COLETANDO_ITENS'
   | 'ESCOLHENDO_TIPO'
@@ -49,6 +50,7 @@ interface ConversaState {
   restauranteNome: string
   restauranteTelefone: string | null
   telefone: string
+  nomeCliente: string | null
   itens: ItemBot[]
   produtos: ProdutoRow[]
   categorias: string[]
@@ -164,6 +166,7 @@ function msgPagamento(): string {
 async function criarPedidoDB(
   restauranteId: string,
   telefone: string,
+  nomeCliente: string,
   endereco: string,
   itens: ItemBot[],
   observacoes: string,
@@ -175,8 +178,8 @@ async function criarPedidoDB(
     const { rows: clienteRows } = await client.query<{ id: string }>(
       `INSERT INTO tb_cliente (restaurante_id, nome, telefone, endereco, canal)
        VALUES ($1, $2, $3, $4, 'whatsapp')
-       ON CONFLICT (restaurante_id, telefone) DO NOTHING RETURNING id`,
-      [restauranteId, `WhatsApp ${telefone}`, telefone, endereco],
+       ON CONFLICT (restaurante_id, telefone) DO UPDATE SET nome = EXCLUDED.nome RETURNING id`,
+      [restauranteId, nomeCliente, telefone, endereco],
     )
 
     let clienteId: string
@@ -192,7 +195,7 @@ async function criarPedidoDB(
         const { rows: ins } = await client.query<{ id: string }>(
           `INSERT INTO tb_cliente (restaurante_id, nome, telefone, endereco, canal)
            VALUES ($1, $2, $3, $4, 'whatsapp') RETURNING id`,
-          [restauranteId, `WhatsApp ${telefone}`, telefone, endereco],
+          [restauranteId, nomeCliente, telefone, endereco],
         )
         clienteId = ins[0]!.id
       }
@@ -271,12 +274,29 @@ export async function processarMensagem(
 
     const temConsentimento = await verificarConsentimento(restauranteId, telefone)
 
+    let nomeExistente: string | null = null
+    if (temConsentimento) {
+      const { rows } = await pool.query<{ nome: string }>(
+        `SELECT nome FROM tb_cliente WHERE restaurante_id = $1 AND telefone = $2 LIMIT 1`,
+        [restauranteId, telefone],
+      )
+      const nome = rows[0]?.nome ?? null
+      if (nome && !nome.startsWith('WhatsApp ')) nomeExistente = nome
+    }
+
+    const temNome = nomeExistente !== null
+
     state = {
-      estado: temConsentimento ? 'ESCOLHENDO_CATEGORIA' : 'AGUARDANDO_CONSENTIMENTO',
+      estado: !temConsentimento
+        ? 'AGUARDANDO_CONSENTIMENTO'
+        : !temNome
+          ? 'COLETANDO_NOME'
+          : 'ESCOLHENDO_CATEGORIA',
       restauranteId,
       restauranteNome: nomeRestaurante,
       restauranteTelefone: restaurante?.telefone ?? null,
       telefone,
+      nomeCliente: nomeExistente,
       itens: [],
       produtos: disponiveis,
       categorias,
@@ -286,13 +306,12 @@ export async function processarMensagem(
     }
     conversas.set(key, { state, expiresAt: Date.now() + CONVERSA_TTL_MS })
 
-    if (temConsentimento) {
-      return (
-        `${saudacao()}! 👋 Bem-vindo de volta ao *${nomeRestaurante}*! 🍔\n\n` +
-        msgCategorias(categorias, nomeRestaurante, false)
-      )
-    }
-    return msgConsentimento(nomeRestaurante)
+    if (!temConsentimento) return msgConsentimento(nomeRestaurante)
+    if (!temNome) return `${saudacao()}! 👋 Bem-vindo ao *${nomeRestaurante}*! 🍔\n\nQual é o seu nome? 😊`
+    return (
+      `${saudacao()}! 👋 Bem-vindo de volta ao *${nomeRestaurante}*, *${nomeExistente}*! 🍔\n\n` +
+      msgCategorias(categorias, nomeRestaurante, false)
+    )
   }
 
   refreshTtl()
@@ -354,11 +373,8 @@ export async function processarMensagem(
 
     if (aceitou) {
       await registrarConsentimento(restauranteId, telefone, true)
-      state.estado = 'ESCOLHENDO_CATEGORIA'
-      return (
-        `✅ *Consentimento registrado!* Seus dados estão protegidos conforme a LGPD.\n\n` +
-        msgCategorias(state.categorias, state.restauranteNome, false)
-      )
+      state.estado = 'COLETANDO_NOME'
+      return `✅ *Consentimento registrado!* Seus dados estão protegidos conforme a LGPD.\n\nQual é o seu nome? 😊`
     }
 
     if (recusou) {
@@ -373,6 +389,19 @@ export async function processarMensagem(
       `Para prosseguir com o pedido precisamos da sua autorização.\n\n` +
       `Digite *CONCORDO* para aceitar ou *NÃO* para cancelar.\n\n` +
       msgConsentimento(state.restauranteNome)
+    )
+  }
+
+  if (state.estado === 'COLETANDO_NOME') {
+    const nome = mensagem.trim()
+    if (nome.length < 2) {
+      return `Por favor, informe seu nome completo (mínimo 2 caracteres). 😊`
+    }
+    state.nomeCliente = nome
+    state.estado = 'ESCOLHENDO_CATEGORIA'
+    return (
+      `Olá, *${nome}*! Seja bem-vindo(a)! 🎉\n\n` +
+      msgCategorias(state.categorias, state.restauranteNome, false)
     )
   }
 
@@ -512,7 +541,8 @@ export async function processarMensagem(
     const obs = `${tipoStr} | Pagamento: ${formaPagamento}`
     const endereco = state.enderecoEntrega ?? 'Retirada no restaurante'
 
-    const pedido = await criarPedidoDB(restauranteId, telefone, endereco, state.itens, obs)
+    const nomeParaPedido = state.nomeCliente ?? `WhatsApp ${telefone}`
+    const pedido = await criarPedidoDB(restauranteId, telefone, nomeParaPedido, endereco, state.itens, obs)
     const shortId = pedido.id.slice(-8).toUpperCase()
     conversas.delete(key)
     await emitirPedido(restauranteId, pedido.id)

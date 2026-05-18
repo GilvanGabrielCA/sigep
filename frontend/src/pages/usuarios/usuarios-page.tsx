@@ -217,6 +217,7 @@ export function UsuariosPage() {
         open={modalOpen}
         usuario={editingUsuario}
         saving={saving}
+        requesterPerfil={user?.perfil}
         onClose={() => setModalOpen(false)}
         onSave={handleSave}
         onResetSenha={handleResetSenha}

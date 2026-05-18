@@ -7,8 +7,9 @@ export interface UsuarioRow {
   nome: string
   email: string
   senha_hash: string
-  perfil: 'gerente' | 'atendente'
+  perfil: 'gerente' | 'atendente' | 'superadmin'
   ativo: boolean
+  foto_url: string | null
   criado_em: Date
 }
 
@@ -36,12 +37,20 @@ export async function listUsuariosByRestaurante(restauranteId: string): Promise<
   return result.rows
 }
 
+export async function updateFotoUsuario(id: string, fotoUrl: string | null): Promise<UsuarioRow | null> {
+  const result: QueryResult<UsuarioRow> = await pool.query(
+    'UPDATE tb_usuario SET foto_url = $2 WHERE id = $1 RETURNING *',
+    [id, fotoUrl],
+  )
+  return result.rows[0] ?? null
+}
+
 export async function createUsuario(data: {
   restauranteId: string
   nome: string
   email: string
   senhaHash: string
-  perfil: 'gerente' | 'atendente'
+  perfil: 'gerente' | 'atendente' | 'superadmin'
 }): Promise<UsuarioRow> {
   const result: QueryResult<UsuarioRow> = await pool.query(
     `INSERT INTO tb_usuario (restaurante_id, nome, email, senha_hash, perfil)
@@ -54,7 +63,7 @@ export async function createUsuario(data: {
 
 export async function updateUsuario(
   id: string,
-  data: Partial<{ nome: string; email: string; perfil: 'gerente' | 'atendente' }>,
+  data: Partial<{ nome: string; email: string; perfil: 'gerente' | 'atendente' | 'superadmin' }>,
 ): Promise<UsuarioRow | null> {
   const result: QueryResult<UsuarioRow> = await pool.query(
     `UPDATE tb_usuario

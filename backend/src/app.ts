@@ -11,6 +11,9 @@ import chatbotRoutes from './routes/chatbot-routes.js'
 import usuarioRoutes from './routes/usuario-routes.js'
 import perfilRoutes from './routes/perfil-routes.js'
 import lgpdRoutes from './routes/lgpd-routes.js'
+import historicoRoutes from './routes/historico-routes.js'
+import superadminRoutes from './routes/superadmin-routes.js'
+import uploadRoutes from './routes/upload-routes.js'
 
 export function createApp() {
   const app = express()
@@ -31,6 +34,9 @@ export function createApp() {
   app.use('/api/usuarios', usuarioRoutes)
   app.use('/api/me', perfilRoutes)
   app.use('/api/lgpd', lgpdRoutes)
+  app.use('/api/historico', historicoRoutes)
+  app.use('/api/superadmin', superadminRoutes)
+  app.use('/api/upload', uploadRoutes)
 
   app.use(errorMiddleware)
 

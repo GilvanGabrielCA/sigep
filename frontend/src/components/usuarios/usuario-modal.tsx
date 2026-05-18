@@ -7,6 +7,7 @@ interface UsuarioModalProps {
   open: boolean
   usuario: Usuario | null
   saving: boolean
+  requesterPerfil?: 'gerente' | 'atendente' | 'superadmin'
   onClose: () => void
   onSave: (data: NovoUsuario | EditarUsuario) => Promise<void>
   onResetSenha: (id: string, novaSenha: string) => Promise<void>
@@ -20,13 +21,14 @@ function CloseIcon() {
   )
 }
 
-function ModalInner({ usuario, saving, onClose, onSave, onResetSenha }: Omit<UsuarioModalProps, 'open'>) {
+function ModalInner({ usuario, saving, requesterPerfil, onClose, onSave, onResetSenha }: Omit<UsuarioModalProps, 'open'>) {
   const isEdit = usuario !== null
+  const isSuperAdmin = requesterPerfil === 'superadmin'
 
   const [nome, setNome] = useState('')
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
-  const [perfil, setPerfil] = useState<'gerente' | 'atendente'>('atendente')
+  const [perfil, setPerfil] = useState<'gerente' | 'atendente' | 'superadmin'>('atendente')
   const [novaSenha, setNovaSenha] = useState('')
   const [formError, setFormError] = useState<string | null>(null)
   const [resettingSenha, setResettingSenha] = useState(false)
@@ -35,7 +37,7 @@ function ModalInner({ usuario, saving, onClose, onSave, onResetSenha }: Omit<Usu
     if (usuario) {
       setNome(usuario.nome)
       setEmail(usuario.email)
-      setPerfil(usuario.perfil)
+      setPerfil(usuario.perfil as 'gerente' | 'atendente' | 'superadmin')
     } else {
       setNome('')
       setEmail('')
@@ -149,10 +151,11 @@ function ModalInner({ usuario, saving, onClose, onSave, onResetSenha }: Omit<Usu
               <select
                 className={styles.select}
                 value={perfil}
-                onChange={(e) => setPerfil(e.target.value as 'gerente' | 'atendente')}
+                onChange={(e) => setPerfil(e.target.value as 'gerente' | 'atendente' | 'superadmin')}
               >
                 <option value="atendente">Atendente</option>
                 <option value="gerente">Gerente</option>
+                {isSuperAdmin && <option value="superadmin">Super Admin</option>}
               </select>
             </div>
           </div>
@@ -217,7 +220,7 @@ function ModalInner({ usuario, saving, onClose, onSave, onResetSenha }: Omit<Usu
   )
 }
 
-export function UsuarioModal(props: UsuarioModalProps) {
-  if (!props.open) return null
-  return createPortal(<ModalInner {...props} />, document.body)
+export function UsuarioModal({ open, ...rest }: UsuarioModalProps) {
+  if (!open) return null
+  return createPortal(<ModalInner {...rest} />, document.body)
 }

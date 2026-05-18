@@ -94,6 +94,25 @@ function IconShield() {
   )
 }
 
+function IconHistory() {
+  return (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 8v4l3 3" />
+      <path d="M3.05 11a9 9 0 1 1 .5 4.5" />
+      <polyline points="3 16 3.05 11 8 11" />
+    </svg>
+  )
+}
+
+function IconTerminal() {
+  return (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="4 17 10 11 4 5" />
+      <line x1="12" y1="19" x2="20" y2="19" />
+    </svg>
+  )
+}
+
 function IconLogout() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
@@ -111,10 +130,11 @@ interface NavItemConfig {
 }
 
 const NAV_GENERAL: NavItemConfig[] = [
-  { label: 'Dashboard',  to: '/dashboard', icon: <IconDashboard /> },
-  { label: 'Pedidos',    to: '/pedidos',   icon: <IconKanban /> },
-  { label: 'Cardápio',   to: '/cardapio',  icon: <IconBook /> },
-  { label: 'Perfil',     to: '/perfil',    icon: <IconUser /> },
+  { label: 'Dashboard',  to: '/dashboard',  icon: <IconDashboard /> },
+  { label: 'Pedidos',    to: '/pedidos',    icon: <IconKanban /> },
+  { label: 'Histórico',  to: '/historico',  icon: <IconHistory /> },
+  { label: 'Cardápio',   to: '/cardapio',   icon: <IconBook /> },
+  { label: 'Perfil',     to: '/perfil',     icon: <IconUser /> },
 ]
 
 const NAV_GERENTE: NavItemConfig[] = [
@@ -123,6 +143,10 @@ const NAV_GERENTE: NavItemConfig[] = [
   { label: 'Configurações', to: '/configuracoes', icon: <IconSettings /> },
   { label: 'Integrações',   to: '/integracoes',   icon: <IconPlug /> },
   { label: 'LGPD',          to: '/lgpd',          icon: <IconShield /> },
+]
+
+const NAV_SUPERADMIN: NavItemConfig[] = [
+  { label: 'Super Admin', to: '/superadmin', icon: <IconTerminal /> },
 ]
 
 function navClassName({ isActive }: { isActive: boolean }): string {
@@ -180,7 +204,7 @@ export function Sidebar() {
           </NavLink>
         ))}
 
-        {user?.perfil === 'gerente' && (
+        {(user?.perfil === 'gerente' || user?.perfil === 'superadmin') && (
           <>
             <div className={styles.divider}>
               <div className={styles.dividerLine} />
@@ -188,6 +212,22 @@ export function Sidebar() {
               <div className={styles.dividerLine} />
             </div>
             {NAV_GERENTE.map((item) => (
+              <NavLink key={item.to} to={item.to} className={navClassName}>
+                <span className={styles.navIcon}>{item.icon}</span>
+                <span className={styles.navLabel}>{item.label}</span>
+              </NavLink>
+            ))}
+          </>
+        )}
+
+        {user?.perfil === 'superadmin' && (
+          <>
+            <div className={styles.divider}>
+              <div className={styles.dividerLine} />
+              <span className={styles.dividerLabel} style={{ color: '#D97706' }}>Super Admin</span>
+              <div className={styles.dividerLine} />
+            </div>
+            {NAV_SUPERADMIN.map((item) => (
               <NavLink key={item.to} to={item.to} className={navClassName}>
                 <span className={styles.navIcon}>{item.icon}</span>
                 <span className={styles.navLabel}>{item.label}</span>

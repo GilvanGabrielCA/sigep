@@ -30,7 +30,7 @@ const rid = rest!.id
 const hashAdmin = await bcrypt.hash('110125Gj!', 12)
 await pool.query(
   `INSERT INTO tb_usuario (restaurante_id, nome, email, senha_hash, perfil)
-   VALUES ($1, $2, $3, $4, 'gerente')`,
+   VALUES ($1, $2, $3, $4, 'superadmin')`,
   [rid, 'Gilvan Gabriel', 'gilvangabriealencar@gmail.com', hashAdmin],
 )
 

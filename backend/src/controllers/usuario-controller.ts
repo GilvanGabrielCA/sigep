@@ -22,11 +22,16 @@ export async function postUsuario(req: Request, res: Response, next: NextFunctio
       res.status(400).json({ error: 'Campos nome, email e senha são obrigatórios' })
       return
     }
-    if (perfil !== 'gerente' && perfil !== 'atendente') {
-      res.status(400).json({ error: 'Perfil deve ser "gerente" ou "atendente"' })
+    const validPerfis = ['gerente', 'atendente', 'superadmin']
+    if (!perfil || !validPerfis.includes(perfil)) {
+      res.status(400).json({ error: 'Perfil inválido' })
       return
     }
-    const usuario = await addUsuario(req.user!.restauranteId, { nome, email, senha, perfil })
+    const usuario = await addUsuario(
+      req.user!.restauranteId,
+      { nome, email, senha, perfil: perfil as 'gerente' | 'atendente' | 'superadmin' },
+      req.user!.perfil,
+    )
     res.status(201).json(usuario)
   } catch (err) { next(err) }
 }
@@ -36,15 +41,21 @@ export async function putUsuario(req: Request, res: Response, next: NextFunction
     const { nome, email, perfil } = req.body as {
       nome?: string; email?: string; perfil?: string
     }
-    if (perfil && perfil !== 'gerente' && perfil !== 'atendente') {
-      res.status(400).json({ error: 'Perfil deve ser "gerente" ou "atendente"' })
+    const validPerfis = ['gerente', 'atendente', 'superadmin']
+    if (perfil && !validPerfis.includes(perfil)) {
+      res.status(400).json({ error: 'Perfil inválido' })
       return
     }
-    const usuario = await editUsuario(req.params['id']!, req.user!.restauranteId, {
-      nome: nome?.trim() || undefined,
-      email: email?.trim() || undefined,
-      perfil: perfil as 'gerente' | 'atendente' | undefined,
-    })
+    const usuario = await editUsuario(
+      req.params['id']!,
+      req.user!.restauranteId,
+      {
+        nome: nome?.trim() || undefined,
+        email: email?.trim() || undefined,
+        perfil: perfil as 'gerente' | 'atendente' | 'superadmin' | undefined,
+      },
+      req.user!.perfil,
+    )
     res.json(usuario)
   } catch (err) { next(err) }
 }

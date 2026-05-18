@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { usePerfil } from '../../hooks/use-perfil'
 import styles from './perfil-page.module.css'
 
@@ -36,15 +36,29 @@ function AlertIcon() {
 }
 
 export function PerfilPage() {
-  const { data, loading, saving, error, successDados, successSenha, salvarDados, salvarSenha } = usePerfil()
+  const { data, loading, saving, error, successDados, successSenha, salvarDados, salvarSenha, uploadFoto } = usePerfil()
 
   const [nome, setNome] = useState('')
   const [email, setEmail] = useState('')
+  const [uploadingFoto, setUploadingFoto] = useState(false)
+  const fotoInputRef = useRef<HTMLInputElement>(null)
 
   const [senhaAtual, setSenhaAtual] = useState('')
   const [novaSenha, setNovaSenha] = useState('')
   const [confirmarSenha, setConfirmarSenha] = useState('')
   const [senhaError, setSenhaError] = useState<string | null>(null)
+
+  async function handleFotoChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploadingFoto(true)
+    try {
+      await uploadFoto(file)
+    } finally {
+      setUploadingFoto(false)
+      if (fotoInputRef.current) fotoInputRef.current.value = ''
+    }
+  }
 
   useEffect(() => {
     if (data) {
@@ -111,6 +125,8 @@ export function PerfilPage() {
 
   const initials = data ? data.nome.charAt(0).toUpperCase() : '?'
   const color = data ? avatarColor(data.nome) : '#D97706'
+  const perfilLabel = data?.perfil === 'gerente' ? 'Gerente' : data?.perfil === 'superadmin' ? 'Super Admin' : 'Atendente'
+  const perfilClass = data?.perfil === 'gerente' ? styles.gerente : data?.perfil === 'superadmin' ? styles.gerente : styles.atendente
 
   return (
     <div className={styles.page}>
@@ -122,14 +138,43 @@ export function PerfilPage() {
       <div className={styles.grid}>
         <div className={styles.card}>
           <div className={styles.cardHero}>
-            <div className={styles.avatar} style={{ background: color }}>
-              {initials}
+            <input
+              ref={fotoInputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              style={{ display: 'none' }}
+              onChange={handleFotoChange}
+            />
+            <div
+              className={styles.avatar}
+              style={{ background: data?.foto_url ? 'transparent' : color, cursor: 'pointer', overflow: 'hidden', position: 'relative' }}
+              onClick={() => fotoInputRef.current?.click()}
+              title="Clique para alterar a foto"
+            >
+              {data?.foto_url ? (
+                <img src={data.foto_url} alt={data.nome} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
+              ) : (
+                initials
+              )}
+              {uploadingFoto && (
+                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', fontSize: '0.625rem', color: '#fff', fontWeight: 700 }}>
+                  …
+                </div>
+              )}
             </div>
             <p className={styles.heroName}>{data?.nome ?? '—'}</p>
             <p className={styles.heroEmail}>{data?.email ?? '—'}</p>
-            <span className={`${styles.perfilBadge} ${data?.perfil === 'gerente' ? styles.gerente : styles.atendente}`}>
-              {data?.perfil === 'gerente' ? 'Gerente' : 'Atendente'}
+            <span className={`${styles.perfilBadge} ${perfilClass}`}>
+              {perfilLabel}
             </span>
+            <button
+              type="button"
+              onClick={() => fotoInputRef.current?.click()}
+              disabled={uploadingFoto}
+              style={{ marginTop: '0.5rem', background: 'transparent', border: '1.5px solid #ECEAE5', borderRadius: 8, padding: '0.25rem 0.75rem', fontSize: '0.75rem', cursor: 'pointer', color: '#57534E', fontFamily: 'Nunito, sans-serif' }}
+            >
+              {uploadingFoto ? 'Enviando…' : 'Alterar foto'}
+            </button>
           </div>
 
           <div className={styles.cardBody}>
@@ -259,8 +304,8 @@ export function PerfilPage() {
           <div className={styles.footerSep} />
           <div className={styles.footerItem}>
             <span className={styles.footerLabel}>Nível de acesso</span>
-            <span className={`${styles.footerBadge} ${data.perfil === 'gerente' ? styles.gerente : styles.atendente}`}>
-              {data.perfil === 'gerente' ? 'Gerente' : 'Atendente'}
+            <span className={`${styles.footerBadge} ${data.perfil === 'atendente' ? styles.atendente : styles.gerente}`}>
+              {data.perfil === 'gerente' ? 'Gerente' : data.perfil === 'superadmin' ? 'Super Admin' : 'Atendente'}
             </span>
           </div>
         </div>

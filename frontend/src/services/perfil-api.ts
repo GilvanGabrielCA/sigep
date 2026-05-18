@@ -5,8 +5,9 @@ export interface PerfilData {
   restaurante_id: string
   nome: string
   email: string
-  perfil: 'gerente' | 'atendente'
+  perfil: 'gerente' | 'atendente' | 'superadmin'
   ativo: boolean
+  foto_url: string | null
   criado_em: string
 }
 
@@ -22,4 +23,13 @@ export async function updatePerfil(payload: { nome?: string; email?: string }): 
 
 export async function updateSenha(senhaAtual: string, novaSenha: string): Promise<void> {
   await api.put('/api/me/senha', { senhaAtual, novaSenha })
+}
+
+export async function uploadFoto(file: File): Promise<PerfilData> {
+  const formData = new FormData()
+  formData.append('foto', file)
+  const { data } = await api.post<PerfilData>('/api/me/foto', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
+  return data
 }

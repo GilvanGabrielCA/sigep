@@ -19,8 +19,17 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction):
 }
 
 export function requireGerente(req: Request, res: Response, next: NextFunction): void {
-  if (req.user?.perfil !== 'gerente') {
+  const perfil = req.user?.perfil
+  if (perfil !== 'gerente' && perfil !== 'superadmin') {
     res.status(403).json({ error: 'Acesso restrito a gerentes' })
+    return
+  }
+  next()
+}
+
+export function requireSuperAdmin(req: Request, res: Response, next: NextFunction): void {
+  if (req.user?.perfil !== 'superadmin') {
+    res.status(403).json({ error: 'Acesso restrito ao super admin' })
     return
   }
   next()

@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { ProtectedRoute } from './components/protected-route'
 import { GerenteRoute } from './components/gerente-route'
+import { SuperAdminRoute } from './components/superadmin-route'
 import { AppLayout } from './components/layout/app-layout'
 import { LoginPage } from './pages/login/login-page'
 import { ForgotPasswordPage } from './pages/forgot-password/forgot-password-page'
@@ -15,6 +16,8 @@ import { UsuariosPage } from './pages/usuarios/usuarios-page'
 import { PerfilPage } from './pages/perfil/perfil-page'
 import { PrivacidadePage } from './pages/privacidade/privacidade-page'
 import { LgpdPage } from './pages/lgpd/lgpd-page'
+import { HistoricoPage } from './pages/historico/historico-page'
+import { SuperAdminPage } from './pages/superadmin/superadmin-page'
 
 export function AppRouter() {
   return (
@@ -31,6 +34,7 @@ export function AppRouter() {
           <Route path="/pedidos" element={<KanbanPage />} />
           <Route path="/cardapio" element={<CardapioPage />} />
           <Route path="/perfil" element={<PerfilPage />} />
+          <Route path="/historico" element={<HistoricoPage />} />
 
           <Route element={<GerenteRoute />}>
             <Route path="/relatorios" element={<RelatoriosPage />} />
@@ -38,6 +42,10 @@ export function AppRouter() {
             <Route path="/integracoes" element={<IntegracoesPage />} />
             <Route path="/usuarios" element={<UsuariosPage />} />
             <Route path="/lgpd" element={<LgpdPage />} />
+          </Route>
+
+          <Route element={<SuperAdminRoute />}>
+            <Route path="/superadmin" element={<SuperAdminPage />} />
           </Route>
         </Route>
       </Route>

@@ -1,6 +1,17 @@
 import { type Request, type Response, type NextFunction } from 'express'
 import bcrypt from 'bcrypt'
-import { findUsuarioById, updateUsuario, updateUsuarioSenha } from '../db/usuario-queries.js'
+import multer from 'multer'
+import { findUsuarioById, updateUsuario, updateUsuarioSenha, updateFotoUsuario } from '../db/usuario-queries.js'
+
+const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+export const fotoUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 2 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    if (ALLOWED_TYPES.includes(file.mimetype)) cb(null, true)
+    else cb(Object.assign(new Error('Use JPEG, PNG ou WebP.'), { statusCode: 400 }))
+  },
+})
 
 export async function getMe(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
@@ -25,6 +36,22 @@ export async function putMe(req: Request, res: Response, next: NextFunction): Pr
       nome: nome?.trim() || undefined,
       email: email?.trim() || undefined,
     })
+    if (!updated) {
+      res.status(404).json({ error: 'Usuário não encontrado' })
+      return
+    }
+    const { senha_hash: _, ...pub } = updated
+    res.json(pub)
+  } catch (err) { next(err) }
+}
+
+export async function postMeFoto(req: Request, res: Response, next: NextFunction): Promise<void> {
+  try {
+    if (!req.file) {
+      throw Object.assign(new Error('Nenhum arquivo enviado.'), { statusCode: 400 })
+    }
+    const dataUrl = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`
+    const updated = await updateFotoUsuario(req.user!.userId, dataUrl)
     if (!updated) {
       res.status(404).json({ error: 'Usuário não encontrado' })
       return

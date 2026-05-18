@@ -1,0 +1,324 @@
+.page {
+  padding: 2rem 2.5rem;
+  max-width: 1200px;
+}
+
+.header {
+  margin-bottom: 1.75rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1C1917;
+  margin: 0 0 0.25rem;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: #78716C;
+  margin: 0;
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  align-items: flex-end;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.filterLabel {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #78716C;
+}
+
+.filterInput {
+  height: 2.25rem;
+  padding: 0 0.75rem;
+  border: 1.5px solid #ECEAE5;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-family: 'Nunito', sans-serif;
+  color: #1C1917;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s;
+  min-width: 120px;
+}
+
+.filterInput:focus {
+  border-color: #F59E0B;
+}
+
+.filterInputWide {
+  composes: filterInput;
+  min-width: 180px;
+}
+
+.btnSearch {
+  height: 2.25rem;
+  padding: 0 1.25rem;
+  background: #F59E0B;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  transition: background 0.15s;
+  align-self: flex-end;
+}
+
+.btnSearch:hover {
+  background: #D97706;
+}
+
+.btnClear {
+  height: 2.25rem;
+  padding: 0 1rem;
+  background: transparent;
+  color: #78716C;
+  border: 1.5px solid #ECEAE5;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+  align-self: flex-end;
+}
+
+.btnClear:hover {
+  border-color: #D97706;
+  color: #D97706;
+}
+
+/* Stats bar */
+.statsBar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.statChip {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  background: #fff;
+  border: 1.5px solid #ECEAE5;
+  border-radius: 8px;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+  color: #57534E;
+}
+
+.statChipValue {
+  font-weight: 700;
+  color: #1C1917;
+}
+
+/* Table */
+.tableWrap {
+  background: #fff;
+  border-radius: 12px;
+  border: 1.5px solid #ECEAE5;
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table thead tr {
+  background: #F5F4F0;
+}
+
+.table th {
+  padding: 0.75rem 1rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #78716C;
+  text-align: left;
+  border-bottom: 1.5px solid #ECEAE5;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 0.875rem 1rem;
+  font-size: 0.8125rem;
+  color: #1C1917;
+  border-bottom: 1px solid #F0EFEC;
+  vertical-align: middle;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr:hover td {
+  background: #FAFAF8;
+}
+
+.clienteNome {
+  font-weight: 600;
+}
+
+.clienteTel {
+  font-size: 0.75rem;
+  color: #78716C;
+  margin-top: 0.125rem;
+}
+
+.canal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+}
+
+.canalWhatsapp {
+  background: #DCFCE7;
+  color: #15803D;
+}
+
+.canalInterno {
+  background: #EFF6FF;
+  color: #1D4ED8;
+}
+
+.statusBadge {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.statusRecebido    { background: #FEF3C7; color: #92400E; }
+.statusPreparacao  { background: #DBEAFE; color: #1E40AF; }
+.statusPronto      { background: #D1FAE5; color: #065F46; }
+.statusEntregue    { background: #F0FDF4; color: #166534; }
+.statusCancelado   { background: #FEE2E2; color: #991B1B; }
+
+.total {
+  font-weight: 700;
+  color: #1C1917;
+}
+
+.pedidoId {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: #78716C;
+  background: #F5F4F0;
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+}
+
+.empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #78716C;
+}
+
+.emptyIcon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.emptyText {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.emptyHint {
+  font-size: 0.8125rem;
+  color: #A8A29E;
+  margin-top: 0.25rem;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-top: 1.5px solid #ECEAE5;
+  background: #FAFAF8;
+}
+
+.paginationInfo {
+  font-size: 0.8125rem;
+  color: #78716C;
+}
+
+.paginationBtns {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pageBtn {
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.5rem;
+  background: #fff;
+  border: 1.5px solid #ECEAE5;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-family: 'Nunito', sans-serif;
+  color: #57534E;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.pageBtn:hover:not(:disabled) {
+  border-color: #F59E0B;
+  color: #D97706;
+}
+
+.pageBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pageBtnActive {
+  background: #F59E0B;
+  border-color: #F59E0B;
+  color: #fff;
+  font-weight: 700;
+}
+
+/* Skeleton */
+.skRow td {
+  background: #F5F4F0 !important;
+}
+
+.skCell {
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #ECEAE5 25%, #F5F4F0 50%, #ECEAE5 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

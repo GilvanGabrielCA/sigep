@@ -1,10 +1,10 @@
 import { Outlet } from 'react-router-dom'
 import { useAuth } from '../hooks/use-auth'
 
-export function GerenteRoute() {
+export function SuperAdminRoute() {
   const { user } = useAuth()
 
-  if (user?.perfil !== 'gerente' && user?.perfil !== 'superadmin') {
+  if (user?.perfil !== 'superadmin') {
     return (
       <div
         style={{
@@ -14,21 +14,14 @@ export function GerenteRoute() {
           justifyContent: 'center',
           height: '60vh',
           gap: '0.5rem',
-          fontFamily: 'Inter, sans-serif',
+          fontFamily: 'Nunito, sans-serif',
         }}
       >
-        <span
-          style={{
-            fontSize: '3.5rem',
-            fontWeight: 700,
-            color: '#D97706',
-            lineHeight: 1,
-          }}
-        >
+        <span style={{ fontSize: '3.5rem', fontWeight: 700, color: '#D97706', lineHeight: 1 }}>
           403
         </span>
         <p style={{ color: '#78716C', fontSize: '0.9375rem' }}>
-          Acesso restrito a gerentes.
+          Acesso restrito ao Super Admin.
         </p>
       </div>
     )

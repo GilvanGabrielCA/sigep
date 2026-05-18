@@ -84,7 +84,7 @@ function formatDate(dateStr: string): string {
 export function ConfiguracoesPage() {
   const { data, loading, saving, error, success, salvar } = useRestaurante()
   const { user } = useAuth()
-  const isGerente = user?.perfil === 'gerente'
+  const isGerente = user?.perfil === 'gerente' || user?.perfil === 'superadmin'
 
   const [form, setForm] = useState<RestauranteFormData>({
     nome: '', endereco: '', telefone: '', logoUrl: '', dpoNome: '', dpoEmail: '',

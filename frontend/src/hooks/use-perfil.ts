@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import type { PerfilData } from '../services/perfil-api'
-import { fetchPerfil, updatePerfil, updateSenha } from '../services/perfil-api'
+import { fetchPerfil, updatePerfil, updateSenha, uploadFoto as uploadFotoApi } from '../services/perfil-api'
 
 interface UsePerfil {
   data: PerfilData | null
@@ -11,6 +11,7 @@ interface UsePerfil {
   successSenha: boolean
   salvarDados: (payload: { nome?: string; email?: string }) => Promise<void>
   salvarSenha: (senhaAtual: string, novaSenha: string) => Promise<void>
+  uploadFoto: (file: File) => Promise<void>
 }
 
 export function usePerfil(): UsePerfil {
@@ -58,5 +59,14 @@ export function usePerfil(): UsePerfil {
     }
   }, [])
 
-  return { data, loading, saving, error, successDados, successSenha, salvarDados, salvarSenha }
+  const uploadFoto = useCallback(async (file: File) => {
+    try {
+      const updated = await uploadFotoApi(file)
+      setData(updated)
+    } catch {
+      setError('Erro ao enviar foto')
+    }
+  }, [])
+
+  return { data, loading, saving, error, successDados, successSenha, salvarDados, salvarSenha, uploadFoto }
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import type { Produto, Categoria, ProdutoFormData } from '../../types/cardapio'
 import styles from './produto-modal.module.css'
@@ -19,6 +19,16 @@ function IconClose() {
   )
 }
 
+function IconUpload() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="16 16 12 12 8 16" />
+      <line x1="12" y1="12" x2="12" y2="21" />
+      <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
+    </svg>
+  )
+}
+
 function getInitialForm(produto?: Produto | null): ProdutoFormData {
   return {
     categoriaId:  produto?.categoria_id  ?? null,
@@ -34,6 +44,7 @@ function ModalInner({ onClose, produto, categorias, onSave }: Omit<ProdutoModalP
   const [form, setForm] = useState<ProdutoFormData>(() => getInitialForm(produto))
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const isEdicao = !!produto?.id
   const title = isEdicao ? produto!.nome : 'Novo Produto'
@@ -53,6 +64,22 @@ function ModalInner({ onClose, produto, categorias, onSave }: Omit<ProdutoModalP
 
   function setField<K extends keyof ProdutoFormData>(key: K, value: ProdutoFormData[K]) {
     setForm((prev) => ({ ...prev, [key]: value }))
+  }
+
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (file.size > 2 * 1024 * 1024) {
+      setError('Imagem muito grande. Máx 2 MB.')
+      return
+    }
+    const reader = new FileReader()
+    reader.onload = (ev) => {
+      setField('imagemUrl', ev.target?.result as string)
+      setError(null)
+    }
+    reader.readAsDataURL(file)
+    if (fileInputRef.current) fileInputRef.current.value = ''
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -151,14 +178,33 @@ function ModalInner({ onClose, produto, categorias, onSave }: Omit<ProdutoModalP
           </div>
 
           <div className={styles.fieldGroup}>
-            <label className={styles.label}>URL da Imagem</label>
+            <label className={styles.label}>Imagem do Produto</label>
             <input
-              className={styles.input}
-              type="url"
-              value={form.imagemUrl}
-              onChange={(e) => setField('imagemUrl', e.target.value)}
-              placeholder="https://..."
+              ref={fileInputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/gif"
+              style={{ display: 'none' }}
+              onChange={handleFileChange}
             />
+            <div className={styles.imageRow}>
+              <input
+                className={styles.input}
+                type="url"
+                value={form.imagemUrl.startsWith('data:') ? '' : form.imagemUrl}
+                onChange={(e) => setField('imagemUrl', e.target.value)}
+                placeholder="https://... ou selecione um arquivo"
+                style={{ flex: 1 }}
+              />
+              <button
+                type="button"
+                className={styles.btnUpload}
+                onClick={() => fileInputRef.current?.click()}
+                title="Enviar arquivo do computador"
+              >
+                <IconUpload />
+                Arquivo
+              </button>
+            </div>
             {form.imagemUrl && (
               <div className={styles.imgPreviewWrap}>
                 <img
@@ -168,6 +214,11 @@ function ModalInner({ onClose, produto, categorias, onSave }: Omit<ProdutoModalP
                   onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
                   onLoad={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'block' }}
                 />
+                {form.imagemUrl.startsWith('data:') && (
+                  <span style={{ fontSize: '0.6875rem', color: '#16A34A', fontWeight: 700, marginTop: '0.25rem', display: 'block' }}>
+                    ✓ Arquivo carregado
+                  </span>
+                )}
               </div>
             )}
           </div>
