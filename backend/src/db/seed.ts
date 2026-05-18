@@ -223,6 +223,12 @@ for (const p of produtos) {
   )
 }
 
+await pool.query(
+  `INSERT INTO tb_integracao (restaurante_id, tipo, ativo, configuracao)
+   VALUES ($1, 'whatsapp', false, '{}')`,
+  [rid],
+)
+
 await pool.end()
 
 console.log(`
