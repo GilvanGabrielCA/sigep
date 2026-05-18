@@ -1,18 +1,4 @@
-import nodemailer from 'nodemailer'
-
-function buildTransporter() {
-  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env
-  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) return null
-
-  return nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: Number(SMTP_PORT ?? 587),
-    secure: Number(SMTP_PORT ?? 587) === 465,
-    auth: { user: SMTP_USER, pass: SMTP_PASS },
-    connectionTimeout: 5000,
-    socketTimeout: 5000,
-  })
-}
+import { Resend } from 'resend'
 
 export async function sendPasswordResetEmail(
   email: string,
@@ -22,35 +8,20 @@ export async function sendPasswordResetEmail(
   const frontendUrl = (process.env.FRONTEND_URL ?? 'http://localhost:5173').replace(/\/$/, '')
   const resetLink = `${frontendUrl}/redefinir-senha?token=${rawToken}`
 
-  const transporter = buildTransporter()
-
-  if (!transporter) {
-    console.log(`\n[SIGEP] ── Redefinição de senha ──`)
+  if (!process.env.RESEND_API_KEY) {
+    console.log(`\n[SIGEP] ── Redefinição de senha (sem RESEND_API_KEY) ──`)
     console.log(`  Para: ${email}`)
     console.log(`  Link: ${resetLink}`)
     console.log(`  (válido por 1 hora)\n`)
     return
   }
 
-  const from = process.env.EMAIL_FROM ?? '"SIGEP" <noreply@sigep.app>'
+  const resend = new Resend(process.env.RESEND_API_KEY)
 
-  try {
-    await transporter.sendMail({
-    from,
+  const { error } = await resend.emails.send({
+    from: 'SIGEP <onboarding@resend.dev>',
     to: email,
     subject: 'SIGEP — Redefinição de senha',
-    text: [
-      `Olá ${nome},`,
-      '',
-      'Você solicitou a redefinição da sua senha no SIGEP.',
-      'Clique no link abaixo para criar uma nova senha (válido por 1 hora):',
-      '',
-      resetLink,
-      '',
-      'Se você não solicitou isso, ignore este e-mail — sua senha permanece a mesma.',
-      '',
-      '— Equipe SIGEP',
-    ].join('\n'),
     html: `
       <div style="font-family:'Helvetica Neue',Arial,sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;background:#fff;border-radius:12px;">
         <div style="margin-bottom:24px;">
@@ -71,9 +42,10 @@ export async function sendPasswordResetEmail(
         <p style="color:#D4CFC9;font-size:11px;margin:8px 0 0;">SIGEP — Sistema Integrado de Gestão de Pedidos</p>
       </div>
     `,
-    })
-  } catch {
-    console.log(`\n[SIGEP] ── Redefinição de senha (SMTP falhou) ──`)
+  })
+
+  if (error) {
+    console.log(`\n[SIGEP] ── Redefinição de senha (Resend falhou: ${error.message}) ──`)
     console.log(`  Para: ${email}`)
     console.log(`  Link: ${resetLink}`)
     console.log(`  (válido por 1 hora)\n`)
