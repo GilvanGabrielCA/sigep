@@ -10,6 +10,7 @@ export interface AuditoriaGlobalRow {
   entidade_id: string | null
   operacao: string
   descricao: string | null
+  ip_address: string | null
   criado_em: string
 }
 
@@ -22,7 +23,15 @@ export interface SystemStatsRow {
 }
 
 export async function listAuditoriaGlobal(
-  opts: { limit?: number; offset?: number; operacao?: string; restauranteId?: string } = {},
+  opts: {
+    limit?: number
+    offset?: number
+    operacao?: string
+    entidade?: string
+    restauranteId?: string
+    dataInicio?: string
+    dataFim?: string
+  } = {},
 ): Promise<{ rows: AuditoriaGlobalRow[]; total: number }> {
   const conditions: string[] = []
   const params: unknown[] = []
@@ -32,9 +41,21 @@ export async function listAuditoriaGlobal(
     conditions.push(`a.operacao = $${idx++}`)
     params.push(opts.operacao)
   }
+  if (opts.entidade) {
+    conditions.push(`a.entidade = $${idx++}`)
+    params.push(opts.entidade)
+  }
   if (opts.restauranteId) {
     conditions.push(`a.restaurante_id = $${idx++}`)
     params.push(opts.restauranteId)
+  }
+  if (opts.dataInicio) {
+    conditions.push(`a.criado_em >= $${idx++}`)
+    params.push(opts.dataInicio)
+  }
+  if (opts.dataFim) {
+    conditions.push(`a.criado_em < ($${idx++}::date + INTERVAL '1 day')`)
+    params.push(opts.dataFim)
   }
 
   const where = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : ''
@@ -53,7 +74,7 @@ export async function listAuditoriaGlobal(
        a.id, a.restaurante_id, r.nome AS restaurante_nome,
        a.usuario_id, u.nome AS usuario_nome,
        a.entidade, a.entidade_id, a.operacao, a.descricao,
-       a.criado_em::text
+       a.ip_address, a.criado_em::text
      FROM tb_auditoria a
      LEFT JOIN tb_restaurante r ON r.id = a.restaurante_id
      LEFT JOIN tb_usuario u ON u.id = a.usuario_id

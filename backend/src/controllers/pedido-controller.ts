@@ -2,6 +2,7 @@ import { type Request, type Response, type NextFunction } from 'express'
 import { getPedidosKanban, getPedidoDetalhe, atualizarStatusPedido } from '../services/pedido-service.js'
 import { enviarNotificacaoCliente } from '../services/chatbot-service.js'
 import { getIo } from '../socket/socket-instance.js'
+import { audit, getIp } from '../services/audit-service.js'
 
 const MSGS_STATUS: Record<string, (shortId: string, isRetirada: boolean) => string> = {
   'Em Preparacao': (id) => `👨‍🍳 Seu pedido *#${id}* está sendo preparado com carinho! Em breve ficará pronto.`,
@@ -44,6 +45,16 @@ export async function patchStatus(req: Request, res: Response, next: NextFunctio
     )
     getIo().to(req.user!.restauranteId).emit('pedido:atualizado', pedidoAtualizado)
     getIo().to(req.user!.restauranteId).emit('dashboard:atualizado')
+
+    audit({
+      restauranteId: req.user!.restauranteId,
+      usuarioId: req.user!.userId,
+      entidade: 'pedido',
+      entidadeId: pedidoAtualizado.id,
+      operacao: 'STATUS_CHANGE',
+      descricao: `Pedido #${pedidoAtualizado.id.slice(-8).toUpperCase()} → "${status}"`,
+      ipAddress: getIp(req),
+    })
 
     if (pedidoAtualizado.canal === 'whatsapp' && pedidoAtualizado.cliente_telefone) {
       const shortId = pedidoAtualizado.id.slice(-8).toUpperCase()

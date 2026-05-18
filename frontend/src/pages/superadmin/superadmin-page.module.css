@@ -166,6 +166,29 @@
 
 .btnLoad:hover { background: #D97706; }
 
+.btnClear {
+  height: 2.25rem;
+  padding: 0 1.25rem;
+  background: transparent;
+  color: #78716C;
+  border: 1.5px solid #ECEAE5;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+  align-self: flex-end;
+}
+
+.btnClear:hover { border-color: #DC2626; color: #DC2626; }
+
+.resultCount {
+  font-size: 0.8125rem;
+  color: #78716C;
+  margin: 0 0 0.75rem;
+}
+
 /* Table */
 .tableWrap {
   background: #fff;
@@ -213,8 +236,15 @@
 }
 
 .opRead       { background: #DBEAFE; color: #1E40AF; }
+.opLogin      { background: #D1FAE5; color: #065F46; }
+.opLoginFail  { background: #FEE2E2; color: #991B1B; }
+.opCreate     { background: #DCFCE7; color: #166534; }
 .opUpdate     { background: #FEF3C7; color: #92400E; }
 .opDelete     { background: #FEE2E2; color: #991B1B; }
+.opToggle     { background: #E0F2FE; color: #0369A1; }
+.opStatus     { background: #F3E8FF; color: #7E22CE; }
+.opPassword   { background: #FFF7ED; color: #C2410C; }
+.opConfig     { background: #F1F5F9; color: #334155; }
 .opAnonymize  { background: #EDE9FE; color: #5B21B6; }
 .opConsent    { background: #D1FAE5; color: #065F46; }
 .opExport     { background: #F0FDF4; color: #166534; }

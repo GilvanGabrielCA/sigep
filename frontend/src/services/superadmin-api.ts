@@ -10,6 +10,7 @@ export interface AuditoriaGlobal {
   entidade_id: string | null
   operacao: string
   descricao: string | null
+  ip_address: string | null
   criado_em: string
 }
 
@@ -46,13 +47,19 @@ export async function fetchSystemStats(): Promise<SystemStats> {
 
 export async function fetchLogs(opts: {
   operacao?: string
+  entidade?: string
   restauranteId?: string
+  dataInicio?: string
+  dataFim?: string
   page?: number
   limit?: number
 } = {}): Promise<LogsResponse> {
   const params = new URLSearchParams()
   if (opts.operacao) params.set('operacao', opts.operacao)
+  if (opts.entidade) params.set('entidade', opts.entidade)
   if (opts.restauranteId) params.set('restauranteId', opts.restauranteId)
+  if (opts.dataInicio) params.set('dataInicio', opts.dataInicio)
+  if (opts.dataFim) params.set('dataFim', opts.dataFim)
   if (opts.page) params.set('page', String(opts.page))
   if (opts.limit) params.set('limit', String(opts.limit))
   const { data } = await api.get<LogsResponse>(`/api/superadmin/logs?${params}`)

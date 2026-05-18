@@ -17,7 +17,13 @@ export function useSuperAdmin() {
     }
   }, [])
 
-  const loadLogs = useCallback(async (opts: { operacao?: string; page?: number } = {}) => {
+  const loadLogs = useCallback(async (opts: {
+    operacao?: string
+    entidade?: string
+    dataInicio?: string
+    dataFim?: string
+    page?: number
+  } = {}) => {
     setLoading(true)
     setError(null)
     try {

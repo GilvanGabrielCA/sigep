@@ -2,6 +2,7 @@ import { type Request, type Response, type NextFunction } from 'express'
 import bcrypt from 'bcrypt'
 import multer from 'multer'
 import { findUsuarioById, updateUsuario, updateUsuarioSenha, updateFotoUsuario } from '../db/usuario-queries.js'
+import { audit, getIp } from '../services/audit-service.js'
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
 export const fotoUpload = multer({
@@ -41,6 +42,15 @@ export async function putMe(req: Request, res: Response, next: NextFunction): Pr
       return
     }
     const { senha_hash: _, ...pub } = updated
+    audit({
+      restauranteId: req.user!.restauranteId,
+      usuarioId: req.user!.userId,
+      entidade: 'usuario',
+      entidadeId: req.user!.userId,
+      operacao: 'UPDATE',
+      descricao: `Perfil próprio atualizado — ${[nome && `nome → "${nome}"`, email && `email → "${email}"`].filter(Boolean).join(', ')}`,
+      ipAddress: getIp(req),
+    })
     res.json(pub)
   } catch (err) { next(err) }
 }
@@ -57,6 +67,15 @@ export async function postMeFoto(req: Request, res: Response, next: NextFunction
       return
     }
     const { senha_hash: _, ...pub } = updated
+    audit({
+      restauranteId: req.user!.restauranteId,
+      usuarioId: req.user!.userId,
+      entidade: 'usuario',
+      entidadeId: req.user!.userId,
+      operacao: 'UPDATE',
+      descricao: `Foto de perfil atualizada`,
+      ipAddress: getIp(req),
+    })
     res.json(pub)
   } catch (err) { next(err) }
 }
@@ -84,6 +103,15 @@ export async function putMeSenha(req: Request, res: Response, next: NextFunction
     }
     const senhaHash = await bcrypt.hash(novaSenha, 10)
     await updateUsuarioSenha(req.user!.userId, senhaHash)
+    audit({
+      restauranteId: req.user!.restauranteId,
+      usuarioId: req.user!.userId,
+      entidade: 'usuario',
+      entidadeId: req.user!.userId,
+      operacao: 'PASSWORD_RESET',
+      descricao: `Senha alterada pelo próprio usuário`,
+      ipAddress: getIp(req),
+    })
     res.json({ ok: true })
   } catch (err) { next(err) }
 }

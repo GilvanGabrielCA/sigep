@@ -6,19 +6,59 @@ type Aba = 'logs' | 'usuarios'
 
 const OP_OPTS = [
   { value: '', label: 'Todas as operações' },
-  { value: 'READ', label: 'READ' },
-  { value: 'UPDATE', label: 'UPDATE' },
-  { value: 'DELETE', label: 'DELETE' },
-  { value: 'ANONYMIZE', label: 'ANONYMIZE' },
-  { value: 'CONSENT', label: 'CONSENT' },
-  { value: 'EXPORT', label: 'EXPORT' },
+  { value: 'LOGIN', label: 'Login' },
+  { value: 'LOGIN_FAIL', label: 'Login Falhou' },
+  { value: 'CREATE', label: 'Criação' },
+  { value: 'UPDATE', label: 'Atualização' },
+  { value: 'DELETE', label: 'Exclusão' },
+  { value: 'TOGGLE', label: 'Ativar/Desativar' },
+  { value: 'STATUS_CHANGE', label: 'Mudança de Status' },
+  { value: 'PASSWORD_RESET', label: 'Redefinição de Senha' },
+  { value: 'CONFIG_CHANGE', label: 'Config. Alterada' },
+  { value: 'ANONYMIZE', label: 'Anonimização' },
+  { value: 'EXPORT', label: 'Exportação' },
+  { value: 'CONSENT', label: 'Consentimento' },
 ]
+
+const ENTIDADE_OPTS = [
+  { value: '', label: 'Todas as entidades' },
+  { value: 'auth', label: 'Autenticação' },
+  { value: 'usuario', label: 'Usuário' },
+  { value: 'pedido', label: 'Pedido' },
+  { value: 'produto', label: 'Produto' },
+  { value: 'categoria', label: 'Categoria' },
+  { value: 'restaurante', label: 'Restaurante' },
+  { value: 'lgpd', label: 'LGPD' },
+]
+
+const OP_LABEL: Record<string, string> = {
+  LOGIN: 'Login',
+  LOGIN_FAIL: 'Login Falhou',
+  CREATE: 'Criado',
+  UPDATE: 'Atualizado',
+  DELETE: 'Excluído',
+  TOGGLE: 'Ativação',
+  STATUS_CHANGE: 'Status',
+  PASSWORD_RESET: 'Senha',
+  CONFIG_CHANGE: 'Config',
+  ANONYMIZE: 'Anonimização',
+  EXPORT: 'Exportação',
+  CONSENT: 'Consentimento',
+  READ: 'Leitura',
+}
 
 function opClass(op: string): string {
   switch (op) {
-    case 'READ': return styles.opRead
+    case 'LOGIN': return styles.opLogin
+    case 'LOGIN_FAIL': return styles.opLoginFail
+    case 'CREATE': return styles.opCreate
     case 'UPDATE': return styles.opUpdate
     case 'DELETE': return styles.opDelete
+    case 'TOGGLE': return styles.opToggle
+    case 'STATUS_CHANGE': return styles.opStatus
+    case 'PASSWORD_RESET': return styles.opPassword
+    case 'CONFIG_CHANGE': return styles.opConfig
+    case 'READ': return styles.opRead
     case 'ANONYMIZE': return styles.opAnonymize
     case 'CONSENT': return styles.opConsent
     case 'EXPORT': return styles.opExport
@@ -60,6 +100,9 @@ export function SuperAdminPage() {
   const { stats, logsData, usuariosData, loading, error, loadStats, loadLogs, loadUsuarios } = useSuperAdmin()
   const [aba, setAba] = useState<Aba>('logs')
   const [operacao, setOperacao] = useState('')
+  const [entidade, setEntidade] = useState('')
+  const [dataInicio, setDataInicio] = useState('')
+  const [dataFim, setDataFim] = useState('')
   const [logPage, setLogPage] = useState(1)
   const [usuarioPage, setUsuarioPage] = useState(1)
 
@@ -70,13 +113,25 @@ export function SuperAdminPage() {
 
   const handleLoadLogs = useCallback(() => {
     setLogPage(1)
-    void loadLogs({ operacao: operacao || undefined, page: 1 })
-  }, [operacao, loadLogs])
+    void loadLogs({
+      operacao: operacao || undefined,
+      entidade: entidade || undefined,
+      dataInicio: dataInicio || undefined,
+      dataFim: dataFim || undefined,
+      page: 1,
+    })
+  }, [operacao, entidade, dataInicio, dataFim, loadLogs])
 
   const handleLogPage = useCallback((p: number) => {
     setLogPage(p)
-    void loadLogs({ operacao: operacao || undefined, page: p })
-  }, [operacao, loadLogs])
+    void loadLogs({
+      operacao: operacao || undefined,
+      entidade: entidade || undefined,
+      dataInicio: dataInicio || undefined,
+      dataFim: dataFim || undefined,
+      page: p,
+    })
+  }, [operacao, entidade, dataInicio, dataFim, loadLogs])
 
   const handleAbaUsuarios = useCallback(() => {
     setAba('usuarios')
@@ -88,6 +143,17 @@ export function SuperAdminPage() {
     setUsuarioPage(p)
     void loadUsuarios({ page: p })
   }, [loadUsuarios])
+
+  const handleLimparFiltros = useCallback(() => {
+    setOperacao('')
+    setEntidade('')
+    setDataInicio('')
+    setDataFim('')
+    setLogPage(1)
+    void loadLogs({ page: 1 })
+  }, [loadLogs])
+
+  const temFiltroAtivo = operacao || entidade || dataInicio || dataFim
 
   return (
     <div className={styles.page}>
@@ -166,10 +232,49 @@ export function SuperAdminPage() {
                 {OP_OPTS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
               </select>
             </div>
+            <div className={styles.filterGroup}>
+              <span className={styles.filterLabel}>Entidade</span>
+              <select
+                className={styles.filterSelect}
+                value={entidade}
+                onChange={(e) => setEntidade(e.target.value)}
+              >
+                {ENTIDADE_OPTS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+              </select>
+            </div>
+            <div className={styles.filterGroup}>
+              <span className={styles.filterLabel}>De</span>
+              <input
+                type="date"
+                className={styles.filterSelect}
+                value={dataInicio}
+                onChange={(e) => setDataInicio(e.target.value)}
+              />
+            </div>
+            <div className={styles.filterGroup}>
+              <span className={styles.filterLabel}>Até</span>
+              <input
+                type="date"
+                className={styles.filterSelect}
+                value={dataFim}
+                onChange={(e) => setDataFim(e.target.value)}
+              />
+            </div>
             <button className={styles.btnLoad} onClick={handleLoadLogs}>
               Filtrar
             </button>
+            {temFiltroAtivo && (
+              <button className={styles.btnClear} onClick={handleLimparFiltros}>
+                Limpar
+              </button>
+            )}
           </div>
+
+          {logsData && (
+            <p className={styles.resultCount}>
+              {logsData.total} {logsData.total === 1 ? 'registro encontrado' : 'registros encontrados'}
+            </p>
+          )}
 
           <div className={styles.tableWrap}>
             <table className={styles.table}>
@@ -180,14 +285,15 @@ export function SuperAdminPage() {
                   <th>Entidade</th>
                   <th>Operação</th>
                   <th>Descrição</th>
+                  <th>IP</th>
                   <th>Data/Hora</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
-                  <SkeletonRows cols={6} />
+                  <SkeletonRows cols={7} />
                 ) : !logsData || logsData.rows.length === 0 ? (
-                  <tr><td colSpan={6} className={styles.empty}>Nenhum log encontrado.</td></tr>
+                  <tr><td colSpan={7} className={styles.empty}>Nenhum log encontrado.</td></tr>
                 ) : (
                   logsData.rows.map((row) => (
                     <tr key={row.id}>
@@ -201,11 +307,15 @@ export function SuperAdminPage() {
                       </td>
                       <td>
                         <span className={`${styles.opBadge} ${opClass(row.operacao)}`}>
-                          {row.operacao}
+                          {OP_LABEL[row.operacao] ?? row.operacao}
                         </span>
                       </td>
-                      <td style={{ maxWidth: 280, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      <td style={{ maxWidth: 260, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        title={row.descricao ?? undefined}>
                         {row.descricao ?? '—'}
+                      </td>
+                      <td style={{ fontFamily: 'monospace', fontSize: '0.75rem', color: '#78716C', whiteSpace: 'nowrap' }}>
+                        {row.ip_address ?? '—'}
                       </td>
                       <td style={{ whiteSpace: 'nowrap' }}>{formatDate(row.criado_em)}</td>
                     </tr>
@@ -267,7 +377,7 @@ export function SuperAdminPage() {
                     <td style={{ color: '#57534E' }}>{u.email}</td>
                     <td>
                       <span className={`${styles.perfilBadge} ${perfilClass(u.perfil)}`}>
-                        {u.perfil}
+                        {u.perfil === 'superadmin' ? 'Super Admin' : u.perfil === 'gerente' ? 'Gerente' : 'Atendente'}
                       </span>
                     </td>
                     <td>{u.restaurante_nome}</td>
