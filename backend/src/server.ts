@@ -13,9 +13,16 @@ if (!process.env.DATABASE_URL) throw new Error('DATABASE_URL não configurado no
 const app = createApp()
 const httpServer = createServer(app)
 
+const allowedSocketOrigins = [
+  process.env.FRONTEND_URL ?? 'http://localhost:5173',
+  'http://localhost:5173',
+  /https:\/\/sigep[a-zA-Z0-9_-]*\.vercel\.app$/,
+  /https:\/\/frontend[a-zA-Z0-9_-]*\.vercel\.app$/,
+]
+
 export const io = new Server(httpServer, {
   cors: {
-    origin: process.env.FRONTEND_URL ?? '*',
+    origin: allowedSocketOrigins,
     methods: ['GET', 'POST'],
   },
 })

@@ -59,7 +59,13 @@ export function usePedidos() {
 
   const moverPedido = useCallback(async (pedidoId: string, novoStatus: string) => {
     try {
-      await updatePedidoStatus(pedidoId, novoStatus)
+      const atualizado = await updatePedidoStatus(pedidoId, novoStatus)
+      // update otimista: aplica imediatamente sem esperar pelo socket
+      setPedidos((prev) => {
+        const rest = prev.filter((p) => p.id !== pedidoId)
+        if (novoStatus === 'Entregue' || novoStatus === 'Cancelado') return rest
+        return [...rest, atualizado]
+      })
     } catch {
       setError('Falha ao atualizar status do pedido.')
     }
