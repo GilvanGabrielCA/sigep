@@ -69,7 +69,7 @@ const produtos: Prod[] = [
     nome: 'Bolinho de Carne Seca',
     desc: 'Bolinhos crocantes recheados com carne seca desfiada e cream cheese. Acompanha molho aioli.',
     preco: 34,
-    foto: img('1548943487-a2e4e43b4853'),
+    foto: img('1760304396110-8dc2b644fd05'),
     cat: catEntradas,
   },
   {
@@ -143,7 +143,7 @@ const produtos: Prod[] = [
     nome: 'Veggie Wrap',
     desc: 'Tortilha integral recheada com homus, legumes grelhados, rúcula, tomate seco e molho tahine.',
     preco: 32,
-    foto: img('1626700051175-6818013e1d64'),
+    foto: img('1632660346941-023cc64e1252'),
     cat: catLanches,
   },
 
@@ -152,7 +152,7 @@ const produtos: Prod[] = [
     nome: 'Petit Gateau',
     desc: 'Bolinho de chocolate com interior cremoso e quente. Acompanha uma bola de sorvete de creme.',
     preco: 28,
-    foto: img('1578985545062-69928b1d9587'),
+    foto: img('1673551490812-eaee2e9bf0ef'),
     cat: catSobremesas,
   },
   {
@@ -173,7 +173,7 @@ const produtos: Prod[] = [
     nome: 'Açaí na Tigela',
     desc: '400ml de açaí batido grosso, com granola crocante, banana, morango e mel. Puro e sem mistura.',
     preco: 22,
-    foto: img('1590080876351-41a5c3d42c3a'),
+    foto: img('1709139068234-f83a548f3bec'),
     cat: catSobremesas,
   },
 
