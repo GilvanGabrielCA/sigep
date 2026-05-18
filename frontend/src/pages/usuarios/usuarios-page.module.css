@@ -163,6 +163,11 @@
   color: #52525B;
 }
 
+.badgeSuperadmin {
+  background: rgba(124, 58, 237, 0.09);
+  color: #5B21B6;
+}
+
 .badgeAtivo {
   background: rgba(22, 163, 74, 0.08);
   color: #15803D;

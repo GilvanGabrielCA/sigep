@@ -63,7 +63,7 @@ function WarnIcon() {
 
 export function UsuariosPage() {
   const { user } = useAuth()
-  const isGerente = user?.perfil === 'gerente'
+  const isGerente = user?.perfil === 'gerente' || user?.perfil === 'superadmin'
   const { usuarios, loading, error, saving, criar, editar, toggleAtivo, resetSenha } = useUsuarios()
 
   const [modalOpen, setModalOpen] = useState(false)
@@ -170,8 +170,13 @@ export function UsuariosPage() {
                     </div>
                   </td>
                   <td>
-                    <span className={`${styles.badge} ${u.perfil === 'gerente' ? styles.badgeGerente : styles.badgeAtendente}`}>
-                      {u.perfil === 'gerente' ? 'Gerente' : 'Atendente'}
+                    <span className={`${styles.badge} ${
+                      u.perfil === 'superadmin' ? styles.badgeSuperadmin :
+                      u.perfil === 'gerente'    ? styles.badgeGerente :
+                                                  styles.badgeAtendente
+                    }`}>
+                      {u.perfil === 'superadmin' ? 'Super Admin' :
+                       u.perfil === 'gerente'    ? 'Gerente' : 'Atendente'}
                     </span>
                   </td>
                   <td>
