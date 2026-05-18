@@ -112,7 +112,7 @@ export function CardapioPage() {
   } = useCardapio()
 
   const { user } = useAuth()
-  const isGerente = user?.perfil === 'gerente'
+  const isGerente = user?.perfil === 'gerente' || user?.perfil === 'superadmin'
 
   const [busca, setBusca] = useState('')
   const [modalState, setModalState] = useState<{ open: boolean; produto?: Produto | null }>({ open: false })

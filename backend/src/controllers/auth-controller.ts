@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
+import jwt from 'jsonwebtoken'
 import { login, forgotPassword, validateResetToken, resetPassword } from '../services/auth-service.js'
+import { audit, getIp } from '../services/audit-service.js'
+import type { JwtPayload } from '../types/jwt-payload.js'
 
 export async function loginController(
   req: Request,
@@ -12,7 +15,29 @@ export async function loginController(
       res.status(400).json({ error: 'Email e senha são obrigatórios' })
       return
     }
-    res.json({ token: await login(email, senha) })
+    const ip = getIp(req)
+    try {
+      const token = await login(email, senha)
+      const decoded = jwt.decode(token) as JwtPayload
+      audit({
+        restauranteId: decoded.restauranteId,
+        usuarioId: decoded.userId,
+        entidade: 'auth',
+        operacao: 'LOGIN',
+        descricao: `Login bem-sucedido — ${email}`,
+        ipAddress: ip,
+      })
+      res.json({ token })
+    } catch {
+      audit({
+        entidade: 'auth',
+        operacao: 'LOGIN_FAIL',
+        descricao: `Tentativa de login falhou — ${email}`,
+        ipAddress: ip,
+      })
+      const err = Object.assign(new Error('Credenciais inválidas'), { statusCode: 401 })
+      throw err
+    }
   } catch (err) {
     next(err)
   }
@@ -70,6 +95,12 @@ export async function resetPasswordController(
       return
     }
     await resetPassword(token, novaSenha)
+    audit({
+      entidade: 'auth',
+      operacao: 'PASSWORD_RESET',
+      descricao: 'Senha redefinida via link de e-mail',
+      ipAddress: getIp(req),
+    })
     res.json({ message: 'Senha redefinida com sucesso.' })
   } catch (err) {
     next(err)

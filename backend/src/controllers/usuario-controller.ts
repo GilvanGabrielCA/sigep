@@ -1,11 +1,8 @@
 import { type Request, type Response, type NextFunction } from 'express'
 import {
-  getUsuarios,
-  addUsuario,
-  editUsuario,
-  setUsuarioAtivo,
-  resetSenha,
+  getUsuarios, addUsuario, editUsuario, setUsuarioAtivo, resetSenha,
 } from '../services/usuario-service.js'
+import { audit, getIp } from '../services/audit-service.js'
 
 export async function listUsuarios(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
@@ -32,6 +29,15 @@ export async function postUsuario(req: Request, res: Response, next: NextFunctio
       { nome, email, senha, perfil: perfil as 'gerente' | 'atendente' | 'superadmin' },
       req.user!.perfil,
     )
+    audit({
+      restauranteId: req.user!.restauranteId,
+      usuarioId: req.user!.userId,
+      entidade: 'usuario',
+      entidadeId: usuario.id,
+      operacao: 'CREATE',
+      descricao: `Usuário criado: ${nome} <${email}> [${perfil}]`,
+      ipAddress: getIp(req),
+    })
     res.status(201).json(usuario)
   } catch (err) { next(err) }
 }
@@ -56,6 +62,19 @@ export async function putUsuario(req: Request, res: Response, next: NextFunction
       },
       req.user!.perfil,
     )
+    const changes: string[] = []
+    if (nome) changes.push(`nome → "${nome}"`)
+    if (email) changes.push(`email → "${email}"`)
+    if (perfil) changes.push(`perfil → "${perfil}"`)
+    audit({
+      restauranteId: req.user!.restauranteId,
+      usuarioId: req.user!.userId,
+      entidade: 'usuario',
+      entidadeId: req.params['id'],
+      operacao: 'UPDATE',
+      descricao: `${usuario.nome} editado — ${changes.join(', ')}`,
+      ipAddress: getIp(req),
+    })
     res.json(usuario)
   } catch (err) { next(err) }
 }
@@ -68,6 +87,15 @@ export async function patchUsuarioAtivo(req: Request, res: Response, next: NextF
       return
     }
     await setUsuarioAtivo(req.params['id']!, req.user!.restauranteId, ativo)
+    audit({
+      restauranteId: req.user!.restauranteId,
+      usuarioId: req.user!.userId,
+      entidade: 'usuario',
+      entidadeId: req.params['id'],
+      operacao: 'TOGGLE',
+      descricao: `Usuário ${ativo ? 'ativado' : 'desativado'} por ${req.user!.nome ?? 'gerente'}`,
+      ipAddress: getIp(req),
+    })
     res.json({ ok: true })
   } catch (err) { next(err) }
 }
@@ -80,6 +108,15 @@ export async function patchUsuarioSenha(req: Request, res: Response, next: NextF
       return
     }
     await resetSenha(req.params['id']!, req.user!.restauranteId, novaSenha)
+    audit({
+      restauranteId: req.user!.restauranteId,
+      usuarioId: req.user!.userId,
+      entidade: 'usuario',
+      entidadeId: req.params['id'],
+      operacao: 'PASSWORD_RESET',
+      descricao: `Senha redefinida pelo gerente ${req.user!.nome ?? req.user!.userId}`,
+      ipAddress: getIp(req),
+    })
     res.json({ ok: true })
   } catch (err) { next(err) }
 }
