@@ -1,8 +1,9 @@
-import { createContext, useContext, useState, type ReactNode } from 'react'
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
 import { jwtDecode } from 'jwt-decode'
 import type { JwtPayload } from '../types/auth'
 
 const STORAGE_KEY = 'sigep_token'
+const API_URL = import.meta.env.VITE_API_URL as string
 
 interface AuthContextValue {
   user: JwtPayload | null
@@ -27,6 +28,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const stored = localStorage.getItem(STORAGE_KEY)
     return stored ? safeDecodeToken(stored) : null
   })
+
+  // Sincroniza perfil com o banco sempre que o token muda (evita JWT obsoleto)
+  useEffect(() => {
+    if (!token) return
+    fetch(`${API_URL}/api/me`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data: { perfil?: string; nome?: string } | null) => {
+        if (data?.perfil) {
+          setUser((prev) =>
+            prev
+              ? { ...prev, perfil: data.perfil as JwtPayload['perfil'], nome: data.nome ?? prev.nome }
+              : prev,
+          )
+        }
+      })
+      .catch(() => {})
+  }, [token])
 
   function signIn(newToken: string) {
     localStorage.setItem(STORAGE_KEY, newToken)
