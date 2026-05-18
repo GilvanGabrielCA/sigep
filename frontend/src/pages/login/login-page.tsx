@@ -264,7 +264,7 @@ export function LoginPage() {
                     className={styles.fieldInput}
                     placeholder="seu@email.com"
                     value={email}
-                    onChange={(e) => { setEmail(e.target.value); setError('') }}
+                    onChange={(e) => setEmail(e.target.value)}
                     autoComplete="email"
                     autoFocus
                     disabled={loading}
@@ -283,7 +283,7 @@ export function LoginPage() {
                     className={styles.fieldInput}
                     placeholder="••••••••"
                     value={senha}
-                    onChange={(e) => { setSenha(e.target.value); setError('') }}
+                    onChange={(e) => setSenha(e.target.value)}
                     autoComplete="current-password"
                     disabled={loading}
                   />
