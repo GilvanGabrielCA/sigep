@@ -18,8 +18,13 @@ import uploadRoutes from './routes/upload-routes.js'
 export function createApp() {
   const app = express()
 
-  const allowedOrigin = process.env.FRONTEND_URL ?? 'http://localhost:5173'
-  app.use(cors({ origin: allowedOrigin }))
+  const allowedOrigins = [
+    process.env.FRONTEND_URL ?? 'http://localhost:5173',
+    'http://localhost:5173',
+    /https:\/\/sigep[a-zA-Z0-9_-]*\.vercel\.app$/,
+    /https:\/\/frontend[a-zA-Z0-9_-]*\.vercel\.app$/,
+  ]
+  app.use(cors({ origin: allowedOrigins }))
   app.use(express.json())
 
   app.get('/api/health', (_req, res) => res.json({ ok: true }))
