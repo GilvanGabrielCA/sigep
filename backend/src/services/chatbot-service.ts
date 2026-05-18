@@ -40,6 +40,7 @@ type Estado =
   | 'COLETANDO_NOME'
   | 'ESCOLHENDO_CATEGORIA'
   | 'COLETANDO_ITENS'
+  | 'MENU_POS_ADICAO'
   | 'ESCOLHENDO_TIPO'
   | 'AGUARDANDO_ENDERECO'
   | 'ESCOLHENDO_PAGAMENTO'
@@ -143,13 +144,16 @@ function msgCarrinho(itens: ItemBot[]): string {
   )
 }
 
-function msgAposAdicionar(itens: ItemBot[], nomeProduto: string): string {
+function msgMenuPosAdicao(itens: ItemBot[], nomeProduto: string): string {
   return (
     `✅ *${nomeProduto}* adicionado!\n\n${msgCarrinho(itens)}\n\n` +
-    `*categorias* — ver outras categorias\n` +
-    `*carrinho* — ver pedido completo\n` +
-    `*confirmar* — finalizar pedido\n` +
-    `*cancelar* — desistir`
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `*O que deseja fazer?*\n\n` +
+    `1️⃣ Categorias — ver outras categorias\n` +
+    `2️⃣ Carrinho — ver pedido completo\n` +
+    `3️⃣ Confirmar — finalizar pedido\n` +
+    `4️⃣ Cancelar — desistir\n` +
+    `━━━━━━━━━━━━━━━━━━━━`
   )
 }
 
@@ -485,13 +489,51 @@ export async function processarMensagem(
           preco: parseFloat(prod.preco),
         })
       }
-      return msgAposAdicionar(state.itens, prod.nome)
+      state.estado = 'MENU_POS_ADICAO'
+      return msgMenuPosAdicao(state.itens, prod.nome)
     }
 
     const nomeCat = state.itensCategoriaAtual[0]?.categoria_nome ?? 'Itens'
     return (
       `Não entendi. 😅\n\nDigite o *número* de um item:\n\n` +
       msgItensCategoria(state.itensCategoriaAtual, nomeCat)
+    )
+  }
+
+  if (state.estado === 'MENU_POS_ADICAO') {
+    if (msg === '1' || msg === 'categorias' || msg === 'categoria' || msg === 'menu' || msg === 'voltar') {
+      state.estado = 'ESCOLHENDO_CATEGORIA'
+      return msgCategorias(state.categorias, state.restauranteNome, state.itens.length > 0)
+    }
+
+    if (msg === '2' || msg === 'carrinho' || msg === 'pedido') {
+      return `${msgCarrinho(state.itens)}\n\n━━━━━━━━━━━━━━━━━━━━\n*O que deseja fazer?*\n\n1️⃣ Categorias — ver outras categorias\n2️⃣ Carrinho — ver pedido completo\n3️⃣ Confirmar — finalizar pedido\n4️⃣ Cancelar — desistir\n━━━━━━━━━━━━━━━━━━━━`
+    }
+
+    if (msg === '3' || msg === 'confirmar') {
+      if (state.itens.length === 0) {
+        return `🛒 Seu carrinho está vazio. Adicione pelo menos um item.\n\n1️⃣ Categorias — ver outras categorias\n4️⃣ Cancelar — desistir`
+      }
+      state.estado = 'ESCOLHENDO_TIPO'
+      return (
+        `${msgCarrinho(state.itens)}\n\n` +
+        `🚀 Ótima escolha! Como prefere receber seu pedido?\n\n` +
+        `1️⃣ *Entrega* — receber no seu endereço\n` +
+        `2️⃣ *Retirada* — buscar no restaurante`
+      )
+    }
+
+    if (msg === '4' || msg === 'cancelar') {
+      conversas.delete(key)
+      return `Tudo bem! 😊 Espero te ver em breve no *${state.restauranteNome}*! 👋`
+    }
+
+    return (
+      `Não entendi. 😅 Escolha uma das opções:\n\n` +
+      `1️⃣ Categorias — ver outras categorias\n` +
+      `2️⃣ Carrinho — ver pedido completo\n` +
+      `3️⃣ Confirmar — finalizar pedido\n` +
+      `4️⃣ Cancelar — desistir`
     )
   }
 

@@ -92,7 +92,7 @@ const produtos: Prod[] = [
     nome: 'Filé Mignon ao Molho Madeira',
     desc: 'Medalhão de filé mignon grelhado, coberto com molho madeira e cogumelos Paris. Acompanha arroz e batatas.',
     preco: 72,
-    foto: img('1546833999-b9f581a1996d'),
+    foto: img('1544025162-c23ab63a6afc'),
     cat: catPratos,
   },
   {
