@@ -216,13 +216,7 @@ npm run dev
 
 ### Acesso inicial
 
-Após executar o seed, acesse `http://localhost:5173` e faça login com:
-
-| Campo | Valor |
-|---|---|
-| **E-mail** | `gilvangabriealencar@gmail.com` |
-| **Senha** | `110125Gj!` |
-| **Perfil** | Super Admin |
+Após executar o seed, acesse `http://localhost:5173` e faça login com as credenciais geradas pelo `seed.ts` (definidas no próprio arquivo).
 
 ### Fluxo básico de operação
 
