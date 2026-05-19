@@ -90,9 +90,9 @@ function IntegracaoCard({
 
 export function IntegracoesPage() {
   const { user } = useAuth()
-  const isGerente = user?.perfil === 'gerente'
+  const isGerente = user?.perfil === 'gerente' || user?.perfil === 'superadmin'
   const { integracoes, loading, toggling, toggle } = useIntegracoes()
-  const [telefone, setTelefone] = useState('+55 11 99999-9999')
+  const [telefone, setTelefone] = useState('')
   const { mensagens, enviando, enviar, limpar } = useChatSimulator(telefone)
   const [texto, setTexto] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -102,9 +102,11 @@ export function IntegracoesPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [mensagens, enviando])
 
+  const telefoneValido = telefone.trim().length >= 8
+
   const handleEnviar = useCallback(async () => {
     const msg = texto.trim()
-    if (!msg || enviando) return
+    if (!msg || enviando || !telefoneValido) return
     setTexto('')
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto'
@@ -198,10 +200,17 @@ export function IntegracoesPage() {
             {mensagens.length === 0 && !enviando && (
               <div className={styles.emptyState}>
                 <WhatsAppIcon size={36} color="#aaa" />
-                <p className={styles.emptyStateText}>
-                  Digite uma mensagem para iniciar o chatbot.<br />
-                  Experimente: <strong>oi</strong>, <strong>cardápio</strong>, ou um número do menu.
-                </p>
+                {!telefoneValido ? (
+                  <p className={styles.emptyStateText}>
+                    Informe o <strong>número de telefone</strong> acima para iniciar o simulador.<br />
+                    Cada número representa um cliente diferente.
+                  </p>
+                ) : (
+                  <p className={styles.emptyStateText}>
+                    Digite uma mensagem para iniciar o chatbot.<br />
+                    Experimente: <strong>oi</strong>, <strong>cardápio</strong>, ou um número do menu.
+                  </p>
+                )}
               </div>
             )}
 
@@ -234,13 +243,14 @@ export function IntegracoesPage() {
               value={texto}
               onChange={handleTextareaChange}
               onKeyDown={handleKeyDown}
-              placeholder="Digite uma mensagem..."
+              placeholder={telefoneValido ? 'Digite uma mensagem...' : 'Informe o telefone primeiro...'}
+              disabled={!telefoneValido}
               rows={1}
             />
             <button
               className={styles.sendBtn}
               onClick={() => void handleEnviar()}
-              disabled={!texto.trim() || enviando}
+              disabled={!texto.trim() || enviando || !telefoneValido}
               aria-label="Enviar mensagem"
             >
               <SendIcon />

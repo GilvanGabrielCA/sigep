@@ -76,11 +76,17 @@ export async function setUsuarioAtivo(
   id: string,
   restauranteId: string,
   ativo: boolean,
+  requesterPerfil?: 'gerente' | 'atendente' | 'superadmin',
 ): Promise<void> {
   const row = await findUsuarioById(id)
   if (!row || row.restaurante_id !== restauranteId) {
     const err: any = new Error('Usuário não encontrado')
     err.statusCode = 404
+    throw err
+  }
+  if (row.perfil === 'superadmin' && requesterPerfil !== 'superadmin') {
+    const err: any = new Error('Apenas super admins podem ativar ou desativar outro super admin')
+    err.statusCode = 403
     throw err
   }
   await toggleUsuarioAtivo(id, ativo)

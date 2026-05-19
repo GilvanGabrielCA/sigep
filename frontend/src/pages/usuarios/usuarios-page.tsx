@@ -197,10 +197,15 @@ export function UsuariosPage() {
                         <button
                           className={`${styles.iconBtn} ${u.ativo ? styles.danger : styles.success}`}
                           onClick={() => void toggleAtivo(u.id, !u.ativo)}
-                          disabled={user?.userId === u.id}
+                          disabled={
+                            user?.userId === u.id ||
+                            (u.perfil === 'superadmin' && user?.perfil !== 'superadmin')
+                          }
                           title={
                             user?.userId === u.id
                               ? 'Não é possível desativar seu próprio usuário'
+                              : u.perfil === 'superadmin' && user?.perfil !== 'superadmin'
+                              ? 'Apenas super admins podem desativar outro super admin'
                               : u.ativo
                               ? 'Desativar usuário'
                               : 'Ativar usuário'

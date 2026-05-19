@@ -86,7 +86,7 @@ export async function patchUsuarioAtivo(req: Request, res: Response, next: NextF
       res.status(400).json({ error: 'Campo ativo (boolean) é obrigatório' })
       return
     }
-    await setUsuarioAtivo(req.params['id']!, req.user!.restauranteId, ativo)
+    await setUsuarioAtivo(req.params['id']!, req.user!.restauranteId, ativo, req.user!.perfil)
     audit({
       restauranteId: req.user!.restauranteId,
       usuarioId: req.user!.userId,
