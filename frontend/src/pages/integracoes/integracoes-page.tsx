@@ -188,13 +188,19 @@ export function IntegracoesPage() {
           <div className={styles.phoneBar}>
             <span className={styles.phoneLabel}>Telefone:</span>
             <input
-              className={styles.phoneInput}
+              className={`${styles.phoneInput} ${!telefoneValido ? styles.phoneInputEmpty : ''}`}
               type="text"
               value={telefone}
               onChange={(e) => setTelefone(e.target.value)}
               placeholder="+55 11 99999-9999"
             />
           </div>
+          {!telefoneValido && (
+            <div className={styles.phoneHint}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Preencha o número de telefone acima para liberar o chat
+            </div>
+          )}
 
           <div className={styles.messagesArea}>
             {mensagens.length === 0 && !enviando && (

@@ -280,6 +280,27 @@
   border-color: #075E54;
 }
 
+.phoneInputEmpty {
+  border-color: #F59E0B;
+}
+
+.phoneInputEmpty:focus {
+  border-color: #D97706;
+}
+
+.phoneHint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px 8px;
+  background: #FFFBEB;
+  border-bottom: 1px solid #FDE68A;
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: #92400E;
+  flex-shrink: 0;
+}
+
 .messagesArea {
   flex: 1;
   overflow-y: auto;
