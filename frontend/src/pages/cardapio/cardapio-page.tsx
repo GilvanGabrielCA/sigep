@@ -225,7 +225,9 @@ export function CardapioPage() {
                         style={{ background: cat.ativo ? color : '#D1C9C0' }}
                       />
                       <span className={styles.catNome}>{cat.nome}</span>
-                      <span className={styles.catOrdem}>#{cat.ordem}</span>
+                      <span className={styles.catOrdem}>
+                        {produtos.filter((p) => p.categoria_id === cat.id).length}
+                      </span>
                       {isGerente && (
                         <div className={styles.catActions}>
                           <button className={styles.btnIcon} onClick={() => startEditCat(cat)} title="Editar">
