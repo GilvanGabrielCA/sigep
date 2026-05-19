@@ -30,7 +30,6 @@
 - [Variáveis de Ambiente](#-variáveis-de-ambiente)
 - [Estrutura do Projeto](#-estrutura-do-projeto)
 - [Perfis de Acesso](#-perfis-de-acesso)
-- [Licença e Autores](#-licença-e-autores)
 
 ---
 
@@ -375,18 +374,13 @@ Abra uma [issue](https://github.com/GilvanGabrielCA/sigep/issues) com:
 
 ---
 
-## 📄 Licença e Autores
-
-Este projeto está licenciado sob a **Licença MIT** — veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
----
-
 <div align="center">
 
 Desenvolvido por **Gilvan Gabriel Correia de Alencar**
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://linkedin.com/in/gilvangabriel)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/gilvanalencar/)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/GilvanGabrielCA)
+[![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=flat-square&logo=instagram&logoColor=white)](https://www.instagram.com/gilvangbr/)
 [![E-mail](https://img.shields.io/badge/E--mail-EA4335?style=flat-square&logo=gmail&logoColor=white)](mailto:gilvangabriealencar@gmail.com)
 
 </div>
