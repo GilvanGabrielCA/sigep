@@ -6,7 +6,9 @@ import bcrypt from 'bcrypt'
 vi.mock('../../src/db/usuario-queries.js')
 vi.mock('../../src/db/reset-token-queries.js')
 vi.mock('../../src/services/email-service.js')
-vi.mock('../../src/db/connection.js', () => ({ pool: {} }))
+vi.mock('../../src/db/connection.js', () => ({
+  pool: { query: vi.fn().mockResolvedValue({ rows: [] }) },
+}))
 
 import authRoutes from '../../src/routes/auth-routes.js'
 import { errorMiddleware } from '../../src/middlewares/error-middleware.js'
