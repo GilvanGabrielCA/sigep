@@ -50,12 +50,16 @@ export async function upsertConsentimento(
   telefone: string,
   aceito: boolean,
 ): Promise<void> {
-  await pool.query(
-    `INSERT INTO tb_consentimento (restaurante_id, telefone, aceito)
-     VALUES ($1, $2, $3)
-     ON CONFLICT (restaurante_id, telefone) DO UPDATE SET aceito = $3, criado_em = NOW()`,
+  const { rowCount } = await pool.query(
+    `UPDATE tb_consentimento SET aceito = $3 WHERE restaurante_id = $1 AND telefone = $2`,
     [restauranteId, telefone, aceito],
   )
+  if ((rowCount ?? 0) === 0) {
+    await pool.query(
+      `INSERT INTO tb_consentimento (restaurante_id, telefone, aceito) VALUES ($1, $2, $3)`,
+      [restauranteId, telefone, aceito],
+    )
+  }
 }
 
 export async function listConsentimentos(restauranteId: string): Promise<ConsentimentoRow[]> {

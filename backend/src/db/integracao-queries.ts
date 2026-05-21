@@ -21,6 +21,12 @@ export async function findIntegracao(
 }
 
 export async function listIntegracoes(restauranteId: string): Promise<IntegraçãoRow[]> {
+  await pool.query(
+    `INSERT INTO tb_integracao (restaurante_id, tipo, ativo)
+     SELECT $1, 'whatsapp', false
+     WHERE NOT EXISTS (SELECT 1 FROM tb_integracao WHERE restaurante_id = $1)`,
+    [restauranteId],
+  )
   const { rows } = await pool.query<IntegraçãoRow>(
     `SELECT id, tipo, ativo, configuracao
      FROM tb_integracao
